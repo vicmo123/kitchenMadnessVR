@@ -6,11 +6,13 @@ using UnityEngine;
 public class GenericTimer
 {
     #region CountDownTimer
-    public Action OnTimeIsUpEnter = () => { };
-    bool timerActive = false;
-    bool isContinuous = false;
-    public float countDownTime { get; private set; }
-    public float countDownTimer { get; private set; }
+
+    public Action OnTimeIsUpLogic = () => { };
+    private bool timerActive = false;
+    private bool isContinuous = false;
+    public int Iterations { get; private set; } = 0;
+    public float CountDownTime { get; private set; }
+    public float CountDownTimer { get; private set; }
     
     public GenericTimer(float timeDuration, bool isContinuous)
     {
@@ -20,13 +22,13 @@ public class GenericTimer
 
     public void SetDuration(float timeDuration)
     {
-        countDownTime = timeDuration;
-        countDownTimer = countDownTime;
+        CountDownTime = timeDuration;
+        CountDownTimer = CountDownTime;
     }
 
     public void StartTimer()
     {
-        SetDuration(countDownTime);
+        SetDuration(CountDownTime);
         timerActive = true;
     }
 
@@ -34,19 +36,25 @@ public class GenericTimer
     {
         if (timerActive)
         {
-            countDownTimer -= Time.deltaTime;
-            if (countDownTimer <= 0)
+            CountDownTimer -= Time.deltaTime;
+            if (CountDownTimer <= 0)
             {
                 InvokeTimer();
-                SetDuration(countDownTime);
+                SetDuration(CountDownTime);
             }
         }
     }
 
     private void InvokeTimer()
     {
-        OnTimeIsUpEnter.Invoke();
-        if (!isContinuous)
+        OnTimeIsUpLogic.Invoke();
+        Iterations++;
+
+        if (isContinuous)
+        {
+            StartTimer();
+        }
+        else
         {
             EndTimer();
         }
@@ -61,5 +69,11 @@ public class GenericTimer
     {
         isContinuous = value;
     }
+
+    public void ResetIterations()
+    {
+        Iterations = 0;
+    }
+
     #endregion
 }

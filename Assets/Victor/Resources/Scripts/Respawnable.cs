@@ -1,18 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Respawnable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Action OnRespawnLogic = () => { };
+    [SerializeField] private Transform spawLocationEditor;
+    private MeshRenderer meshRenderer;
+
+    private void Awake()
     {
-        
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InvokeRespawn()
     {
-        
+        StartCoroutine(Respawn());
+        OnRespawnLogic.Invoke();
+    }
+
+    public void InvokeRespawn(Transform spawnLocation, float timeBeforeRespawn)
+    {
+        StartCoroutine(Respawn(spawnLocation, timeBeforeRespawn));
+        OnRespawnLogic.Invoke();
+    }
+
+    private IEnumerator Respawn(Transform spawnLocation = null, float timeBeforeRespawn = 0.5f)
+    {
+        meshRenderer.enabled = false;
+        gameObject.transform.position = spawnLocation != null ? spawnLocation.position : spawLocationEditor.position;
+        yield return new WaitForSeconds(timeBeforeRespawn);
+        meshRenderer.enabled = true;
+        transform.position = spawnLocation != null ? spawnLocation.position : spawLocationEditor.position;
     }
 }
