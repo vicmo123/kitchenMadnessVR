@@ -13,7 +13,7 @@ public class Disposer : MonoBehaviour
         other.gameObject.TryGetComponent(out Respawnable respawnable);
         if (respawnable)
         {
-            //respawnable.Respawn();
+            respawnable.InvokeRespawn();
         }
     }
 }
