@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ba81754a8cace4eb29855c6b97c666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnArea: {fileID: 1396922358}
+  spawLocationEditor: {fileID: 1396922358}
 --- !u!114 &1014060548
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,8 @@ using UnityEngine.Events;
 
 public class Respawnable : MonoBehaviour
 {
-    [SerializeField] private Transform spawnArea;
+    public Action OnRespawnLogic = () => { };
+    [SerializeField] private Transform spawLocationEditor;
     private MeshRenderer meshRenderer;
 
     private void Awake()
@@ -16,15 +17,22 @@ public class Respawnable : MonoBehaviour
 
     public void InvokeRespawn()
     {
-        StartCoroutine("Respawn");
+        StartCoroutine(Respawn());
+        OnRespawnLogic.Invoke();
     }
 
-    IEnumerator Respawn()
+    public void InvokeRespawn(Transform spawnLocation, float timeBeforeRespawn)
+    {
+        StartCoroutine(Respawn(spawnLocation, timeBeforeRespawn));
+        OnRespawnLogic.Invoke();
+    }
+
+    private IEnumerator Respawn(Transform spawnLocation = null, float timeBeforeRespawn = 0.5f)
     {
         meshRenderer.enabled = false;
-        gameObject.transform.position = spawnArea.position;
-        yield return new WaitForSeconds(3.0f);
+        gameObject.transform.position = spawnLocation != null ? spawnLocation.position : spawLocationEditor.position;
+        yield return new WaitForSeconds(timeBeforeRespawn);
         meshRenderer.enabled = true;
-        transform.position = spawnArea.position;
+        transform.position = spawnLocation != null ? spawnLocation.position : spawLocationEditor.position;
     }
 }
