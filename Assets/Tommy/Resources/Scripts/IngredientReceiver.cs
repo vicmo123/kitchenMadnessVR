@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class IngredientReceiver : MonoBehaviour
 {
-    public List<Toppingable> ingredients;
+    [HideInInspector] public List<Toppingable> ingredients;
     const int MAX_INGREDIENTS = 5;
+
+    public delegate void ReceiverDelegate(Toppingable ingredient);
+    public ReceiverDelegate receiverDelegate;
 
     // Start is called before the first frame update
     void Start()
@@ -33,5 +36,6 @@ public class IngredientReceiver : MonoBehaviour
 
         ingredients.Add(ingredient);
         ingredient.ReceivedInIngredientReceiver();
+        receiverDelegate(ingredient);
     }
 }
