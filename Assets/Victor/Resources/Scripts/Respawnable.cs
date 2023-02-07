@@ -1,18 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Respawnable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform spawnArea;
+    private MeshRenderer meshRenderer;
+
+    private void Awake()
     {
-        
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InvokeRespawn()
     {
-        
+        StartCoroutine("Respawn");
+    }
+
+    IEnumerator Respawn()
+    {
+        meshRenderer.enabled = false;
+        gameObject.transform.position = spawnArea.position;
+        yield return new WaitForSeconds(3.0f);
+        meshRenderer.enabled = true;
+        transform.position = spawnArea.position;
     }
 }

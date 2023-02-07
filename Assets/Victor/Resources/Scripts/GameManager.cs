@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    Respawnable r;
     private GenericTimer timer;
     int counter = 0;
     int wantedNumberOfTicks = 10;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
         timer = new GenericTimer(0.5f, true);
         timer.OnTimeIsUpEnter += () => { OnTimeIsUpLogic(); };
         timer.StartTimer();
+        r = gameObject.GetComponent<Respawnable>();
     }
 
     private void OnTimeIsUpLogic()
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
         if(counter == wantedNumberOfTicks - 1)
         {
             timer.SetIsContinuous(false);
+            r.InvokeRespawn();
         }
     }
 }
