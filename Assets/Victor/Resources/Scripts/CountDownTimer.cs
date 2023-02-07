@@ -3,18 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GenericTimer
+/// <summary>
+/// Default count down timer.
+/// <param>timeDuration</param> the first parameter is for setting the duration of the timer.
+/// <param>isContinuous</param> the second parameter is used to make the timer loop
+/// Add functions to perform when time is up in this maner : timer.OnTimeIsUpLogic += () => { OnTimeIsUpLogic(); };
+/// </summary>
+public class CountDownTimer
 {
     #region CountDownTimer
-
     public Action OnTimeIsUpLogic = () => { };
     private bool timerActive = false;
     private bool isContinuous = false;
     public int Iterations { get; private set; } = 0;
     public float CountDownTime { get; private set; }
-    public float CountDownTimer { get; private set; }
-    
-    public GenericTimer(float timeDuration, bool isContinuous)
+    public float Timer { get; private set; }
+
+    public CountDownTimer(float timeDuration, bool isContinuous)
     {
         SetDuration(timeDuration);
         SetIsContinuous(isContinuous);
@@ -23,7 +28,7 @@ public class GenericTimer
     public void SetDuration(float timeDuration)
     {
         CountDownTime = timeDuration;
-        CountDownTimer = CountDownTime;
+        Timer = CountDownTime;
     }
 
     public void StartTimer()
@@ -36,8 +41,8 @@ public class GenericTimer
     {
         if (timerActive)
         {
-            CountDownTimer -= Time.deltaTime;
-            if (CountDownTimer <= 0)
+            Timer -= Time.deltaTime;
+            if (Timer <= 0)
             {
                 InvokeTimer();
                 SetDuration(CountDownTime);
@@ -51,13 +56,9 @@ public class GenericTimer
         Iterations++;
 
         if (isContinuous)
-        {
             StartTimer();
-        }
         else
-        {
             EndTimer();
-        }
     }
 
     private void EndTimer()
@@ -74,6 +75,5 @@ public class GenericTimer
     {
         Iterations = 0;
     }
-
     #endregion
 }
