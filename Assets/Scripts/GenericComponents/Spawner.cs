@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject prefab;
+
+    public void InvokeSpawn()
     {
-        
+        SpawnObject();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SpawnObject()
     {
-        
+        GameObject spawnedObject = GameObject.Instantiate<GameObject>(prefab);
+        spawnedObject.transform.position = transform.position;
     }
 }
