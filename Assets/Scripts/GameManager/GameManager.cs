@@ -204,11 +204,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField, Range(1, 10)]private int maxNumberOfStars = 5;
-    public int currentNumberOfStars { get; private set; }
     [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
     private CountDownTimer countDownTimer;
     private Timer timer;
+    [SerializeField, Range(1, 10)]private int maxNumberOfStars = 5;
+    public int currentNumberOfStars { get; private set; }
 
     private void Awake()
     {
