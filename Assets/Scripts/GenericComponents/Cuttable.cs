@@ -9,6 +9,7 @@ public class Cuttable : MonoBehaviour
 
     private Rigidbody rb;
     private Dictionary<string, Cuttable> childrenWedge;
+    private MeshRenderer[] childrenMeshRenderers;
 
     private BoxCollider horizontalCuttingTrigger;
     private BoxCollider verticalCuttingTriggerZ;
@@ -22,10 +23,9 @@ public class Cuttable : MonoBehaviour
         //get and cache requiered components
         rb = GetComponent<Rigidbody>();
         Cuttable[] childrenWedges = GetComponentsInChildren<Cuttable>();
-
+        childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         //CreateT
         CreateTriggerZones();
-
     }
 
     void Start()
@@ -51,9 +51,17 @@ public class Cuttable : MonoBehaviour
         verticalCuttingTriggerZ.isTrigger = true;
         verticalCuttingTriggerX.isTrigger = true;
 
+        //Get sum of bounds from children wedges
+        Bounds bounds = new Bounds();
+        foreach (MeshRenderer wedgeRenderer in childrenMeshRenderers)
+        {
+            bounds.Encapsulate(wedgeRenderer.bounds);
+        }
+
         //Define collider dimensions
-        horizontalCuttingTrigger.size = new Vector3(transform.localScale.x, transform.localScale.y / colliderWidthModifier, transform.localScale.z);
-        verticalCuttingTriggerZ.size = new Vector3(transform.localScale.x / colliderWidthModifier, transform.localScale.y, transform.localScale.z);
-        verticalCuttingTriggerX.size = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z / colliderWidthModifier);
+        
+        horizontalCuttingTrigger.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y) / colliderWidthModifier , (bounds.extents.z * 2) / transform.localScale.z);
+        verticalCuttingTriggerZ.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y), (bounds.extents.z * 2 / transform.localScale.z) / colliderWidthModifier);
+        verticalCuttingTriggerX.size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
     }
 }
