@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Knife : MonoBehaviour
 {
-    // Start is called before the first frame update
+    Transform CurrentKnifePosition;
+
     void Start()
     {
         
