@@ -33,9 +33,31 @@ public class IngredientReceiver : MonoBehaviour
         if (ingredient.isInIngredientReceiver) {
             return;
         }
+        if (HasTypeOfIngredient(ingredient.ingredientType)) {
+            return;
+        }
 
+        ingredient.RemoveRigidbody();
         ingredients.Add(ingredient);
         ingredient.ReceivedInIngredientReceiver();
         receiverDelegate(ingredient);
+    }
+
+    private bool HasTypeOfIngredient(Taco.Ingredients ingredientType) {
+        foreach (Toppingable toppingable in ingredients) {
+            if (toppingable.ingredientType == ingredientType) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Toppingable GetIngredientOfType (Taco.Ingredients ingredientType) {
+        foreach (Toppingable toppingable in ingredients) {
+            if (toppingable.ingredientType == ingredientType) {
+                return toppingable;
+            }
+        }
+        return null;
     }
 }

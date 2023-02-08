@@ -5,10 +5,13 @@ using UnityEngine;
 public class Toppingable : MonoBehaviour
 {
     [HideInInspector] public bool isInIngredientReceiver;
+    public Taco.Ingredients ingredientType;
+    Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = this.GetComponent<Rigidbody>();
         isInIngredientReceiver = false;
     }
 
@@ -20,5 +23,9 @@ public class Toppingable : MonoBehaviour
 
     public void ReceivedInIngredientReceiver() {
         isInIngredientReceiver = true;
+    }
+
+    public void RemoveRigidbody() {
+        Destroy(rb);
     }
 }
