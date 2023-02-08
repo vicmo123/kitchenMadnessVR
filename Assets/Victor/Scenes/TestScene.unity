@@ -267,6 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc0cf1ffafaf7540ad38bda1dd98841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBeforeRoundStarts: 3
+  maxNumberOfStars: 5
 --- !u!65 &1014060549
 BoxCollider:
   m_ObjectHideFlags: 0
