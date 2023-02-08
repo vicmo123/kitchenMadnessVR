@@ -6,9 +6,6 @@ using FSM;
 
 public class GameManager : MonoBehaviour
 {
-    //To Delete later
-    int lives = 5;
-
     #region StateMachine
     public static string CurrentState;
 
@@ -80,8 +77,10 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransition(UpdateRound, EndRound, _ => IsUpdateRoundFinished());
         stateMachine.AddTransition(EndRound, RestartRound, _ => IsEndRoundFinished());
         stateMachine.AddTransition(RestartRound, SetupRound, _ => IsRestartRoundFinished());
-        stateMachine.AddTransitionFromAny(new Transition("", EndRound, t => (lives <= 0)));
         stateMachine.AddTransitionFromAny(new Transition("", EndGame, t => (IsEndGameRequested())));
+        stateMachine.AddTransitionFromAny(new Transition("", EndRound, t => (currentNumberOfStars <= 0)));
+
+        OnUpdateRoundEnter = () => { timer.Reset(); };
 
         stateMachine.SetStartState(StartGame);
         stateMachine.Init();
@@ -95,30 +94,48 @@ public class GameManager : MonoBehaviour
     //Condition check for state transitions
     private bool IsStartGameFinished()
     {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+            return true;
+        else
+            return false;
     }
 
     private bool IsSetupRoundFinished()
     {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+            return true;
+        else
+            return false;
     }
 
     private bool IsStartRoundFinished()
     {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+            return true;
+        else
+            return false;
     }
 
     private bool IsUpdateRoundFinished()
     {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+            return true;
+        else
+            return false;
     }
     private bool IsEndRoundFinished()
     {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+            return true;
+        else
+            return false;
     }
     private bool IsRestartRoundFinished()
     {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+            return true;
+        else
+            return false;
     }
     private bool IsEndGameRequested()
     {
@@ -132,76 +149,85 @@ public class GameManager : MonoBehaviour
     private void OnStartGameLogic()
     {
         Debug.Log("StartGame");
+        //Initialise all the stuff for the game to work
+        //Posibility of main menu
+        //If UI when option is clicked, progress to next state
     }
 
     private void OnSetupRoundLogic()
     {
         Debug.Log("SetupRound");
+        //Render the truck and kitchen environement with tools
+        //Player can move around the kitchen and mess around
+        //When the start button located on the window door is clicked, progress to next state
     }
 
     private void OnStartRoundLogic()
     {
         Debug.Log("StartRound");
+        //Initialise every thing for the current round
+        //When every thing is done, start three second timer with sound feedback.
+        //when timer is invoked, proceed to next state
     }
 
     private void OnUpdateRoundLogic()
     {
         Debug.Log("UpdateRound");
+        if (Input.GetKeyDown(KeyCode.A))
+            currentNumberOfStars--;
+        //Main game loop
+        //When the player is out of stars(lives), end the round
     }
 
     private void OnEndRoundLogic()
     {
         Debug.Log("EndRound");
+        if (Input.GetKeyDown(KeyCode.P))
+            currentNumberOfStars = maxNumberOfStars;
+        //The player will have the option to start a new game with input
+        //If option to continue is chosen, will proceed to restart round
     }
 
     private void OnRestartRoundLogic()
     {
         Debug.Log("RestartRound");
-        if (Input.GetKeyDown(KeyCode.Space))
-            lives = 0;
+        //Delete every thing
+        //Then proceed to startRound
+        //Will cycle until go to end game
     }
 
     private void OnEndGameLogic()
     {
         Debug.Log("endGame");
+        //Once you are here, you can go to another state
+        //Do necessary actions to end the game
     }
     #endregion
 
-    Respawnable r;
-    private CountDownTimer timer;
-    int wantedNumberOfIterations = 5;
+    [SerializeField, Range(1, 10)]private int maxNumberOfStars = 5;
+    public int currentNumberOfStars { get; private set; }
+    [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
+    private CountDownTimer countDownTimer;
+    private Timer timer;
+
+    private void Awake()
+    {
+        currentNumberOfStars = maxNumberOfStars;
+        InitStateMachine();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        InitStateMachine();
-        timer = new CountDownTimer(0.5f, true);
-        timer.OnTimeIsUpLogic += () => { OnTimeIsUpLogic(); };
-        timer.StartTimer();
-        r = gameObject.GetComponent<Respawnable>();
-        r.OnRespawnLogic += () => { AdditionalFeaturesSpawnTest(); };
-    }
-
-    private void OnTimeIsUpLogic()
-    {
-        Debug.Log("time is up");
+        countDownTimer = new CountDownTimer(3.0f, false);
+        timer = new Timer();
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateStateMachine();
-        timer.UpdateTimer();
-        if (timer.Iterations == wantedNumberOfIterations)
-        {
-            timer.SetIsContinuous(false);
-            Transform t = transform;
-            r.InvokeRespawn(t, 2.0f);
-            timer.SetDuration(5.0f);
-            timer.StartTimer();
-            timer.OnTimeIsUpLogic = () => { r.InvokeRespawn(); };
-            timer.ResetIterations();
-        }
+        Debug.Log(timer.Elapsed);
     }
 
     public static IEnumerator WaitForFrames(int frameCount)
@@ -211,10 +237,5 @@ public class GameManager : MonoBehaviour
             frameCount--;
             yield return null;
         }
-    }
-
-    private void AdditionalFeaturesSpawnTest()
-    {
-        Debug.Log("Do extra stuff");
     }
 }
