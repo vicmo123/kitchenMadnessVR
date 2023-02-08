@@ -6,9 +6,6 @@ using FSM;
 
 public class GameManager : MonoBehaviour
 {
-    //To Delete later
-    int lives = 5;
-
     #region StateMachine
     public static string CurrentState;
 
@@ -81,7 +78,9 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransition(EndRound, RestartRound, _ => IsEndRoundFinished());
         stateMachine.AddTransition(RestartRound, SetupRound, _ => IsRestartRoundFinished());
         stateMachine.AddTransitionFromAny(new Transition("", EndGame, t => (IsEndGameRequested())));
-        stateMachine.AddTransitionFromAny(new Transition("", EndRound, t => (lives <= 0)));
+        stateMachine.AddTransitionFromAny(new Transition("", EndRound, t => (currentNumberOfStars <= 0)));
+
+        OnUpdateRoundEnter = () => { timer.Reset(); };
 
         stateMachine.SetStartState(StartGame);
         stateMachine.Init();
@@ -175,7 +174,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("UpdateRound");
         if (Input.GetKeyDown(KeyCode.A))
-            lives--;
+            currentNumberOfStars--;
         //Main game loop
         //When the player is out of stars(lives), end the round
     }
@@ -184,7 +183,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("EndRound");
         if (Input.GetKeyDown(KeyCode.P))
-            lives = 5;
+            currentNumberOfStars = maxNumberOfStars;
         //The player will have the option to start a new game with input
         //If option to continue is chosen, will proceed to restart round
     }
@@ -205,41 +204,30 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    Respawnable r;
-    private CountDownTimer timer;
-    int wantedNumberOfIterations = 5;
+    [SerializeField, Range(1, 10)]private int maxNumberOfStars = 5;
+    public int currentNumberOfStars { get; private set; }
+    [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
+    private CountDownTimer countDownTimer;
+    private Timer timer;
+
+    private void Awake()
+    {
+        currentNumberOfStars = maxNumberOfStars;
+        InitStateMachine();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        InitStateMachine();
-        timer = new CountDownTimer(0.5f, true);
-        timer.OnTimeIsUpLogic += () => { OnTimeIsUpLogic(); };
-        timer.StartTimer();
-        r = gameObject.GetComponent<Respawnable>();
-        r.OnRespawnLogic += () => { AdditionalFeaturesSpawnTest(); };
-    }
-
-    private void OnTimeIsUpLogic()
-    {
-        Debug.Log("time is up");
+        countDownTimer = new CountDownTimer(3.0f, false);
+        timer = new Timer();
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateStateMachine();
-        timer.UpdateTimer();
-        if (timer.Iterations == wantedNumberOfIterations)
-        {
-            timer.SetIsContinuous(false);
-            Transform t = transform;
-            r.InvokeRespawn(t, 2.0f);
-            timer.SetDuration(5.0f);
-            timer.StartTimer();
-            timer.OnTimeIsUpLogic = () => { r.InvokeRespawn(); };
-            timer.ResetIterations();
-        }
+        Debug.Log(timer.Elapsed);
     }
 
     public static IEnumerator WaitForFrames(int frameCount)
@@ -249,10 +237,5 @@ public class GameManager : MonoBehaviour
             frameCount--;
             yield return null;
         }
-    }
-
-    private void AdditionalFeaturesSpawnTest()
-    {
-        Debug.Log("Do extra stuff");
     }
 }
