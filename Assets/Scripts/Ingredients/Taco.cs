@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class Taco : MonoBehaviour
 {
+    public GameObject pivotLayer1;
+    public GameObject pivotLayer2;
     public enum Ingredients
     {
         //tortilla | meat | onion | pineapple | cheese | sauce
@@ -32,24 +34,22 @@ public class Taco : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        
+
     }
 
     public void AddIngredient(Toppingable ingredient) {
-        ingredient.gameObject.transform.SetParent(this.transform);
+        if (ingredientList.Contains(Ingredients.Meat))
+            ingredient.gameObject.transform.SetParent(pivotLayer2.transform);
+        else
+            ingredient.gameObject.transform.SetParent(pivotLayer1.transform);
         ingredientList.Add(ingredient.ingredientType);
         PlaceIngredients();
     }
 
     public void PlaceIngredients() {
-        float heightForNextIngredient = 0;
-
         if (ingredientList.Contains(Taco.Ingredients.Meat)) {
-            heightForNextIngredient += 1.3f;
-            ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Meat).transform.localPosition = new Vector3(0, heightForNextIngredient, 0);
+            ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Meat).transform.localPosition = new Vector3(0, 0, 0);
         }
-
-        heightForNextIngredient += 23;
 
         int mixedToppingables = 0;
         if (ingredientList.Contains(Taco.Ingredients.Cheese)) {
@@ -67,22 +67,19 @@ public class Taco : MonoBehaviour
             List<Toppingable> tempIngredients = GetMixedToppingables();
 
             if (mixedToppingables == 1) {
-                tempIngredients[0].transform.localPosition = new Vector3(0, heightForNextIngredient, 0);
-                heightForNextIngredient += 0.1f;
+                tempIngredients[0].transform.localPosition = new Vector3(0, 0, 0);
             }
 
             if (mixedToppingables == 2) {
-                tempIngredients[0].transform.localPosition = new Vector3(0, heightForNextIngredient, .25f);
-                tempIngredients[1].transform.localPosition = new Vector3(0, heightForNextIngredient, -.25f);
+                tempIngredients[0].transform.localPosition = new Vector3(0, 0, .25f);
+                tempIngredients[1].transform.localPosition = new Vector3(0, 0, -.25f);
             }
 
             if (mixedToppingables == 3) {
-                tempIngredients[0].transform.localPosition = new Vector3(-.25f, heightForNextIngredient, 0);
-                tempIngredients[1].transform.localPosition = new Vector3(.15f, heightForNextIngredient, -.2f);
-                tempIngredients[2].transform.localPosition = new Vector3(.15f, heightForNextIngredient, .2f);
+                tempIngredients[0].transform.localPosition = new Vector3(-.25f, 0, 0);
+                tempIngredients[1].transform.localPosition = new Vector3(.15f, 0, -.2f);
+                tempIngredients[2].transform.localPosition = new Vector3(.15f, 0, .2f);
             }
-
-            heightForNextIngredient += .1f;
 
             // INCLUDE SAUCE
         }
@@ -115,7 +112,8 @@ public class Taco : MonoBehaviour
             if (ingredientList.Contains((Ingredients)i)) {
                 if (i == 1) {
                     taco = (Ingredients)i;
-                } else {
+                }
+                else {
                     taco = taco | (Ingredients)i;
                 }
             }

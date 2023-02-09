@@ -10,12 +10,13 @@ public class IngredientReceiver : MonoBehaviour
     public delegate void ReceiverDelegate(Toppingable ingredient);
     public ReceiverDelegate receiverDelegate;
 
-    [HideInInspector] public bool ready = false;
+    [HideInInspector] public bool ready;
 
     // Start is called before the first frame update
     void Start()
     {
         ingredients = new List<Toppingable>();
+        ready = true;
     }
 
     // Update is called once per frame
@@ -25,6 +26,7 @@ public class IngredientReceiver : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
+
         Toppingable ingredient = collision.gameObject.GetComponent<Toppingable>();
         if (ingredient == null) {
             return;
@@ -36,6 +38,7 @@ public class IngredientReceiver : MonoBehaviour
             return;
         }
         if (!this.ready | !ingredient.ready) {
+            Debug.Log("this : " + this.ready + " | ingrdient : " + ingredient.ready);
             return;
         }
 
