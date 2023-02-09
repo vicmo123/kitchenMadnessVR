@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -109,6 +110,17 @@ public class Taco : MonoBehaviour
     }
 
     public Ingredients SendTaco() {
-        return Ingredients.Tortilla | Ingredients.Meat;
+        Ingredients taco = Ingredients.None;
+        for (int i = 1; i < Enum.GetNames(typeof(Ingredients)).Length; i++) {
+            if (ingredientList.Contains((Ingredients)i)) {
+                if (i == 1) {
+                    taco = (Ingredients)i;
+                } else {
+                    taco = taco | (Ingredients)i;
+                }
+            }
+        }
+
+        return taco;
     }
 }
