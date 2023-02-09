@@ -110,6 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550f9c052ace0d24e93e595e5f18219f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orderPrefab: {fileID: 2850325973062226636, guid: 84f4bb32c74ed164d85ac648d26e661d,
-    type: 3}
   board: {fileID: 2310719280187655868, guid: 8a3baf9f0290e6b4e9c2d36a93f44bc8, type: 3}
+  orderTimerPrefab: {fileID: 723878421110811018, guid: 84f4bb32c74ed164d85ac648d26e661d,
+    type: 3}
