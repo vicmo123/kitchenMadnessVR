@@ -28,6 +28,7 @@ public class BoardManager : MonoBehaviour
         {
             GameObject go = GameObject.Instantiate(prefabOrder, this.transform);
             Order order = go.GetComponent<Order>();
+            order.SetInUse(false);
             order = GenerateToppings(order);
             orders.Add(order);
         }
