@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+#region Ingredients
 public enum Ingredients
 {
     //sauce | cheese | pineapple | onion | meat | tortilla
@@ -23,10 +24,11 @@ public enum Ingredients
     MediumIngredient = Onion,
     HardIngredients = Pineapple | Cheese
 }
+#endregion
 public class Order : MonoBehaviour
 {
     public BoardManager board;
-    public GameObject orderTimerPrefab ;
+    public GameObject orderTimerPrefab;
     private OrderTimer orderTimer;
     private int orderIngredients = 0b111000;
     private bool isInUse = false;
@@ -35,9 +37,10 @@ public class Order : MonoBehaviour
     {
         GameObject go = GameObject.Instantiate(orderTimerPrefab, this.transform);
         orderTimer = go.GetComponent<OrderTimer>();
+        orderTimer.SetOrder(this);
         orderTimer.TimerIstOut += () => { CrossOrder(); };
-        SetOrderTimer(10);
-        //Load Prefab of the tortilla and the meat
+        SetOrderTimer(5);
+        //Load Sprite Prefab of the tortilla and the meat
         //Load Prefab Sprite
         //OrderLostEvent += board.DoneWithOrder;
     }
@@ -54,7 +57,7 @@ public class Order : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     public void SetTacoIngredients(int ingredientsSerialized)
@@ -65,8 +68,8 @@ public class Order : MonoBehaviour
 
     public void SetOrderTimer(float duration)
     {
-       orderTimer.SetDuration(duration);
-    }   
+        orderTimer.SetDuration(duration);
+    }
 
     public void CrossOrder()
     {

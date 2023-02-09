@@ -4,27 +4,30 @@ using UnityEngine;
 public class OrderTimer : MonoBehaviour
 {
     public Action TimerIstOut = () => { };
-    public Order order;
+    private Order order;
     private CountDownTimer timer;
     private Color color;
     private float timeDuration = 5;
-    private float timePassing = 0;
+    private float timeRemaining = 0;
     private float pourcentage = 100;
     
     void Start()
     {
         color = Color.green;
         timer = new CountDownTimer(timeDuration, false);
-        timer.StartTimer();
+        if (order.GetIsInUse())
+        {
+            timer.StartTimer();
+        }
         timer.OnTimeIsUpLogic += () => { TimerWentOut(); };
     }
 
     private void Update()
     {
         timer.UpdateTimer();
-        timePassing = timer.Timer;
-        Debug.Log(timePassing);
-         pourcentage = timePassing / timeDuration;
+        timeRemaining = timer.Timer;
+        Debug.Log(timeRemaining);
+         pourcentage = timeRemaining / timeDuration;
 
         if (pourcentage >= 70)
         {
@@ -53,5 +56,10 @@ public class OrderTimer : MonoBehaviour
     public Color GetColor()
     {
         return color;
+    }
+
+    public void SetOrder(Order orderInBoard)
+    {
+        order = orderInBoard;
     }
 }
