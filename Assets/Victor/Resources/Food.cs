@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }

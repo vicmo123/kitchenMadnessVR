@@ -66,12 +66,12 @@ public class Rat : MonoBehaviour
             onLogic: _ => OnDestroyLogic(),
             onExit: _ => OnDestroyExit.Invoke()));
 
-        stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
-        stateMachine.AddTransition(Scared, Exit, _ => IsScaredFinished());
+        stateMachine.AddTransition(Walk, TargetSpotted, _ => IsFoodItemFound());
         stateMachine.AddTransition(TargetSpotted, Exit, _ => IsTargetReached());
         stateMachine.AddTransition(Exit, Destroy, _ => IsExitFinished());
-        stateMachine.AddTransitionFromAny(new Transition("", TargetSpotted, t => IsFoodItemFound()));
         stateMachine.AddTransitionFromAny(new Transition("", Hit, t => IsHit()));
+        stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
+        stateMachine.AddTransition(Scared, Exit, _ => IsScaredFinished());
 
         stateMachine.SetStartState(Walk);
         stateMachine.Init();
@@ -89,20 +89,27 @@ public class Rat : MonoBehaviour
 
     private void OnDestroyLogic()
     {
+        if (CurrentState != Destroy)
+        {
+
+        }
         CurrentState = Destroy;
-        Destroy(gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 
     private void OnExitLogic()
     {
+        if(CurrentState != Exit)
+        {
+
+        }
         CurrentState = Exit;
-        agent.SetDestination(new Vector3(20, 0.5f, 20));
     }
 
     private void OnScaredLogic()
     {
         CurrentState = Scared;
-        agent.SetDestination(Vector3.zero);
+        agent.SetDestination(new Vector3(0, 0.0f, 0));
         agent.speed = 100.0f;
     }
 
@@ -116,7 +123,6 @@ public class Rat : MonoBehaviour
     {
         CurrentState = TargetSpotted;
         agent.speed = chaseSpeed;
-        
     }
 
     public void UpdateStateMachine()
@@ -151,18 +157,21 @@ public class Rat : MonoBehaviour
 
     private bool IsFoodItemFound()
     {
-        
-        RaycastHit[] sphereCastHits = Physics.SphereCastAll(transform.position, 3.0f, transform.forward, sightLenght, layerMask);
-
-        for (int i = 0; i < sphereCastHits.Length; i++)
+        if(CurrentState == Walk)
         {
-            if (sphereCastHits[i].collider.gameObject.tag == "Player")
+            RaycastHit[] sphereCastHits = Physics.SphereCastAll(transform.position, 3.0f, transform.forward, sightLenght, layerMask);
+
+            for (int i = 0; i < sphereCastHits.Length; i++)
             {
-                Debug.Log("Hit");
-                agent.SetDestination(sphereCastHits[i].transform.position);
-                return true;
+                if (sphereCastHits[i].collider.gameObject.tag == "Player")
+                {
+                    Debug.Log("Hit");
+                    agent.SetDestination(sphereCastHits[i].transform.position);
+                    return true;
+                }
             }
         }
+        
 
         return false;
     }

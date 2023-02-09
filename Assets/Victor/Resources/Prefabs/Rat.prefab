@@ -113,9 +113,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   walkSpeed: 3.5
-  chaseSpeed: 5
-  walkRadius: 10
+  chaseSpeed: 10
+  walkRadius: 40
   ChaseDistance: 15
+  sightLenght: 10
+  sightRadius: 3
   isScared: 0
 --- !u!195 &2655391109156742401
 NavMeshAgent:
