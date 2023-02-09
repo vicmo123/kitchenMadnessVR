@@ -5,19 +5,19 @@ using UnityEngine.UI;
 #region Ingredients
 public enum Ingredients
 {
-    //sauce | cheese | pineapple | onion | meat | tortilla
-    // exemple : 100011 = taco that constains sauce + meat + tortilla
+    //pineapple | cheese | onion | sauce | meat | tortilla
+    // exemple : 100011 = taco that constains pineappl + meat + tortilla
 
     None = 0,	//must have a specified 0
     Tortilla = 1 << 0,	//1
     Meat = 1 << 1,	//2
-    Onion = 1 << 2,	//4
-    Pineapple = 1 << 3,	//8
+    Sauce = 1 << 2,	//4
+    Onion = 1 << 3,	//8
     Cheese = 1 << 4,	//16
-    Sauce = 1 << 5, //32  
+    Pineapple = 1 << 5, //32  
 
     BaseOfTaco = Tortilla | Meat,
-    EasyTaco = Tortilla | Meat | Onion,
+    EasyTaco = Tortilla | Meat | Sauce,
     HardCoreTaco = Tortilla | Meat | Onion | Pineapple | Cheese | Sauce,
 
     EasyIngredient = Sauce,
@@ -33,13 +33,18 @@ public class Order : MonoBehaviour
     private int orderIngredients = 0b111000;
     private bool isInUse = false;
 
+    const float EASY_RECIPE_TIME = 60.0f;
+    const float MEDIUM_RECIPE_TIME = 90.0f;
+    const float HARD_RECIPE_TIME = 120.0f;
+    const float HARDCORE_RECIPE_TIME = 140.0f;
+
     private void Start()
     {
         GameObject go = GameObject.Instantiate(orderTimerPrefab, this.transform);
         orderTimer = go.GetComponent<OrderTimer>();
         orderTimer.SetOrder(this);
         orderTimer.TimerIstOut += () => { CrossOrder(); };
-        SetOrderTimer(5);
+        SetRecipeTime();
         //Load Sprite Prefab of the tortilla and the meat
         //Load Prefab Sprite
         //OrderLostEvent += board.DoneWithOrder;
@@ -67,20 +72,38 @@ public class Order : MonoBehaviour
     }
 
     public void SetOrderTimer(float duration)
-    {      
+    {
         orderTimer.SetDuration(duration);
     }
 
-    public void ComputeIngredientsInTime()
+    public void SetRecipeTime()
     {
         //sauce | cheese | pineapple | onion | meat | tortilla
         // exemple : 100011 = taco that constains sauce + meat + tortilla
         // tortilla + meat = 3
-        // tortilla + meat + onion = 7
-        // tortilla + meat + onion + sauce = 39
-        // tortilla + meat + onion + pineapple = 15
+        // tortilla + meat + sauce = 7
+        // tortilla + meat + onion + sauce = 15
+        // tortilla + meat + onion + pineapple = 43
         // tortilla + meat + onion + pineapple + sauce  = 47
-        // tortilla + meat + onion + cheese + sauce  = 55
+        // tortilla + meat + onion + cheese + sauce  = 31      
+
+        if (orderIngredients > 7 & orderIngredients < 30)
+        {
+            SetOrderTimer(MEDIUM_RECIPE_TIME);
+        }
+        else if (orderIngredients > 30 & orderIngredients < 59)
+        {
+            SetOrderTimer(HARD_RECIPE_TIME);
+        }
+        else if (orderIngredients >= 60)
+        {
+            SetOrderTimer(HARDCORE_RECIPE_TIME);
+        }
+        else
+        {
+            SetOrderTimer(EASY_RECIPE_TIME);
+        }
+
     }
 
     public void CrossOrder()
