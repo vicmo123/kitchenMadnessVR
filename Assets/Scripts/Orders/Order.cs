@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+#region Ingredients
 public enum Ingredients
 {
-    //tortilla | meat | onion | pineapple | cheese | sauce
+    //sauce | cheese | pineapple | onion | meat | tortilla
+    // exemple : 100011 = taco that constains sauce + meat + tortilla
+
     None = 0,	//must have a specified 0
     Tortilla = 1 << 0,	//1
     Meat = 1 << 1,	//2
@@ -21,20 +24,24 @@ public enum Ingredients
     MediumIngredient = Onion,
     HardIngredients = Pineapple | Cheese
 }
+#endregion
 public class Order : MonoBehaviour
 {
     public BoardManager board;
+    public GameObject orderTimerPrefab;
+    private OrderTimer orderTimer;
     private int orderIngredients = 0b111000;
-    //private OrderTimer orderTimer;
     private bool isInUse = false;
-    private bool timerIsUp = false;
-    public bool TimerIsUp { get => timerIsUp; set => timerIsUp = value; }
 
     private void Start()
-    {       
-        //Load Prefab of the tortilla and the meat
+    {
+        GameObject go = GameObject.Instantiate(orderTimerPrefab, this.transform);
+        orderTimer = go.GetComponent<OrderTimer>();
+        orderTimer.SetOrder(this);
+        orderTimer.TimerIstOut += () => { CrossOrder(); };
+        SetOrderTimer(5);
+        //Load Sprite Prefab of the tortilla and the meat
         //Load Prefab Sprite
-       // orderTimer = new OrderTimer();
         //OrderLostEvent += board.DoneWithOrder;
     }
 
@@ -50,13 +57,7 @@ public class Order : MonoBehaviour
 
     private void Update()
     {
-        if (TimerIsUp)
-        {
-            CrossOrder();
-            board.LoseOneStar();
-            board.DoneWithOrder(this);
-            Reset();
-        }
+
     }
 
     public void SetTacoIngredients(int ingredientsSerialized)
@@ -66,15 +67,31 @@ public class Order : MonoBehaviour
     }
 
     public void SetOrderTimer(float duration)
+    {      
+        orderTimer.SetDuration(duration);
+    }
+
+    public void ComputeIngredientsInTime()
     {
-       // orderTimer.SetDuration(duration);
-    }   
+        //sauce | cheese | pineapple | onion | meat | tortilla
+        // exemple : 100011 = taco that constains sauce + meat + tortilla
+        // tortilla + meat = 3
+        // tortilla + meat + onion = 7
+        // tortilla + meat + onion + sauce = 39
+        // tortilla + meat + onion + pineapple = 15
+        // tortilla + meat + onion + pineapple + sauce  = 47
+        // tortilla + meat + onion + cheese + sauce  = 55
+    }
 
     public void CrossOrder()
     {
-       //if time is up for the order, the background goes red
-       //and the order disapear.
+        //if time is up for the order, the background goes red
+        //and the order disapear.
         //TODO
+        Debug.Log("Taco : " + orderIngredients + " = Order crossed cause Timer went out!");
+        board.LoseOneStar();
+        board.DoneWithOrder(this);
+        Reset();
     }
 
     public void SetInUse(bool inUse)
@@ -95,6 +112,6 @@ public class Order : MonoBehaviour
 
     private void Reset()
     {
-        TimerIsUp = false;
     }
+
 }
