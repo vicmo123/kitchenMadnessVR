@@ -60,7 +60,7 @@ public class Rat : MonoBehaviour
             onExit: _ => OnExitExit.Invoke()));
 
         stateMachine.AddTransition(Walk, TargetSpotted, _ => IsFoodItemFound());
-        stateMachine.AddTransition(TargetSpotted, Exit, _ => IsTargetReached());
+        stateMachine.AddTransition(TargetSpotted, Exit, _ => IsObjectPickedUp());
         stateMachine.AddTransitionFromAny(new Transition("", Hit, t => IsHit()));
         stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
         stateMachine.AddTransition(Scared, Exit, _ => IsScaredFinished());
@@ -92,7 +92,7 @@ public class Rat : MonoBehaviour
     {
         CurrentState = Scared;
         agent.SetDestination(new Vector3(0, 0.0f, 0));
-        agent.speed = 100.0f;
+        agent.speed = 10.0f;
     }
 
     private void OnHitLogic()
@@ -114,17 +114,9 @@ public class Rat : MonoBehaviour
     }
 
     //Condition check for state transitions
-    private bool IsTargetReached()
+    private bool IsObjectPickedUp()
     {
-        if(CurrentState == TargetSpotted && CheckIfDestinationReached())
-        {
-            isScared = true;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return objectPickedUp;
     }
 
     private bool IsHitFinished()
@@ -178,11 +170,12 @@ public class Rat : MonoBehaviour
     [Range(1, 20)] public float sightRadius;
     [HideInInspector] public bool isScared;
     int layerMask;
+    bool objectPickedUp = false;
     #endregion
 
     private void Awake()
     {
-        layerMask = LayerMask.GetMask("UI");
+        layerMask = LayerMask.GetMask("Food");
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
@@ -226,5 +219,16 @@ public class Rat : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("collision");
+            collision.transform.SetParent(transform);
+            agent.SetDestination(new Vector3(0, 0, 0));
+            objectPickedUp = true;
+        }
     }
 }

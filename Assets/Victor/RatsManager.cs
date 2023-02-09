@@ -70,4 +70,21 @@ public class RatsManager : MonoBehaviour
         else if (timeElapsedRound > 300.0f)
             timePassedFactor = 0.5f;
     }
+
+    private Vector3 FindClosestExit(Vector3 ratCurrentPosition)
+    {
+        Vector3 closestExit = Vector3.zero;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = ratCurrentPosition;
+        foreach (Spawner exit in RatHoles)
+        {
+            float dist = Vector3.Distance(exit.transform.position, currentPos);
+            if (dist < minDist)
+            {
+                closestExit = exit.transform.position;
+                minDist = dist;
+            }
+        }
+        return closestExit;
+    }
 }
