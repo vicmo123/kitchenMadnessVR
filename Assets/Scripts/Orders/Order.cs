@@ -67,8 +67,20 @@ public class Order : MonoBehaviour
     }
 
     public void SetOrderTimer(float duration)
-    {
+    {      
         orderTimer.SetDuration(duration);
+    }
+
+    public void ComputeIngredientsInTime()
+    {
+        //sauce | cheese | pineapple | onion | meat | tortilla
+        // exemple : 100011 = taco that constains sauce + meat + tortilla
+        // tortilla + meat = 3
+        // tortilla + meat + onion = 7
+        // tortilla + meat + onion + sauce = 39
+        // tortilla + meat + onion + pineapple = 15
+        // tortilla + meat + onion + pineapple + sauce  = 47
+        // tortilla + meat + onion + cheese + sauce  = 55
     }
 
     public void CrossOrder()
@@ -101,4 +113,5 @@ public class Order : MonoBehaviour
     private void Reset()
     {
     }
+
 }
