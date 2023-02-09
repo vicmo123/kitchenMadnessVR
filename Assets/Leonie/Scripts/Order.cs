@@ -31,8 +31,7 @@ public class Order : MonoBehaviour
     public bool TimerIsUp { get => timerIsUp; set => timerIsUp = value; }
 
     private void Start()
-    {
-       
+    {       
         //Load Prefab of the tortilla and the meat
         //Load Prefab Sprite
        // orderTimer = new OrderTimer();
