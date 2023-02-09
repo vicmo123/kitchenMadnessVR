@@ -27,16 +27,19 @@ public enum Ingredients
 #endregion
 public class Order : MonoBehaviour
 {
-    public BoardManager board;
-    public GameObject orderTimerPrefab;
-    private OrderTimer orderTimer;
-    private int orderIngredients = 0b111000;
-    private bool isInUse = false;
-
     const float EASY_RECIPE_TIME = 60.0f;
     const float MEDIUM_RECIPE_TIME = 90.0f;
     const float HARD_RECIPE_TIME = 120.0f;
     const float HARDCORE_RECIPE_TIME = 140.0f;
+
+    public BoardManager board;
+    public GameObject orderTimerPrefab;
+    private float timeOfCreation;
+    public float TimeOfCreation { get => timeOfCreation; set => timeOfCreation = value; }
+    private OrderTimer orderTimer;
+    private int orderIngredients = 0b111000;
+    private bool isInUse = false;
+
 
     private void Start()
     {
@@ -45,6 +48,8 @@ public class Order : MonoBehaviour
         orderTimer.SetOrder(this);
         orderTimer.TimerIstOut += () => { CrossOrder(); };
         SetRecipeTime();
+
+        Debug.Log("Time of creation " + timeOfCreation);
         //Load Sprite Prefab of the tortilla and the meat
         //Load Prefab Sprite
         //OrderLostEvent += board.DoneWithOrder;
@@ -62,7 +67,7 @@ public class Order : MonoBehaviour
 
     private void Update()
     {
-
+        
     }
 
     public void SetTacoIngredients(int ingredientsSerialized)

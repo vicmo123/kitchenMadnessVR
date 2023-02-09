@@ -172,6 +172,7 @@ public class GameManager : MonoBehaviour
 
     private void OnUpdateRoundLogic()
     {
+        boardManager.ElapsedTime = timer.Elapsed;
         Debug.Log("UpdateRound");
         if (Input.GetKeyDown(KeyCode.A))
             currentNumberOfStars--;
@@ -204,6 +205,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public BoardManager boardManager;
     [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
     private CountDownTimer countDownTimer;
     private Timer timer;

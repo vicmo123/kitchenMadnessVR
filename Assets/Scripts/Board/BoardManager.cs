@@ -5,14 +5,21 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    private const int FIRST_STAGE_GAME = 60;
+    private const int SECOND_STAGE_GAME = 240;
+    private const int THIRD_STAGE_GAME = 420;
     //public Player player
     public BoardUI boardUI;
     public GameObject prefabOrder;
+
     private List<Order> orders = new List<Order>();
-    const int nbOrdersLimit = 5;
+    const int NB_ORDERS_LIMIT = 5;
+    int nbOrdersDisplayed = 1;
+    private float elapsedTime;
+    public float ElapsedTime { get => elapsedTime; set => elapsedTime = value; }
 
     Action RemoveOrder;
-    int nbOrdersDisplayed = 1;
+
 
     private void Awake()
     {
@@ -24,7 +31,7 @@ public class BoardManager : MonoBehaviour
     {
         SetFirstTaco();
 
-        for (int i = 1; i < nbOrdersLimit; i++)
+        for (int i = 1; i < NB_ORDERS_LIMIT; i++)
         {
             GameObject go = GameObject.Instantiate(prefabOrder, this.transform);
             Order order = go.GetComponent<Order>();
@@ -48,6 +55,7 @@ public class BoardManager : MonoBehaviour
         Order order = orders[index];
         order = GenerateToppings(order);
         order.SetInUse(true);
+        order.TimeOfCreation = ElapsedTime;
 
         nbOrdersDisplayed++;
         UpdateUI();
@@ -56,45 +64,94 @@ public class BoardManager : MonoBehaviour
 
     Order GenerateToppings(Order order)
     {
-        int timerSeconds = 60;
-        int ingredients;
+        int ingredients = (int)Ingredients.EasyTaco;
         int result = UnityEngine.Random.Range(0, 2);
 
-        //STATE BEGIN   (first 1 min )     
+        //(first 1 min ) 
         order.SetTacoIngredients((int)(Ingredients.BaseOfTaco | Ingredients.Sauce));
 
-        //STATE GETTING TO KNOW THE ENVIRONMENT ( from 1 min to 4 minutes in the game )        
-        if (result == 0)
+        // ( from 1 min to 4 minutes in the game )        
+        if (elapsedTime > FIRST_STAGE_GAME & elapsedTime < SECOND_STAGE_GAME)
         {
-            ingredients = (int)Ingredients.EasyTaco;
-        }
-        else
-        {
-            ingredients = (int)(Ingredients.EasyTaco | Ingredients.Sauce);
+            ingredients = (int)GetEasyRecipe();
         }
 
-        //STATE READY FOR A LITTLE CHALLENGE ( from 4 to 7 minutes in the game )        
-        if (result == 0)
+        //( from 4 to 7 minutes in the game )
+        else if (elapsedTime > SECOND_STAGE_GAME & elapsedTime < THIRD_STAGE_GAME)
         {
-            ingredients = (int)(Ingredients.EasyTaco | Ingredients.Pineapple);
+            if (elapsedTime % 2 == 0)
+            {
+                ingredients = (int)GetMediumRecipe();
+            }
+            else if (elapsedTime % 3 == 0)
+            {
+                ingredients = (int)GetHardRecipe();
+            }
+            else
+            {
+                ingredients = (int)GetEasyRecipe();
+            }
         }
-        else
+        //(after 7 minutes)
+        else if (elapsedTime > THIRD_STAGE_GAME)
         {
-            ingredients = (int)(Ingredients.EasyTaco | Ingredients.Cheese);
-
+            if (elapsedTime % 2 == 0)
+            {
+                ingredients = (int)GetHardRecipe();
+            }
+            else if (elapsedTime % 3 == 0)
+            {
+                ingredients = (int)Ingredients.HardCoreTaco;
+            }
+            else if (elapsedTime % 4 == 0)
+            {
+                ingredients = (int)GetMediumRecipe();
+            }
+            else
+            {
+                ingredients = (int)GetEasyRecipe();
+            }
         }
-        //STATE READY FOR EPIC FUN (after 7 minutes)
-        ingredients = (int)Ingredients.HardCoreTaco;
-
-
 
         order.SetTacoIngredients(ingredients);
-        //Set Timer corresponding to the difficulty of the ingredients chosen
-        // order.SetOrderTimer(timerSeconds);
 
         return order;
     }
-    
+
+    private Ingredients GetEasyRecipe()
+    {
+        Ingredients ingredients = Ingredients.EasyTaco | Ingredients.Sauce;
+
+        if (elapsedTime % 2 == 0)
+        {
+            ingredients = Ingredients.EasyTaco;
+        }
+
+        return ingredients;
+    }
+
+    private Ingredients GetMediumRecipe()
+    {
+        Ingredients ingredients = Ingredients.EasyTaco | Ingredients.Cheese;
+
+        if (elapsedTime % 2 == 0)
+        {
+            ingredients = Ingredients.EasyTaco | Ingredients.Pineapple;
+        }
+        return ingredients;
+    }
+
+    private Ingredients GetHardRecipe()
+    {
+        Ingredients ingredients = Ingredients.EasyTaco | Ingredients.Cheese | Ingredients.Sauce;
+
+        if (elapsedTime % 2 == 0)
+        {
+            ingredients = Ingredients.EasyTaco | Ingredients.Pineapple | Ingredients.Sauce;
+        }
+        return ingredients;
+    }
+
     void SetFirstTaco()
     {
         GameObject order = GameObject.Instantiate(prefabOrder, this.transform);
@@ -102,6 +159,7 @@ public class BoardManager : MonoBehaviour
 
         firstOrder.SetTacoIngredients((int)Ingredients.EasyTaco);
         firstOrder.SetInUse(true);
+        firstOrder.TimeOfCreation = ElapsedTime;
 
         orders.Add(firstOrder);
     }
