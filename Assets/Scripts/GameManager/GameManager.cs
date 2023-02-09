@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public const string SetupRound = "SetupRound";
     public const string StartRound = "StartRound";
     public const string UpdateRound = "UpdateRound";
-    public const string EndRound = "EndRound";
     public const string RestartRound = "RestartRound";
     public const string EndGame = "EndGame";
 
@@ -23,7 +22,6 @@ public class GameManager : MonoBehaviour
     public static Action OnSetupRoundEnter = () => { };
     public static Action OnStartRoundEnter = () => { };
     public static Action OnUpdateRoundEnter = () => { };
-    public static Action OnEndRoundEnter = () => { };
     public static Action OnRestartRoundEnter = () => { };
     public static Action OnEndGameEnter = () => { };
 
@@ -32,7 +30,6 @@ public class GameManager : MonoBehaviour
     public static Action OnSetupRoundExit = () => { };
     public static Action OnStartRoundExit = () => { };
     public static Action OnUpdateRoundExit = () => { };
-    public static Action OnEndRoundExit = () => { };
     public static Action OnRestartRoundExit = () => { };
     public static Action OnEndGameExit = () => { };
 
@@ -58,10 +55,6 @@ public class GameManager : MonoBehaviour
             onEnter: _ => OnUpdateRoundEnter.Invoke(),
             onLogic: _ => OnUpdateRoundLogic(),
             onExit: _ => OnUpdateRoundExit.Invoke()));
-        stateMachine.AddState(EndRound, new State(
-            onEnter: _ => OnEndRoundEnter.Invoke(),
-            onLogic: _ => OnEndRoundLogic(),
-            onExit: _ => OnEndRoundExit.Invoke()));
         stateMachine.AddState(RestartRound, new State(
             onEnter: _ => OnRestartRoundEnter.Invoke(),
             onLogic: _ => OnRestartRoundLogic(),
@@ -74,13 +67,14 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransition(StartGame, SetupRound, _ => IsStartGameFinished());
         stateMachine.AddTransition(SetupRound, StartRound, _ => IsSetupRoundFinished());
         stateMachine.AddTransition(StartRound, UpdateRound, _ => IsStartRoundFinished());
-        stateMachine.AddTransition(UpdateRound, EndRound, _ => IsUpdateRoundFinished());
-        stateMachine.AddTransition(EndRound, RestartRound, _ => IsEndRoundFinished());
+        stateMachine.AddTransition(UpdateRound, RestartRound, _ => IsRestartRoundFinished());
         stateMachine.AddTransition(RestartRound, SetupRound, _ => IsRestartRoundFinished());
         stateMachine.AddTransitionFromAny(new Transition("", EndGame, t => (IsEndGameRequested())));
-        stateMachine.AddTransitionFromAny(new Transition("", EndRound, t => (currentNumberOfStars <= 0)));
+        stateMachine.AddTransitionFromAny(new Transition("", RestartRound, t => (currentNumberOfStars <= 0)));
 
-        OnUpdateRoundEnter = () => { timer.Reset(); };
+        OnUpdateRoundEnter += () => { timer.Reset(); };
+        OnUpdateRoundEnter += () => { rats.StartRound(); };
+        OnUpdateRoundExit += () => { rats.EndRound(); };
 
         stateMachine.SetStartState(StartGame);
         stateMachine.Init();
@@ -137,6 +131,7 @@ public class GameManager : MonoBehaviour
         else
             return false;
     }
+
     private bool IsEndGameRequested()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -148,6 +143,7 @@ public class GameManager : MonoBehaviour
     //Logic for each state
     private void OnStartGameLogic()
     {
+        CurrentState = StartGame;
         Debug.Log("StartGame");
         //Initialise all the stuff for the game to work
         //Posibility of main menu
@@ -156,6 +152,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSetupRoundLogic()
     {
+        CurrentState = SetupRound;
         Debug.Log("SetupRound");
         //Render the truck and kitchen environement with tools
         //Player can move around the kitchen and mess around
@@ -164,6 +161,7 @@ public class GameManager : MonoBehaviour
 
     private void OnStartRoundLogic()
     {
+        CurrentState = StartRound;
         Debug.Log("StartRound");
         //Initialise every thing for the current round
         //When every thing is done, start three second timer with sound feedback.
@@ -175,23 +173,24 @@ public class GameManager : MonoBehaviour
         boardManager.ElapsedTime = timer.Elapsed;
         Debug.Log("UpdateRound");
         if (Input.GetKeyDown(KeyCode.A))
+        {
             currentNumberOfStars--;
+        }
+
+        rats.timeElapsedRound = timer.Elapsed;
+        
         //Main game loop
         //When the player is out of stars(lives), end the round
     }
 
-    private void OnEndRoundLogic()
-    {
-        Debug.Log("EndRound");
-        if (Input.GetKeyDown(KeyCode.P))
-            currentNumberOfStars = maxNumberOfStars;
-        //The player will have the option to start a new game with input
-        //If option to continue is chosen, will proceed to restart round
-    }
-
     private void OnRestartRoundLogic()
     {
+        CurrentState = RestartRound;
+        if (Input.GetKeyDown(KeyCode.P))
+            currentNumberOfStars = maxNumberOfStars;
         Debug.Log("RestartRound");
+        //The player will have the option to start a new game with input
+        //If option to continue is chosen, will proceed to restart round
         //Delete every thing
         //Then proceed to startRound
         //Will cycle until go to end game
@@ -199,13 +198,20 @@ public class GameManager : MonoBehaviour
 
     private void OnEndGameLogic()
     {
+        CurrentState = EndGame;
         Debug.Log("endGame");
         //Once you are here, you can go to another state
         //Do necessary actions to end the game
     }
     #endregion
 
+   
+
+    //Game object links
+    public RatsManager rats;
     public BoardManager boardManager;
+
+    //GameFlow variables
     [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
     private CountDownTimer countDownTimer;
     private Timer timer;
@@ -229,7 +235,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateStateMachine();
-        Debug.Log(timer.Elapsed);
     }
 
     public static IEnumerator WaitForFrames(int frameCount)

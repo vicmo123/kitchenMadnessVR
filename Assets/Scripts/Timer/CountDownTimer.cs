@@ -61,7 +61,7 @@ public class CountDownTimer
             EndTimer();
     }
 
-    private void EndTimer()
+    public void EndTimer()
     {
         timerActive = false;
     }
