@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FSM;
+using System;
+using UnityEngine.AI;
 
-public class Ingredient : MonoBehaviour
+public class RatStateMachine
 {
     
 }

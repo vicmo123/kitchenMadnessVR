@@ -6,14 +6,17 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject prefab;
 
-    public void InvokeSpawn()
+    public GameObject InvokeSpawn()
     {
-        SpawnObject();
+        //Returns the game object to be able to acces it data
+        return SpawnObject();
     }
 
-    private void SpawnObject()
+    private GameObject SpawnObject()
     {
         GameObject spawnedObject = GameObject.Instantiate<GameObject>(prefab);
         spawnedObject.transform.position = transform.position;
+
+        return spawnedObject;
     }
 }
