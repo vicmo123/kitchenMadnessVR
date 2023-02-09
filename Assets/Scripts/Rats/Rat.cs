@@ -17,7 +17,6 @@ public class Rat : MonoBehaviour
     public const string Hit = "Hit";
     public const string Scared = "Scared";
     public const string Exit = "Exit";
-    public const string Destroy = "Destroy";
 
     //OnEnter
     public Action OnWalkEnter = () => { };
@@ -25,7 +24,6 @@ public class Rat : MonoBehaviour
     public Action OnHitEnter = () => { };
     public Action OnScaredEnter = () => { };
     public Action OnExitEnter = () => { };
-    public Action OnDestroyEnter = () => { };
 
     //OnExit
     public Action OnWalkExit = () => { };
@@ -33,7 +31,6 @@ public class Rat : MonoBehaviour
     public Action OnHitExit = () => { };
     public Action OnScaredExit = () => { };
     public Action OnExitExit = () => { };
-    public Action OnDestroyExit = () => { };
 
     public StateMachine stateMachine;
 
@@ -61,14 +58,9 @@ public class Rat : MonoBehaviour
             onEnter: _ => OnExitEnter.Invoke(),
             onLogic: _ => OnExitLogic(),
             onExit: _ => OnExitExit.Invoke()));
-        stateMachine.AddState(Destroy, new State(
-            onEnter: _ => OnDestroyEnter.Invoke(),
-            onLogic: _ => OnDestroyLogic(),
-            onExit: _ => OnDestroyExit.Invoke()));
 
         stateMachine.AddTransition(Walk, TargetSpotted, _ => IsFoodItemFound());
         stateMachine.AddTransition(TargetSpotted, Exit, _ => IsTargetReached());
-        stateMachine.AddTransition(Exit, Destroy, _ => IsExitFinished());
         stateMachine.AddTransitionFromAny(new Transition("", Hit, t => IsHit()));
         stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
         stateMachine.AddTransition(Scared, Exit, _ => IsScaredFinished());
@@ -87,23 +79,13 @@ public class Rat : MonoBehaviour
         }
     }
 
-    private void OnDestroyLogic()
-    {
-        if (CurrentState != Destroy)
-        {
-
-        }
-        CurrentState = Destroy;
-        GameObject.Destroy(this.gameObject);
-    }
-
     private void OnExitLogic()
     {
-        if(CurrentState != Exit)
-        {
-
-        }
         CurrentState = Exit;
+        if (CheckIfDestinationReached())
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 
     private void OnScaredLogic()
@@ -134,7 +116,15 @@ public class Rat : MonoBehaviour
     //Condition check for state transitions
     private bool IsTargetReached()
     {
-        return CheckIfDestinationReached();
+        if(CurrentState == TargetSpotted && CheckIfDestinationReached())
+        {
+            isScared = true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private bool IsHitFinished()
@@ -148,11 +138,6 @@ public class Rat : MonoBehaviour
             return true;
         else
             return false;
-    }
-
-    private bool IsExitFinished()
-    {
-        return CheckIfDestinationReached();
     }
 
     private bool IsFoodItemFound()
@@ -171,8 +156,6 @@ public class Rat : MonoBehaviour
                 }
             }
         }
-        
-
         return false;
     }
 
@@ -199,7 +182,7 @@ public class Rat : MonoBehaviour
 
     private void Awake()
     {
-        layerMask = LayerMask.GetMask("Ingredient");
+        layerMask = LayerMask.GetMask("UI");
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
