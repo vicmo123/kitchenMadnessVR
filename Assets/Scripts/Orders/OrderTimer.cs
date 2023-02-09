@@ -49,7 +49,6 @@ public class OrderTimer : MonoBehaviour
 
     public void TimerWentOut()
     {
-        //order.TimerIsUp = true;
         TimerIstOut.Invoke();
     }
     public Color GetColor()
