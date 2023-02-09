@@ -31,7 +31,7 @@ public class Taco : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-
+        
     }
 
     public void AddIngredient(Toppingable ingredient) {
@@ -108,4 +108,7 @@ public class Taco : MonoBehaviour
         return mixedIngredients;
     }
 
+    public Ingredients SendTaco() {
+        return Ingredients.Tortilla | Ingredients.Meat;
+    }
 }

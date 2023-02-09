@@ -10,6 +10,8 @@ public class IngredientReceiver : MonoBehaviour
     public delegate void ReceiverDelegate(Toppingable ingredient);
     public ReceiverDelegate receiverDelegate;
 
+    [HideInInspector] public bool ready = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +32,10 @@ public class IngredientReceiver : MonoBehaviour
         if (ingredients.Count == MAX_INGREDIENTS) {
             return;
         }
-        if (ingredient.isInIngredientReceiver) {
+        if (HasTypeOfIngredient(ingredient.ingredientType)) {
             return;
         }
-        if (HasTypeOfIngredient(ingredient.ingredientType)) {
+        if (!this.ready | !ingredient.ready) {
             return;
         }
 

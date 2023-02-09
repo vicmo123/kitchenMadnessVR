@@ -8,11 +8,13 @@ public class Toppingable : MonoBehaviour
     public Taco.Ingredients ingredientType;
     Rigidbody rb;
 
+    [HideInInspector] public bool ready;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        isInIngredientReceiver = false;
+        ready = false;
     }
 
     // Update is called once per frame
@@ -22,7 +24,7 @@ public class Toppingable : MonoBehaviour
     }
 
     public void ReceivedInIngredientReceiver() {
-        isInIngredientReceiver = true;
+        ready = false;
     }
 
     public void RemoveRigidbody() {
