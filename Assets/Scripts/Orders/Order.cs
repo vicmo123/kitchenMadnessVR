@@ -108,6 +108,7 @@ public class Order : MonoBehaviour
         {
             SetOrderTimer(EASY_RECIPE_TIME);
         }
+
     }
 
     public void CrossOrder()
