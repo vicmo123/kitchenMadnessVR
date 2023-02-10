@@ -54,7 +54,7 @@ public class RatsManager : MonoBehaviour
     private void SpawnNewRat()
     {
         int chosenHoleIndex = Random.Range(0, (RatHoles.Length - 1));
-        RatHoles[chosenHoleIndex].InvokeSpawn();
+        RatHoles[chosenHoleIndex].InvokeSpawn().GetComponent<Rat>().ratManager = this;
     }
 
     private void ComputeTimePassedFactor()

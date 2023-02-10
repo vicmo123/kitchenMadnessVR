@@ -235,6 +235,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateStateMachine();
+        timer.UpdateTimer();
+        Debug.Log(timer.Elapsed);
     }
 
     public static IEnumerator WaitForFrames(int frameCount)
