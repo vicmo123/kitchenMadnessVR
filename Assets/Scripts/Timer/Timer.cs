@@ -9,11 +9,16 @@ public class Timer
 {
     #region chronometer
     public float StartTime;
-    public float Elapsed => Time.time - StartTime;
+    public float Elapsed { get; set; }
 
     public Timer()
     {
         StartTime = Time.time;
+    }
+
+    public void UpdateTimer()
+    {
+        Elapsed = Time.time - StartTime;
     }
 
     public void Reset()

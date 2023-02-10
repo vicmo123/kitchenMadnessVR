@@ -10,7 +10,7 @@ public class OrderTimer : MonoBehaviour
     private float timeDuration = 5;
     private float timeRemaining = 0;
     private float pourcentage = 100;
-    
+
     void Start()
     {
         color = Color.green;
@@ -26,8 +26,7 @@ public class OrderTimer : MonoBehaviour
     {
         timer.UpdateTimer();
         timeRemaining = timer.Timer;
-        Debug.Log(timeRemaining);
-         pourcentage = timeRemaining / timeDuration;
+        pourcentage = timeRemaining / timeDuration;
 
         if (pourcentage >= 70)
         {
@@ -50,7 +49,6 @@ public class OrderTimer : MonoBehaviour
 
     public void TimerWentOut()
     {
-        //order.TimerIsUp = true;
         TimerIstOut.Invoke();
     }
     public Color GetColor()

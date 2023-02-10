@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 #region Ingredients
-public enum Ingredients
+public enum IngredientEnum
 {
-    //sauce | cheese | pineapple | onion | meat | tortilla
-    // exemple : 100011 = taco that constains sauce + meat + tortilla
+    //pineapple | cheese | onion | sauce | meat | tortilla
+    // exemple : 100011 = taco that constains pineapple + meat + tortilla
 
     None = 0,	//must have a specified 0
     Tortilla = 1 << 0,	//1
     Meat = 1 << 1,	//2
-    Onion = 1 << 2,	//4
-    Pineapple = 1 << 3,	//8
+    Sauce = 1 << 2,	//4
+    Onion = 1 << 3,	//8
     Cheese = 1 << 4,	//16
-    Sauce = 1 << 5, //32  
+    Pineapple = 1 << 5, //32  
 
     BaseOfTaco = Tortilla | Meat,
-    EasyTaco = Tortilla | Meat | Onion,
+    EasyTaco = Tortilla | Meat | Sauce,
     HardCoreTaco = Tortilla | Meat | Onion | Pineapple | Cheese | Sauce,
 
     EasyIngredient = Sauce,
@@ -27,11 +27,19 @@ public enum Ingredients
 #endregion
 public class Order : MonoBehaviour
 {
+    const float EASY_RECIPE_TIME = 60.0f;
+    const float MEDIUM_RECIPE_TIME = 90.0f;
+    const float HARD_RECIPE_TIME = 120.0f;
+    const float HARDCORE_RECIPE_TIME = 140.0f;
+
     public BoardManager board;
     public GameObject orderTimerPrefab;
+    private float timeOfCreation;
+    public float TimeOfCreation { get => timeOfCreation; set => timeOfCreation = value; }
     private OrderTimer orderTimer;
-    private int orderIngredients = 0b111000;
+    private int recipe = 0b111000;
     private bool isInUse = false;
+
 
     private void Start()
     {
@@ -39,7 +47,9 @@ public class Order : MonoBehaviour
         orderTimer = go.GetComponent<OrderTimer>();
         orderTimer.SetOrder(this);
         orderTimer.TimerIstOut += () => { CrossOrder(); };
-        SetOrderTimer(5);
+        SetRecipeTime();
+
+        Debug.Log("Time of creation " + timeOfCreation);
         //Load Sprite Prefab of the tortilla and the meat
         //Load Prefab Sprite
         //OrderLostEvent += board.DoneWithOrder;
@@ -48,7 +58,7 @@ public class Order : MonoBehaviour
     public bool IsCorrespondingToOrder(int ingredients)
     {
         bool corresponding = false;
-        if ((orderIngredients | ingredients) == orderIngredients)
+        if ((recipe | ingredients) == recipe)
         {
             corresponding = true;
         }
@@ -62,25 +72,43 @@ public class Order : MonoBehaviour
 
     public void SetTacoIngredients(int ingredientsSerialized)
     {
-        orderIngredients = ingredientsSerialized;
+        recipe = ingredientsSerialized;
         //Load Sprite Prefabs Accordingly to the list of topings
     }
 
     public void SetOrderTimer(float duration)
-    {      
+    {
         orderTimer.SetDuration(duration);
     }
 
-    public void ComputeIngredientsInTime()
+    public void SetRecipeTime()
     {
         //sauce | cheese | pineapple | onion | meat | tortilla
         // exemple : 100011 = taco that constains sauce + meat + tortilla
         // tortilla + meat = 3
-        // tortilla + meat + onion = 7
-        // tortilla + meat + onion + sauce = 39
-        // tortilla + meat + onion + pineapple = 15
+        // tortilla + meat + sauce = 7
+        // tortilla + meat + onion + sauce = 15
+        // tortilla + meat + onion + cheese + sauce  = 31      
+        // tortilla + meat + onion + pineapple = 43
         // tortilla + meat + onion + pineapple + sauce  = 47
-        // tortilla + meat + onion + cheese + sauce  = 55
+
+        if (recipe > 7 & recipe < 30)
+        {
+            SetOrderTimer(MEDIUM_RECIPE_TIME);
+        }
+        else if (recipe > 30 & recipe < 59)
+        {
+            SetOrderTimer(HARD_RECIPE_TIME);
+        }
+        else if (recipe >= 60)
+        {
+            SetOrderTimer(HARDCORE_RECIPE_TIME);
+        }
+        else
+        {
+            SetOrderTimer(EASY_RECIPE_TIME);
+        }
+
     }
 
     public void CrossOrder()
@@ -88,7 +116,7 @@ public class Order : MonoBehaviour
         //if time is up for the order, the background goes red
         //and the order disapear.
         //TODO
-        Debug.Log("Taco : " + orderIngredients + " = Order crossed cause Timer went out!");
+        Debug.Log("Taco : " + recipe + " = Order crossed cause Timer went out!");
         board.LoseOneStar();
         board.DoneWithOrder(this);
         Reset();
@@ -105,13 +133,14 @@ public class Order : MonoBehaviour
     }
 
 
-    Ingredients AddIngredientToTaco(Ingredients taco, Ingredients topingToAdd)
+    IngredientEnum AddIngredientToTaco(IngredientEnum taco, IngredientEnum topingToAdd)
     {
         return taco | topingToAdd;
     }
 
     private void Reset()
     {
+        //TODO
     }
 
 }
