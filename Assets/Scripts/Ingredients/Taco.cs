@@ -7,8 +7,17 @@ using UnityEngine;
 
 public class Taco : MonoBehaviour
 {
+    // Pivots to get height depending on ingredients quantity
     public GameObject pivotLayer1;
     public GameObject pivotLayer2;
+
+    // Pivots to get x,z depending on ingredients quantity
+    public GameObject pivot2_1;
+    public GameObject pivot2_2;
+    public GameObject pivot3_1;
+    public GameObject pivot3_2;
+    public GameObject pivot3_3;
+
     public enum Ingredients
     {
         //tortilla | meat | onion | pineapple | cheese | sauce
@@ -71,14 +80,14 @@ public class Taco : MonoBehaviour
             }
 
             if (mixedToppingables == 2) {
-                tempIngredients[0].transform.localPosition = new Vector3(0, 0, .25f);
-                tempIngredients[1].transform.localPosition = new Vector3(0, 0, -.25f);
+                tempIngredients[0].transform.position = new Vector3(pivot2_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y, pivot2_1.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y, pivot2_2.transform.position.z);
             }
 
             if (mixedToppingables == 3) {
-                tempIngredients[0].transform.localPosition = new Vector3(-.25f, 0, 0);
-                tempIngredients[1].transform.localPosition = new Vector3(.15f, 0, -.2f);
-                tempIngredients[2].transform.localPosition = new Vector3(.15f, 0, .2f);
+                tempIngredients[0].transform.position = new Vector3(pivot3_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y, pivot3_1.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y, pivot3_2.transform.position.z);
+                tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y, pivot3_3.transform.position.z);
             }
 
             // INCLUDE SAUCE
