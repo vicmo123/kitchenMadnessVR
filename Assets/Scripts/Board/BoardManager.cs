@@ -64,11 +64,11 @@ public class BoardManager : MonoBehaviour
 
     Order GenerateToppings(Order order)
     {
-        int ingredients = (int)Ingredients.EasyTaco;
+        int ingredients = (int)IngredientEnum.EasyTaco;
         int result = UnityEngine.Random.Range(0, 2);
 
         //(first 1 min ) 
-        order.SetTacoIngredients((int)(Ingredients.BaseOfTaco | Ingredients.Sauce));
+        order.SetTacoIngredients((int)(IngredientEnum.BaseOfTaco | IngredientEnum.Sauce));
 
         // ( from 1 min to 4 minutes in the game )        
         if (elapsedTime > FIRST_STAGE_GAME & elapsedTime < SECOND_STAGE_GAME)
@@ -101,7 +101,7 @@ public class BoardManager : MonoBehaviour
             }
             else if (elapsedTime % 3 == 0)
             {
-                ingredients = (int)Ingredients.HardCoreTaco;
+                ingredients = (int)IngredientEnum.HardCoreTaco;
             }
             else if (elapsedTime % 4 == 0)
             {
@@ -118,36 +118,36 @@ public class BoardManager : MonoBehaviour
         return order;
     }
 
-    private Ingredients GetEasyRecipe()
+    private IngredientEnum GetEasyRecipe()
     {
-        Ingredients ingredients = Ingredients.EasyTaco | Ingredients.Sauce;
+        IngredientEnum ingredients = IngredientEnum.EasyTaco | IngredientEnum.Sauce;
 
         if (elapsedTime % 2 == 0)
         {
-            ingredients = Ingredients.EasyTaco;
+            ingredients = IngredientEnum.EasyTaco;
         }
 
         return ingredients;
     }
 
-    private Ingredients GetMediumRecipe()
+    private IngredientEnum GetMediumRecipe()
     {
-        Ingredients ingredients = Ingredients.EasyTaco | Ingredients.Cheese;
+        IngredientEnum ingredients = IngredientEnum.EasyTaco | IngredientEnum.Cheese;
 
         if (elapsedTime % 2 == 0)
         {
-            ingredients = Ingredients.EasyTaco | Ingredients.Pineapple;
+            ingredients = IngredientEnum.EasyTaco | IngredientEnum.Pineapple;
         }
         return ingredients;
     }
 
-    private Ingredients GetHardRecipe()
+    private IngredientEnum GetHardRecipe()
     {
-        Ingredients ingredients = Ingredients.EasyTaco | Ingredients.Cheese | Ingredients.Sauce;
+        IngredientEnum ingredients = IngredientEnum.EasyTaco | IngredientEnum.Cheese | IngredientEnum.Sauce;
 
         if (elapsedTime % 2 == 0)
         {
-            ingredients = Ingredients.EasyTaco | Ingredients.Pineapple | Ingredients.Sauce;
+            ingredients = IngredientEnum.EasyTaco | IngredientEnum.Pineapple | IngredientEnum.Sauce;
         }
         return ingredients;
     }
@@ -157,7 +157,7 @@ public class BoardManager : MonoBehaviour
         GameObject order = GameObject.Instantiate(prefabOrder, this.transform);
         Order firstOrder = order.GetComponent<Order>();
 
-        firstOrder.SetTacoIngredients((int)Ingredients.EasyTaco);
+        firstOrder.SetTacoIngredients((int)IngredientEnum.EasyTaco);
         firstOrder.SetInUse(true);
         firstOrder.TimeOfCreation = ElapsedTime;
 
@@ -171,11 +171,11 @@ public class BoardManager : MonoBehaviour
         UpdateUI();
     }
 
-    int TacoToInt(params Ingredients[] ingredients)
+    int TacoToInt(params IngredientEnum[] ingredients)
     {
-        Ingredients taco = Ingredients.Tortilla | Ingredients.Meat;
+        IngredientEnum taco = IngredientEnum.Tortilla | IngredientEnum.Meat;
 
-        foreach (Ingredients ingredient in ingredients)
+        foreach (IngredientEnum ingredient in ingredients)
         {
             taco = taco | ingredient;
         }

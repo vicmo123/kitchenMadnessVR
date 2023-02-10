@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 #region Ingredients
-public enum Ingredients
+public enum IngredientEnum
 {
     //pineapple | cheese | onion | sauce | meat | tortilla
-    // exemple : 100011 = taco that constains pineappl + meat + tortilla
+    // exemple : 100011 = taco that constains pineapple + meat + tortilla
 
     None = 0,	//must have a specified 0
     Tortilla = 1 << 0,	//1
@@ -133,7 +133,7 @@ public class Order : MonoBehaviour
     }
 
 
-    Ingredients AddIngredientToTaco(Ingredients taco, Ingredients topingToAdd)
+    IngredientEnum AddIngredientToTaco(IngredientEnum taco, IngredientEnum topingToAdd)
     {
         return taco | topingToAdd;
     }
