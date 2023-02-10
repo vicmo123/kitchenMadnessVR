@@ -117,7 +117,13 @@ public class GameManager : MonoBehaviour
         else
             return false;
     }
-
+    private bool IsEndRoundFinished()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            return true;
+        else
+            return false;
+    }
     private bool IsRestartRoundFinished()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -164,7 +170,7 @@ public class GameManager : MonoBehaviour
 
     private void OnUpdateRoundLogic()
     {
-        CurrentState = UpdateRound;
+        boardManager.ElapsedTime = timer.Elapsed;
         Debug.Log("UpdateRound");
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -199,8 +205,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+   
+
     //Game object links
     public RatsManager rats;
+    public BoardManager boardManager;
 
     //GameFlow variables
     [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
@@ -226,6 +235,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateStateMachine();
+        timer.UpdateTimer();
+        Debug.Log(timer.Elapsed);
     }
 
     public static IEnumerator WaitForFrames(int frameCount)
