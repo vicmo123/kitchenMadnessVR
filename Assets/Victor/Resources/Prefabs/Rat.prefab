@@ -115,11 +115,14 @@ MonoBehaviour:
   agent: {fileID: 0}
   walkSpeed: 3.5
   chaseSpeed: 10
+  scaredSpeed: 35
   walkRadius: 10
-  ChaseDistance: 15
   sightLenght: 10
-  sightRadius: 3
+  sightRadius: 1
   isScared: 0
+  objectPickedUp: 0
+  isBored: 0
+  layerMask: 0
 --- !u!195 &2655391109156742401
 NavMeshAgent:
   m_ObjectHideFlags: 0

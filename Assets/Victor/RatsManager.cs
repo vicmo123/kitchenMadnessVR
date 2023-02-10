@@ -54,7 +54,7 @@ public class RatsManager : MonoBehaviour
     private void SpawnNewRat()
     {
         int chosenHoleIndex = Random.Range(0, (RatHoles.Length - 1));
-        RatHoles[chosenHoleIndex].InvokeSpawn();
+        RatHoles[chosenHoleIndex].InvokeSpawn().GetComponent<Rat>().ratManager = this;
     }
 
     private void ComputeTimePassedFactor()
@@ -69,22 +69,5 @@ public class RatsManager : MonoBehaviour
             timePassedFactor = 0.6f;
         else if (timeElapsedRound > 300.0f)
             timePassedFactor = 0.5f;
-    }
-
-    private Vector3 FindClosestExit(Vector3 ratCurrentPosition)
-    {
-        Vector3 closestExit = Vector3.zero;
-        float minDist = Mathf.Infinity;
-        Vector3 currentPos = ratCurrentPosition;
-        foreach (Spawner exit in RatHoles)
-        {
-            float dist = Vector3.Distance(exit.transform.position, currentPos);
-            if (dist < minDist)
-            {
-                closestExit = exit.transform.position;
-                minDist = dist;
-            }
-        }
-        return closestExit;
     }
 }
