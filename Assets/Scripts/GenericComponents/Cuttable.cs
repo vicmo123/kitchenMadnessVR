@@ -30,18 +30,19 @@ class CutInfo
 public class Cuttable : MonoBehaviour
 {
     private Rigidbody rb;
-    private Dictionary<string, Cuttable> childrenWedge;
     private MeshRenderer[] childrenMeshRenderers;
+    private GameObject[,,] wedges;
     
     //triggers that span a plane intersects the object for each axis
     private BoxCollider horizontalCuttingTrigger;
     private BoxCollider verticalCuttingTriggerX;
     private BoxCollider verticalCuttingTriggerZ;
+
     
     //used to divide the width of the collider
-    public float colliderWidthModifier = 6;
-    
-    public float triggerValidZoneSize = .5f;
+    public float colliderWidthModifier = 4;
+    private int numberOfCuts;
+   
 
     CutInfo cut;
 
@@ -51,11 +52,13 @@ public class Cuttable : MonoBehaviour
         //get and cache requiered components
         rb = GetComponent<Rigidbody>();
         childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-        Cuttable[] childrenWedges = GetComponentsInChildren<Cuttable>();
+        InitializeWedgeArray();
+        //Initialize Variables
         cut = new CutInfo();
-        //Check if components have CuttableComponent
+        cut.state = CuttingState.NotCutting;
+        numberOfCuts = 0;
 
-
+        //Check if components have CuttableComponent    
 
         CreateTriggerZones();
     }
@@ -63,7 +66,6 @@ public class Cuttable : MonoBehaviour
     public void tryCut(RaycastHit hit)
     {
         //transform the normal and point from worldspace to localspace
-        Vector3 normal = transform.InverseTransformVector(hit.normal);
         Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
         
         switch (cut.state)
@@ -72,27 +74,31 @@ public class Cuttable : MonoBehaviour
                 goto case CuttingState.StartCut;
             case CuttingState.StartCut:
                 //get cut info from the raycast
-
                 cut.entryPoint = hitPoint;
                 cut.exitPoint = hitPoint;
-                cut.cutPointNormal = normal;
+                cut.cutPointNormal = hit.normal;
                 cut.currentCollider = hit.collider;
-                cut.minimumCutDistance = getMinimumCutDistance(cut.currentCollider, normal);
+                cut.minimumCutDistance = getMinimumCutDistance(cut.currentCollider, hit.normal);
                 //start the cut
                 cut.state = CuttingState.IsCutting;
                 break;
             case CuttingState.IsCutting:
+                Debug.Log(cut.state);
                 // detect if the face of the object we are cutting change, or if we exited the current collider and hit another
-                if (cut.cutPointNormal != normal || !hit.collider.Equals(cut.currentCollider))
+                if (cut.cutPointNormal != hit.normal)
                 {
                     cut.state = CuttingState.StartCut;
                     break;
                 }
+                
                 cut.exitPoint = hitPoint;
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
-
                 if (distance >= cut.minimumCutDistance)
+                {
+                    Debug.Log("has cut");
                     cut.state = CuttingState.StoppedCutting;
+                    ProcessCut();
+                }
                 break;
             case CuttingState.StoppedCutting:
                 //erase information of the cut
@@ -102,26 +108,49 @@ public class Cuttable : MonoBehaviour
         }
     }
 
+    private void ProcessCut()
+    {
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        cut = new();
+        cut.state = CuttingState.NotCutting;
+    }
+
     private float getMinimumCutDistance(Collider collider, Vector3 normal)
     {
         if (normal.x == 1 || normal.x == -1)
-            return collider.Equals(verticalCuttingTriggerX) ? collider.bounds.size.y / 2: collider.bounds.size.z / 2;
+            return collider.Equals(verticalCuttingTriggerX) ? collider.bounds.size.y : collider.bounds.size.z ;
         if (normal.z == 1 || normal.z == -1)                                  
-            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.y / 2: collider.bounds.size.x / 2;
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.y : collider.bounds.extents.x ;
         if (normal.y == 1 || normal.y == -1)                                  
-            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z / 2 : collider.bounds.size.x / 2;
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z : collider.bounds.size.x ;
         return 0;
     }
     private void debuggCheckCollider(Collider collider)
     {
         if (collider.Equals(horizontalCuttingTrigger))
-            Debug.Log("HorizontalTrigger");
+        {
+            foreach (MeshRenderer renderer in childrenMeshRenderers)
+                renderer.material.color = Color.green;
+            Debug.Log("Horizontal Collider");
+        }
         else if (collider.Equals(verticalCuttingTriggerX))
-            Debug.Log("VerticalTriggerX");
+        {
+            foreach (MeshRenderer renderer in childrenMeshRenderers)
+                renderer.material.color = Color.red;
+            Debug.Log("Vertical collider X");
+        }
         else if (collider.Equals(verticalCuttingTriggerZ))
-            Debug.Log("VerticalTriggerZ");
+        {
+            foreach (MeshRenderer renderer in childrenMeshRenderers)
+                renderer.material.color = Color.blue;
+            Debug.Log("Vertical Collider Z");
+        }
+        
     }
-
     //Function that creates three trigger zones in each axis of the cuttable game object to detect for cut
     void CreateTriggerZones()
     {
@@ -148,5 +177,19 @@ public class Cuttable : MonoBehaviour
         verticalCuttingTriggerX.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y), (bounds.extents.z * 2 / transform.localScale.z) / colliderWidthModifier);
         verticalCuttingTriggerZ.size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
     
+    }
+    void InitializeWedgeArray()
+    { 
+        int index = 0;
+        for (int y = 0; y <= 1; y++)
+        {
+            for (int x = 0; x <= 1; x++)
+            {
+                for (int z = 0; z <= 1; z++)
+                {
+                    wedges[x,y,z] = childrenMeshRenderers[index++].gameObject;
+                }
+            }
+        }
     }
 }
