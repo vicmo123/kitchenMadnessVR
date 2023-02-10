@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 275001518}
   m_Layer: 0
   m_Name: RatHoleSpawner (3)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 479286374}
   m_Layer: 0
   m_Name: RatHoleSpawner (2)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rats: {fileID: 793992427}
+  boardManager: {fileID: 0}
   timeBeforeRoundStarts: 3
   maxNumberOfStars: 5
 --- !u!114 &793992427
@@ -538,7 +539,7 @@ GameObject:
   - component: {fileID: 1141207087}
   m_Layer: 0
   m_Name: RatHoleSpawner
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -905,7 +906,7 @@ GameObject:
   - component: {fileID: 1904522887}
   m_Layer: 0
   m_Name: RatHoleSpawner (1)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
