@@ -8,198 +8,27 @@ using UnityEngine.AI;
 
 public class Rat : MonoBehaviour
 {
-    #region StateMachine
-    public static string CurrentState;
-
-    //States
-    public const string Walk = "Walk";
-    public const string TargetSpotted = "TargetSpotted";
-    public const string Hit = "Hit";
-    public const string Scared = "Scared";
-    public const string Exit = "Exit";
-    public const string Destroy = "Destroy";
-
-    //OnEnter
-    public Action OnWalkEnter = () => { };
-    public Action OnTargetSpottedEnter = () => { };
-    public Action OnHitEnter = () => { };
-    public Action OnScaredEnter = () => { };
-    public Action OnExitEnter = () => { };
-    public Action OnDestroyEnter = () => { };
-
-    //OnExit
-    public Action OnWalkExit = () => { };
-    public Action OnTargetSpottedExit = () => { };
-    public Action OnHitExit = () => { };
-    public Action OnScaredExit = () => { };
-    public Action OnExitExit = () => { };
-    public Action OnDestroyExit = () => { };
-
-    public StateMachine stateMachine;
-
-    public void InitStateMachine()
-    {
-        stateMachine = new StateMachine();
-
-        stateMachine.AddState(Walk, new State(
-            onEnter: _ => OnWalkEnter.Invoke(),
-            onLogic: _ => OnWalkLogic(),
-            onExit: _ => OnWalkExit.Invoke()));
-        stateMachine.AddState(TargetSpotted, new State(
-            onEnter: _ => OnTargetSpottedEnter.Invoke(),
-            onLogic: _ => OnTargetSpottedLogic(),
-            onExit: _ => OnTargetSpottedExit.Invoke()));
-        stateMachine.AddState(Hit, new State(
-            onEnter: _ => OnHitEnter.Invoke(),
-            onLogic: _ => OnHitLogic(),
-            onExit: _ => OnHitExit.Invoke()));
-        stateMachine.AddState(Scared, new State(
-            onEnter: _ => OnScaredEnter.Invoke(),
-            onLogic: _ => OnScaredLogic(),
-            onExit: _ => OnScaredExit.Invoke()));
-        stateMachine.AddState(Exit, new State(
-            onEnter: _ => OnExitEnter.Invoke(),
-            onLogic: _ => OnExitLogic(),
-            onExit: _ => OnExitExit.Invoke()));
-        stateMachine.AddState(Destroy, new State(
-            onEnter: _ => OnDestroyEnter.Invoke(),
-            onLogic: _ => OnDestroyLogic(),
-            onExit: _ => OnDestroyExit.Invoke()));
-
-        stateMachine.AddTransition(Walk, TargetSpotted, _ => IsFoodItemFound());
-        stateMachine.AddTransition(TargetSpotted, Exit, _ => IsTargetReached());
-        stateMachine.AddTransition(Exit, Destroy, _ => IsExitFinished());
-        stateMachine.AddTransitionFromAny(new Transition("", Hit, t => IsHit()));
-        stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
-        stateMachine.AddTransition(Scared, Exit, _ => IsScaredFinished());
-
-        stateMachine.SetStartState(Walk);
-        stateMachine.Init();
-    }
-
-
-    private void OnWalkLogic()
-    {
-        CurrentState = Walk;
-        if (CheckIfDestinationReached())
-        {
-            agent.SetDestination(GenerateRandomNavMeshPos());
-        }
-    }
-
-    private void OnDestroyLogic()
-    {
-        if (CurrentState != Destroy)
-        {
-
-        }
-        CurrentState = Destroy;
-        GameObject.Destroy(this.gameObject);
-    }
-
-    private void OnExitLogic()
-    {
-        if(CurrentState != Exit)
-        {
-
-        }
-        CurrentState = Exit;
-    }
-
-    private void OnScaredLogic()
-    {
-        CurrentState = Scared;
-        agent.SetDestination(new Vector3(0, 0.0f, 0));
-        agent.speed = 100.0f;
-    }
-
-    private void OnHitLogic()
-    {
-        CurrentState = Hit;
-        isScared = true;
-    }
-
-    private void OnTargetSpottedLogic()
-    {
-        CurrentState = TargetSpotted;
-        agent.speed = chaseSpeed;
-    }
-
-    public void UpdateStateMachine()
-    {
-        stateMachine.OnLogic();
-        Debug.Log(CurrentState);
-    }
-
-    //Condition check for state transitions
-    private bool IsTargetReached()
-    {
-        return CheckIfDestinationReached();
-    }
-
-    private bool IsHitFinished()
-    {
-        return isScared;
-    }
-
-    private bool IsScaredFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            return true;
-        else
-            return false;
-    }
-
-    private bool IsExitFinished()
-    {
-        return CheckIfDestinationReached();
-    }
-
-    private bool IsFoodItemFound()
-    {
-        if(CurrentState == Walk)
-        {
-            RaycastHit[] sphereCastHits = Physics.SphereCastAll(transform.position, 3.0f, transform.forward, sightLenght, layerMask);
-
-            for (int i = 0; i < sphereCastHits.Length; i++)
-            {
-                if (sphereCastHits[i].collider.gameObject.tag == "Player")
-                {
-                    Debug.Log("Hit");
-                    agent.SetDestination(sphereCastHits[i].transform.position);
-                    return true;
-                }
-            }
-        }
-        
-
-        return false;
-    }
-
-    private bool IsHit()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-            return true;
-        else
-            return false;
-    }
-    #endregion
-
     #region AiData
     [HideInInspector] public NavMeshAgent agent;
     [Range(0, 100)] public float walkSpeed;
     [Range(0, 100)] public float chaseSpeed;
+    [Range(0, 100)] public float scaredSpeed;
     [Range(1, 500)] public float walkRadius;
-    [Range(0, 100)] public float ChaseDistance;
     [Range(1, 20)] public float sightLenght;
     [Range(1, 20)] public float sightRadius;
-    [HideInInspector] public bool isScared;
-    int layerMask;
+    [HideInInspector] public bool isScared = false;
+    [HideInInspector] public bool objectPickedUp = false;
+    [HideInInspector] public bool isBored = false;
+    [HideInInspector] public int layerMask;
+    [HideInInspector] public RatsManager ratManager { get; set; } = null;
     #endregion
+
+    private RatStateMachine ratStateMachine;
 
     private void Awake()
     {
-        layerMask = LayerMask.GetMask("Ingredient");
+        ratStateMachine = new RatStateMachine(this, 10.0f);
+        layerMask = LayerMask.GetMask("Food");
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
@@ -210,15 +39,15 @@ public class Rat : MonoBehaviour
 
     private void Start()
     {
-        InitStateMachine();
+        ratStateMachine.InitStateMachine();
     }
 
     private void Update()
     {
-        UpdateStateMachine();
+        ratStateMachine.UpdateStateMachine();
     }
 
-    private Vector3 GenerateRandomNavMeshPos()
+    public Vector3 GenerateRandomNavMeshPos()
     {
         Vector3 finalPosition = Vector3.zero;
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * walkRadius;
@@ -230,7 +59,7 @@ public class Rat : MonoBehaviour
         return finalPosition;
     }
 
-    private bool CheckIfDestinationReached()
+    public bool CheckIfDestinationReached()
     {
         if (!agent.pathPending)
         {
@@ -243,5 +72,33 @@ public class Rat : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.SetParent(transform);
+            agent.SetDestination(FindClosestExit());
+            objectPickedUp = true;
+        }
+    }
+
+    public Vector3 FindClosestExit()
+    {
+        Transform bestExit = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach (Spawner exit in ratManager.RatHoles)
+        {
+            Vector3 directionToTarget = exit.transform.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                bestExit = exit.transform;
+            }
+        }
+        return bestExit.position;
     }
 }
