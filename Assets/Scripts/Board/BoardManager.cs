@@ -8,24 +8,25 @@ public class BoardManager : MonoBehaviour
     private const int FIRST_STAGE_GAME = 60;
     private const int SECOND_STAGE_GAME = 240;
     private const int THIRD_STAGE_GAME = 420;
-    //public Player player
+
     public BoardUI boardUI;
     public GameObject prefabOrder;
-
+    private Timer timer;
     private List<Order> orders = new List<Order>();
     const int NB_ORDERS_LIMIT = 5;
-    int nbOrdersDisplayed = 1;
+    int nbActiveOrder = 1;
     private float elapsedTime;
     public float ElapsedTime { get => elapsedTime; set => elapsedTime = value; }
 
     Action RemoveOrder;
+    Action BoardEmpty;
 
 
     private void Awake()
     {
+        timer = new Timer();
         InitialiseList();
     }
-
 
     void InitialiseList()
     {
@@ -37,6 +38,7 @@ public class BoardManager : MonoBehaviour
             Order order = go.GetComponent<Order>();
             order.SetInUse(false);
             order = GenerateToppings(order);
+            order.TimeOfCreation = Time.time + i;
             orders.Add(order);
         }
 
@@ -44,34 +46,44 @@ public class BoardManager : MonoBehaviour
     }
 
 
-    private void Update()
+    public void Update()        
     {
-        //Order order = GenerateOrder();
-        //order.SetInUse(true);
+        elapsedTime = Time.time;
+        //Only one order left on the board, and almost done
+        if (nbActiveOrder == 1 && orders[0].IsAlmostOver())
+        {
+            Debug.Log("Timer almost Up on order at index : " + 0);
+            GenerateOrder();
+        }
     }
 
-    public void GenerateOrder(int index)
+    public void GenerateOrder()
     {
-        Order order = orders[index];
-        order = GenerateToppings(order);
-        order.SetInUse(true);
-        order.TimeOfCreation = ElapsedTime;
+        Debug.Log("Generating new order at index : " + nbActiveOrder);
+        orders[nbActiveOrder] = GenerateToppings(orders[nbActiveOrder]);
+        orders[nbActiveOrder].SetRecipeTime();
+        orders[nbActiveOrder].SetInUse(true);
+        orders[nbActiveOrder].TimeOfCreation = Time.time;
+        Debug.Log("Time of creation for order at index : " + nbActiveOrder + " :" + orders[nbActiveOrder].TimeOfCreation);
 
-        nbOrdersDisplayed++;
+        nbActiveOrder++;
         UpdateUI();
 
     }
 
     Order GenerateToppings(Order order)
     {
+        //Default Value
         int ingredients = (int)IngredientEnum.EasyTaco;
-        int result = UnityEngine.Random.Range(0, 2);
 
         //(first 1 min ) 
-        order.SetTacoIngredients((int)(IngredientEnum.BaseOfTaco | IngredientEnum.Sauce));
+        if (elapsedTime < FIRST_STAGE_GAME)
+        {
+            order.SetTacoIngredients((int)(IngredientEnum.BaseOfTaco | IngredientEnum.Sauce));
+        }
 
         // ( from 1 min to 4 minutes in the game )        
-        if (elapsedTime > FIRST_STAGE_GAME & elapsedTime < SECOND_STAGE_GAME)
+        else if (elapsedTime > FIRST_STAGE_GAME & elapsedTime < SECOND_STAGE_GAME)
         {
             ingredients = (int)GetEasyRecipe();
         }
@@ -103,7 +115,7 @@ public class BoardManager : MonoBehaviour
             {
                 ingredients = (int)IngredientEnum.HardCoreTaco;
             }
-            else if (elapsedTime % 4 == 0)
+            else if (elapsedTime % 5 == 0)
             {
                 ingredients = (int)GetMediumRecipe();
             }
@@ -114,6 +126,7 @@ public class BoardManager : MonoBehaviour
         }
 
         order.SetTacoIngredients(ingredients);
+        Debug.Log("Taco ingredients : " + ingredients);
 
         return order;
     }
@@ -159,23 +172,47 @@ public class BoardManager : MonoBehaviour
 
         firstOrder.SetTacoIngredients((int)IngredientEnum.EasyTaco);
         firstOrder.SetInUse(true);
-        firstOrder.TimeOfCreation = ElapsedTime;
+        firstOrder.TimeOfCreation = Time.time;
 
         orders.Add(firstOrder);
     }
 
     public void DoneWithOrder(Order order)
     {
-        order.SetInUse(false);
-        nbOrdersDisplayed--;
+        //find the index of this order in the list
+        int index = 0;
+        
+        for (int i = 0; i < orders.Count; i++)
+        {
+            if (orders[i].TimeOfCreation == order.TimeOfCreation)
+            {
+                index = i;
+                Debug.Log("DoneWithOrder function, found order index : " + index);
+                break;
+            }
+        }
+
+        //reorder the list 
+        while (index + 1 < orders.Count && orders[index + 1].GetIsInUse())
+        {
+            Swap<Order>(orders, index, index + 1);
+            index = index ++;
+        }
+
+        for (int i = 0; i < orders.Count; i++)
+        {
+            Debug.Log("List ordered :" + i + " item active : " + orders[i].GetIsInUse() + "time " + orders[i].TimeOfCreation);
+        }
+       
+        nbActiveOrder--;
         UpdateUI();
     }
 
-    int TacoToInt(params IngredientEnum[] ingredients)
+    int TacoToInt(params IngredientEnum[] recipe)
     {
         IngredientEnum taco = IngredientEnum.Tortilla | IngredientEnum.Meat;
 
-        foreach (IngredientEnum ingredient in ingredients)
+        foreach (IngredientEnum ingredient in recipe)
         {
             taco = taco | ingredient;
         }
@@ -202,5 +239,12 @@ public class BoardManager : MonoBehaviour
     {
         //TODO
         Debug.Log("Lose one star, oh no!");
+    }
+
+    public static void Swap<T>(IList<T> list, int indexA, int indexB)
+    {
+        T tmp = list[indexA];
+        list[indexA] = list[indexB];
+        list[indexB] = tmp;
     }
 }

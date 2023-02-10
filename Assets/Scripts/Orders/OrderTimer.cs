@@ -10,11 +10,14 @@ public class OrderTimer : MonoBehaviour
     private float timeDuration = 5;
     private float timeRemaining = 0;
     private float pourcentage = 100;
-
+    private void Awake()
+    {
+        timer = new CountDownTimer(timeDuration, false);        
+    }
     void Start()
     {
         color = Color.green;
-        timer = new CountDownTimer(timeDuration, false);
+
         if (order.GetIsInUse())
         {
             timer.StartTimer();
@@ -39,7 +42,7 @@ public class OrderTimer : MonoBehaviour
         else if (pourcentage < 40)
         {
             color = Color.red;
-        }
+        }    
     }
 
     public void SetDuration(float duration)
@@ -59,5 +62,15 @@ public class OrderTimer : MonoBehaviour
     public void SetOrder(Order orderInBoard)
     {
         order = orderInBoard;
+    }
+
+    public float GetTimeLeft()
+    {
+        return timeRemaining;
+    }
+
+    public void StartTimer()
+    {
+        timer.StartTimer();
     }
 }

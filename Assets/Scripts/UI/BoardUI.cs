@@ -22,10 +22,6 @@ public class BoardUI : MonoBehaviour
             orders.Add(order);
             Debug.Log("updatedList : " + updatedList.Count);
         }
-        foreach (Order order in orders)
-        {
-            Debug.Log("orders : " + orders.Count);
-        }
     }
     void Update()
     {

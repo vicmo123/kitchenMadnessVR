@@ -27,10 +27,11 @@ public enum IngredientEnum
 #endregion
 public class Order : MonoBehaviour
 {
-    const float EASY_RECIPE_TIME = 60.0f;
-    const float MEDIUM_RECIPE_TIME = 90.0f;
-    const float HARD_RECIPE_TIME = 120.0f;
-    const float HARDCORE_RECIPE_TIME = 140.0f;
+    const float EASY_RECIPE_TIME = 6.0f;
+    const float MEDIUM_RECIPE_TIME = 8.0f;
+    const float HARD_RECIPE_TIME = 10.0f;
+    const float HARDCORE_RECIPE_TIME = 12.0f;
+    const float ALMOST_OVER_TIME = 2;
 
     public BoardManager board;
     public GameObject orderTimerPrefab;
@@ -39,17 +40,21 @@ public class Order : MonoBehaviour
     private OrderTimer orderTimer;
     private int recipe = 0b111000;
     private bool isInUse = false;
+    private bool almostOver = false;
 
-
-    private void Start()
+    private void Awake()
     {
         GameObject go = GameObject.Instantiate(orderTimerPrefab, this.transform);
         orderTimer = go.GetComponent<OrderTimer>();
+    }
+
+    private void Start()
+    {
+        
         orderTimer.SetOrder(this);
         orderTimer.TimerIstOut += () => { CrossOrder(); };
         SetRecipeTime();
-
-        Debug.Log("Time of creation " + timeOfCreation);
+        
         //Load Sprite Prefab of the tortilla and the meat
         //Load Prefab Sprite
         //OrderLostEvent += board.DoneWithOrder;
@@ -67,7 +72,11 @@ public class Order : MonoBehaviour
 
     private void Update()
     {
-
+        float timeLeft = orderTimer.GetTimeLeft();
+        if(timeLeft <= ALMOST_OVER_TIME)
+        {
+            almostOver = true;
+        }
     }
 
     public void SetTacoIngredients(int ingredientsSerialized)
@@ -79,6 +88,7 @@ public class Order : MonoBehaviour
     public void SetOrderTimer(float duration)
     {
         orderTimer.SetDuration(duration);
+        orderTimer.StartTimer();
     }
 
     public void SetRecipeTime()
@@ -108,7 +118,6 @@ public class Order : MonoBehaviour
         {
             SetOrderTimer(EASY_RECIPE_TIME);
         }
-
     }
 
     public void CrossOrder()
@@ -138,9 +147,16 @@ public class Order : MonoBehaviour
         return taco | topingToAdd;
     }
 
-    private void Reset()
+    public void Reset()
     {
         //TODO
+        isInUse = false;
+        almostOver = false;        
+    }
+
+    public bool IsAlmostOver()
+    {
+        return almostOver;
     }
 
 }
