@@ -16,10 +16,13 @@ public class Cutter : MonoBehaviour
     public void ObjectCutter()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cutterPosition.position, -(cutterPosition.forward), 0.4f, LayerMask.GetMask("Cuttables")))
+        if (Physics.Raycast(cutterPosition.position, -(cutterPosition.forward), out hit, 0.4f, LayerMask.GetMask("Cuttable")))
         {
-            Debug.Log("Ingredient cut");
-            //Fucntion call for spliting the ingredient object;
+            Cuttable cuttable = hit.collider.gameObject.GetComponent<Cuttable>();
+            if (cuttable != null)
+            {
+                cuttable.tryCut(hit);
+            }
         }
     }
 }

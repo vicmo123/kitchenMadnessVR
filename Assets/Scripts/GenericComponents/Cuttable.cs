@@ -11,12 +11,14 @@ public enum ColliderPlane { XY, XZ, YZ}
 
 class CutInfo
 {
-    public Vector3 entryPoint;
-    public Vector3 exitPoint;
-    public CuttingState state;
-    public Vector3 cutPointNormal;
-    public float minimumCutDistance;
-    public Collider currentCollider;
+    //This class stores the information of a cut that is currently being made to the object
+
+    public Vector3 entryPoint; //the point where the cut started
+    public Vector3 exitPoint; //the last detected point
+    public CuttingState state; //the current state of the cut
+    public Vector3 cutPointNormal; //the normal of the current collider
+    public float minimumCutDistance; //the distance that we should travel in the object to register a cut
+    public Collider currentCollider; //the collider that initiated the cut
     public CutInfo()
     {
         entryPoint = Vector3.zero; exitPoint = Vector3.zero; state = CuttingState.NotCutting;
@@ -60,40 +62,40 @@ public class Cuttable : MonoBehaviour
 
     public void tryCut(RaycastHit hit)
     {
+        //transform the normal and point from worldspace to localspace
         Vector3 normal = transform.InverseTransformVector(hit.normal);
         Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
+        
         switch (cut.state)
         {
             case CuttingState.NotCutting:
-                cut.state = CuttingState.StartCut;
                 goto case CuttingState.StartCut;
             case CuttingState.StartCut:
-                Debug.Log(cut.state);
+                //get cut info from the raycast
+
                 cut.entryPoint = hitPoint;
                 cut.exitPoint = hitPoint;
                 cut.cutPointNormal = normal;
                 cut.currentCollider = hit.collider;
                 cut.minimumCutDistance = getMinimumCutDistance(cut.currentCollider, normal);
+                //start the cut
                 cut.state = CuttingState.IsCutting;
                 break;
             case CuttingState.IsCutting:
+                // detect if the face of the object we are cutting change, or if we exited the current collider and hit another
                 if (cut.cutPointNormal != normal || !hit.collider.Equals(cut.currentCollider))
                 {
                     cut.state = CuttingState.StartCut;
                     break;
                 }
                 cut.exitPoint = hitPoint;
-
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
-                if (distance >= cut.minimumCutDistance)
-                {
-                    Debug.Log("hasCut");
-                    cut.state = CuttingState.StoppedCutting;
-                }
 
+                if (distance >= cut.minimumCutDistance)
+                    cut.state = CuttingState.StoppedCutting;
                 break;
             case CuttingState.StoppedCutting:
-                Debug.Log(cut.state);
+                //erase information of the cut
                 cut = new();
                 cut.state = CuttingState.NotCutting;
                 break;
