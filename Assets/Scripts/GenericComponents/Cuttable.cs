@@ -1,7 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+
+
+public enum CuttingState { NotCutting, StartCut, IsCutting, ReachedCenter, StoppedCutting}
+public enum ColliderPlane { XY, XZ, YZ}
+
+class CutInfo
+{
+    //This class stores the information of a cut that is currently being made to the object
+
+    public Vector3 entryPoint; //the point where the cut started
+    public Vector3 exitPoint; //the last detected point
+    public CuttingState state; //the current state of the cut
+    public Vector3 cutPointNormal; //the normal of the current collider
+    public float minimumCutDistance; //the distance that we should travel in the object to register a cut
+    public Collider currentCollider; //the collider that initiated the cut
+    public CutInfo()
+    {
+        entryPoint = Vector3.zero; exitPoint = Vector3.zero; state = CuttingState.NotCutting;
+    }
+
+}
 
 [RequireComponent(typeof(Rigidbody))]
 public class Cuttable : MonoBehaviour
@@ -16,9 +39,12 @@ public class Cuttable : MonoBehaviour
     private BoxCollider verticalCuttingTriggerZ;
     
     //used to divide the width of the collider
-    public float colliderWidthModifier = 8;
-
+    public float colliderWidthModifier = 6;
+    
     public float triggerValidZoneSize = .5f;
+
+    CutInfo cut;
+
 
     private void Awake()
     {
@@ -26,47 +52,75 @@ public class Cuttable : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         Cuttable[] childrenWedges = GetComponentsInChildren<Cuttable>();
-
+        cut = new CutInfo();
         //Check if components have CuttableComponent
-        
-        
+
+
+
         CreateTriggerZones();
     }
 
     public void tryCut(RaycastHit hit)
     {
-        Bounds bound;
-        Bounds opositeBound;
+        //transform the normal and point from worldspace to localspace
+        Vector3 normal = transform.InverseTransformVector(hit.normal);
+        Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
         
-        GameObject testObject = Instantiate(gameObject);
-        testObject.transform.position = hit.point;
+        switch (cut.state)
+        {
+            case CuttingState.NotCutting:
+                goto case CuttingState.StartCut;
+            case CuttingState.StartCut:
+                //get cut info from the raycast
+
+                cut.entryPoint = hitPoint;
+                cut.exitPoint = hitPoint;
+                cut.cutPointNormal = normal;
+                cut.currentCollider = hit.collider;
+                cut.minimumCutDistance = getMinimumCutDistance(cut.currentCollider, normal);
+                //start the cut
+                cut.state = CuttingState.IsCutting;
+                break;
+            case CuttingState.IsCutting:
+                // detect if the face of the object we are cutting change, or if we exited the current collider and hit another
+                if (cut.cutPointNormal != normal || !hit.collider.Equals(cut.currentCollider))
+                {
+                    cut.state = CuttingState.StartCut;
+                    break;
+                }
+                cut.exitPoint = hitPoint;
+                float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
+
+                if (distance >= cut.minimumCutDistance)
+                    cut.state = CuttingState.StoppedCutting;
+                break;
+            case CuttingState.StoppedCutting:
+                //erase information of the cut
+                cut = new();
+                cut.state = CuttingState.NotCutting;
+                break;
+        }
     }
 
-    private void createValidBoundsInTrigger(Collider collider, out Bounds bound, out Bounds opositeBound)
+    private float getMinimumCutDistance(Collider collider, Vector3 normal)
     {
-        if (collider.Equals(verticalCuttingTriggerX))
-        {
-            Vector3 center = verticalCuttingTriggerX.bounds.center + new Vector3(verticalCuttingTriggerX.bounds.extents.x - triggerValidZoneSize, 0, 0);
-            Vector3 size = new Vector3(triggerValidZoneSize * 2, verticalCuttingTriggerX.bounds.extents.y * 2, verticalCuttingTriggerX.bounds.extents.z);
-            bound = new Bounds(center, size);
-            center = verticalCuttingTriggerX.bounds.center - new Vector3(verticalCuttingTriggerX.bounds.extents.x + triggerValidZoneSize, 0, 0);
-            opositeBound= new Bounds(center, size);
-        }
-        else if (collider.Equals(verticalCuttingTriggerZ))
-        {
-            Vector3 center = verticalCuttingTriggerZ.bounds.center + new Vector3(0, 0, verticalCuttingTriggerX.bounds.extents.z - triggerValidZoneSize);
-            Vector3 size = new Vector3(triggerValidZoneSize * 2, verticalCuttingTriggerX.bounds.extents.y * 2, verticalCuttingTriggerX.bounds.extents.z * 2);
-            bound = new Bounds(center, size);
-            center = verticalCuttingTriggerX.bounds.center - new Vector3(0, 0, verticalCuttingTriggerX.bounds.extents.z + triggerValidZoneSize);
-            opositeBound = new Bounds(center, size);
-        }
-        else
-        {
-            bound = new Bounds();
-            opositeBound = new Bounds(); 
-        }
+        if (normal.x == 1 || normal.x == -1)
+            return collider.Equals(verticalCuttingTriggerX) ? collider.bounds.size.y / 2: collider.bounds.size.z / 2;
+        if (normal.z == 1 || normal.z == -1)                                  
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.y / 2: collider.bounds.size.x / 2;
+        if (normal.y == 1 || normal.y == -1)                                  
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z / 2 : collider.bounds.size.x / 2;
+        return 0;
     }
-
+    private void debuggCheckCollider(Collider collider)
+    {
+        if (collider.Equals(horizontalCuttingTrigger))
+            Debug.Log("HorizontalTrigger");
+        else if (collider.Equals(verticalCuttingTriggerX))
+            Debug.Log("VerticalTriggerX");
+        else if (collider.Equals(verticalCuttingTriggerZ))
+            Debug.Log("VerticalTriggerZ");
+    }
 
     //Function that creates three trigger zones in each axis of the cuttable game object to detect for cut
     void CreateTriggerZones()
