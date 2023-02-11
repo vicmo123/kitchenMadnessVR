@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 4998736279119154389}
   - component: {fileID: 8328067443794719257}
   m_Layer: 0
-  m_Name: Rat 1
+  m_Name: Rat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,7 +561,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   walkSpeed: 3.5
   chaseSpeed: 10
-  scaredSpeed: 35
+  scaredSpeed: 15
   walkRadius: 10
   sightLenght: 10
   sightRadius: 1
@@ -569,7 +569,6 @@ MonoBehaviour:
   objectPickedUp: 0
   isBored: 0
   layerMask: 0
-  animCtrl: {fileID: 4114384154440210769}
 --- !u!54 &3544922460525757592
 Rigidbody:
   m_ObjectHideFlags: 0
