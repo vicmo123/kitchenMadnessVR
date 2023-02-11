@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransitionFromAny(new Transition("", RestartRound, t => (currentNumberOfStars <= 0)));
 
         OnUpdateRoundEnter += () => { timer.Reset(); };
-        //OnUpdateRoundEnter += () => { rats.StartRound(); };
-        //OnUpdateRoundExit += () => { rats.EndRound(); };
+        OnUpdateRoundEnter += () => { rats.StartRound(); };
+        OnUpdateRoundExit += () => { rats.EndRound(); };
 
         stateMachine.SetStartState(StartGame);
         stateMachine.Init();
@@ -122,8 +122,8 @@ public class GameManager : MonoBehaviour
         timer = new Timer();
     }
 
-    // Update is called once per frame
-    void Update()
+   
+    private void Update()
     {
         UpdateStateMachine();
         //Calculate the time elapsed since beginning of round will reset automaticlly when the round restarts
