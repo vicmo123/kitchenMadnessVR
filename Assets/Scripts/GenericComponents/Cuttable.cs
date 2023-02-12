@@ -52,7 +52,7 @@ public class Cuttable : MonoBehaviour
         //get and cache requiered components
         rb = GetComponent<Rigidbody>();
         childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-        InitializeWedgeArray();
+
         //Initialize Variables
         cut = new CutInfo();
         cut.state = CuttingState.NotCutting;
@@ -97,6 +97,7 @@ public class Cuttable : MonoBehaviour
                 {
                     Debug.Log("has cut");
                     cut.state = CuttingState.StoppedCutting;
+                    debuggCheckCollider(cut.currentCollider);
                     ProcessCut();
                 }
                 break;
