@@ -49,7 +49,7 @@ public class StartGameUi : MonoBehaviour
 
             if(Physics.Raycast(ray, out hit, 100))
             {
-                if (hit.collider.gameObject.CompareTag("Player"))
+                if (hit.collider.gameObject.CompareTag("UI"))
                 {
                     StartButtonClickedEvent.Invoke();
                     Debug.Log("Click");
