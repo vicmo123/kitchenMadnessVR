@@ -39,6 +39,8 @@ public class Cuttable : MonoBehaviour
     private BoxCollider verticalCuttingTriggerX;
     private BoxCollider verticalCuttingTriggerZ;
 
+    private SphereCollider physicsCollider;
+
     
     //used to divide the width of the collider
     public float colliderWidthModifier = 4;
@@ -117,7 +119,6 @@ public class Cuttable : MonoBehaviour
 
     private void ProcessCut(ColliderPlane colliderPlane)
     {
-        gameObject.SetActive(false);
         ArrayList leftHalf= new ArrayList();
         ArrayList rightHalf= new ArrayList();
         GameObject leftParent;
@@ -125,13 +126,18 @@ public class Cuttable : MonoBehaviour
         reParentCut(colliderPlane, ref leftHalf, ref rightHalf, out leftParent, out rightParent);
         setNewParent(leftParent.transform, leftHalf);
         setNewParent(rightParent.transform, rightHalf);
+
+        gameObject.SetActive(false);
         Cuttable leftCuttable = null;
         Cuttable right = null;
         Rigidbody leftRb = null;
         Rigidbody rightRb = null;
 
-        leftParent.AddComponent<BoxCollider>();
-        rightParent.AddComponent<BoxCollider>();
+        SphereCollider leftCollider = leftParent.AddComponent<SphereCollider>();
+        SphereCollider rightCollider = rightParent.AddComponent<SphereCollider>();
+        leftCollider.radius = gameObject.transform.localScale.y / 2;
+        rightCollider.radius = gameObject.transform.localScale.y / 2;
+
 
         leftRb = leftParent.AddComponent<Rigidbody>();
         rightRb = rightParent.AddComponent<Rigidbody>();
@@ -317,37 +323,37 @@ public class Cuttable : MonoBehaviour
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         leftHalf.Add(wedges[x, y, 1]);
-                leftParent.transform.position += new Vector3(0, .5f, -transform.position.z / 2);
+                //leftParent.transform.position += new Vector3(0, .5f, -transform.position.z / 2);
                 
 
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         rightHalf.Add(wedges[x, y, 0]);
-                rightParent.transform.position += new Vector3(0, .5f, transform.position.z / 2);
+                //rightParent.transform.position += new Vector3(0, .5f, transform.position.z / 2);
 
                 break;
             case ColliderPlane.XZ:
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int z = 0; z < wedges.GetLength(1); z++)
                         leftHalf.Add(wedges[x, 1, z]);
-                leftParent.transform.position += new Vector3(0, -transform.position.y, 0);
+                //leftParent.transform.position += new Vector3(0, transform.position.y / 2, 0);
 
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int z = 0; z < wedges.GetLength(1); z++)
                         rightHalf.Add(wedges[x, 0, z]);
-                rightParent.transform.position += new Vector3(0, transform.position.y, 0);
+                //rightParent.transform.position += new Vector3(0, -transform.position.y / 2, 0);
 
                 break;
             case ColliderPlane.YZ:
                 for (int z = 0; z < wedges.GetLength(0); z++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         leftHalf.Add(wedges[1, y, z]);
-                leftParent.transform.position += new Vector3(-transform.position.x / 2, .5f, 0);
+                //leftParent.transform.position += new Vector3(-transform.position.x / 2, .5f, 0);
 
                 for (int z = 0; z < wedges.GetLength(0); z++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         rightHalf.Add(wedges[0, y, z]);
-                rightParent.transform.position += new Vector3(transform.position.x / 2, .5f, 0);
+                //rightParent.transform.position += new Vector3(transform.position.x / 2, .5f, 0);
 
                 break;
             case ColliderPlane.None:
