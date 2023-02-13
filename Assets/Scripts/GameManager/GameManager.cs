@@ -64,15 +64,15 @@ public class GameManager : MonoBehaviour
             onLogic: _ => OnEndGameLogic(),
             onExit: _ => OnEndGameExit.Invoke()));
 
-        stateMachine.AddTransition(StartGame, SetupRound, _ => IsStartGameFinished());
-        stateMachine.AddTransition(SetupRound, StartRound, _ => IsSetupRoundFinished());
-        stateMachine.AddTransition(StartRound, UpdateRound, _ => IsStartRoundFinished());
-        stateMachine.AddTransition(UpdateRound, RestartRound, _ => IsRestartRoundFinished());
-        stateMachine.AddTransition(RestartRound, SetupRound, _ => IsRestartRoundFinished());
+        stateMachine.AddTransition(StartGame, SetupRound, _ => true);
+        stateMachine.AddTransition(SetupRound, StartRound, _ => isRoundActive);
+        stateMachine.AddTransition(StartRound, UpdateRound, _ => true);
+        stateMachine.AddTransition(RestartRound, SetupRound, _ => true);
         stateMachine.AddTransitionFromAny(new Transition("", EndGame, t => (IsEndGameRequested())));
         stateMachine.AddTransitionFromAny(new Transition("", RestartRound, t => (currentNumberOfStars <= 0)));
 
         OnUpdateRoundEnter += () => { timer.Reset(); };
+        OnUpdateRoundEnter += () => { ingredientSpawner.RoundStarting(); };
         OnUpdateRoundEnter += () => { rats.StartRound(); };
         OnUpdateRoundExit += () => { rats.EndRound(); };
 
@@ -83,55 +83,10 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
+        Debug.Log(CurrentState);
     }
 
     //Condition check for state transitions
-    private bool IsStartGameFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            return true;
-        else
-            return false;
-    }
-
-    private bool IsSetupRoundFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            return true;
-        else
-            return false;
-    }
-
-    private bool IsStartRoundFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            return true;
-        else
-            return false;
-    }
-
-    private bool IsUpdateRoundFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            return true;
-        else
-            return false;
-    }
-    private bool IsEndRoundFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            return true;
-        else
-            return false;
-    }
-    private bool IsRestartRoundFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            return true;
-        else
-            return false;
-    }
-
     private bool IsEndGameRequested()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -139,84 +94,21 @@ public class GameManager : MonoBehaviour
         else
             return false;
     }
-
-    //Logic for each state
-    private void OnStartGameLogic()
-    {
-        CurrentState = StartGame;
-        Debug.Log("StartGame");
-        //Initialise all the stuff for the game to work
-        //Posibility of main menu
-        //If UI when option is clicked, progress to next state
-    }
-
-    private void OnSetupRoundLogic()
-    {
-        CurrentState = SetupRound;
-        Debug.Log("SetupRound");
-        //Render the truck and kitchen environement with tools
-        //Player can move around the kitchen and mess around
-        //When the start button located on the window door is clicked, progress to next state
-    }
-
-    private void OnStartRoundLogic()
-    {
-        CurrentState = StartRound;
-        Debug.Log("StartRound");
-        //Initialise every thing for the current round
-        //When every thing is done, start three second timer with sound feedback.
-        //when timer is invoked, proceed to next state
-    }
-
-    private void OnUpdateRoundLogic()
-    {
-        boardManager.ElapsedTime = timer.Elapsed;
-        Debug.Log("UpdateRound");
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            currentNumberOfStars--;
-        }
-
-        rats.timeElapsedRound = timer.Elapsed;
-        
-        //Main game loop
-        //When the player is out of stars(lives), end the round
-    }
-
-    private void OnRestartRoundLogic()
-    {
-        CurrentState = RestartRound;
-        if (Input.GetKeyDown(KeyCode.P))
-            currentNumberOfStars = maxNumberOfStars;
-        Debug.Log("RestartRound");
-        //The player will have the option to start a new game with input
-        //If option to continue is chosen, will proceed to restart round
-        //Delete every thing
-        //Then proceed to startRound
-        //Will cycle until go to end game
-    }
-
-    private void OnEndGameLogic()
-    {
-        CurrentState = EndGame;
-        Debug.Log("endGame");
-        //Once you are here, you can go to another state
-        //Do necessary actions to end the game
-    }
     #endregion
-
-   
 
     //Game object links
     public RatsManager rats;
     public BoardManager boardManager;
+    public StartGameUi startGameUi;
+    public IngredientSpawner ingredientSpawner;
 
     //GameFlow variables
     [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
     private CountDownTimer countDownTimer;
     private Timer timer;
-    [SerializeField, Range(1, 10)]private int maxNumberOfStars = 5;
+    [SerializeField, Range(1, 10)] private int maxNumberOfStars = 5;
     public int currentNumberOfStars { get; private set; }
+    public bool isRoundActive { get; private set; }
 
     private void Awake()
     {
@@ -227,16 +119,91 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        startGameUi.StartButtonClickedEvent.AddListener(ActivateRound);
         countDownTimer = new CountDownTimer(3.0f, false);
         timer = new Timer();
     }
 
-    // Update is called once per frame
-    void Update()
+   
+    private void Update()
     {
         UpdateStateMachine();
+        //Calculate the time elapsed since beginning of round will reset automaticlly when the round restarts
         timer.UpdateTimer();
-        Debug.Log(timer.Elapsed);
+    }
+
+    private void ActivateRound()
+    {
+        isRoundActive = true;
+    }
+
+    //Logic for each state
+    private void OnStartGameLogic()
+    {
+        CurrentState = StartGame;
+        //Initialise all the stuff for the game to work
+        //Posibility of main menu
+        //If UI when option is clicked, progress to next state
+    }
+
+    private void OnSetupRoundLogic()
+    {
+        CurrentState = SetupRound;
+        //Render the truck and kitchen environement with tools
+        //Player can move around the kitchen and mess around
+        //When the start button located on the window door is clicked, progress to next state
+    }
+
+    private void OnStartRoundLogic()
+    {
+        CurrentState = StartRound;
+        //Initialise every thing for the current round
+        //When every thing is done, start three second timer with sound feedback.
+        //when timer is invoked, proceed to next state
+    }
+
+    private void OnUpdateRoundLogic()
+    {
+        CurrentState = UpdateRound;
+        //Main game loop
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            currentNumberOfStars--;
+        }
+
+        Debug.Log(currentNumberOfStars);
+
+        boardManager.ElapsedTime = timer.Elapsed;
+        rats.timeElapsedRound = timer.Elapsed;
+    }
+
+    private void OnRestartRoundLogic()
+    {
+        CurrentState = RestartRound;
+        currentNumberOfStars = maxNumberOfStars;
+        isRoundActive = false;
+        startGameUi.gameObject.SetActive(true);
+        startGameUi.ResetUi();
+
+        Debug.Log(currentNumberOfStars);
+
+        //The player will have the option to start a new game with input
+        //If option to continue is chosen, will proceed to restart round
+        //Delete every thing
+        //Then proceed to startRound
+        //Will cycle until go to end game
+    }
+
+    private void OnEndGameLogic()
+    {
+        CurrentState = EndGame;
+
+        //Once you are here, you cannot go to another state
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     public static IEnumerator WaitForFrames(int frameCount)
