@@ -9,6 +9,7 @@ using UnityEngine.AI;
 public class Rat : MonoBehaviour
 {
     #region AiData
+    public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
     [Range(0, 100)] public float walkSpeed;
     [Range(0, 100)] public float chaseSpeed;
@@ -53,7 +54,6 @@ public class Rat : MonoBehaviour
         float currentSpeed = agent.velocity.magnitude;
         currentSpeed = Mathf.Clamp(currentSpeed * 2.0f, 0, chaseSpeed);
         animCtrl.SetFloat("Speed", currentSpeed / chaseSpeed);
-        Debug.Log(currentSpeed / chaseSpeed);
     }
 
     public Vector3 GenerateRandomNavMeshPos()
@@ -61,10 +61,12 @@ public class Rat : MonoBehaviour
         Vector3 finalPosition = Vector3.zero;
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * walkRadius;
         randomDirection += transform.position;
+        Debug.Log(transform.name);
         if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius, 1))
         {
             finalPosition = hit.position;
         }
+        Debug.Log(finalPosition);
         return finalPosition;
     }
 

@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     private GameObject SpawnObject()
     {
         GameObject spawnedObject = GameObject.Instantiate<GameObject>(prefab);
-        spawnedObject.transform.position = transform.position;
+        spawnedObject.GetComponent<Rat>().agent.Warp(transform.position);
 
         return spawnedObject;
     }
