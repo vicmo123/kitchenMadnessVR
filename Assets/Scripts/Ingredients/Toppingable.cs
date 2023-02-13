@@ -14,7 +14,7 @@ public class Toppingable : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        ready = true;
+        ready = false;
     }
 
     // Update is called once per frame

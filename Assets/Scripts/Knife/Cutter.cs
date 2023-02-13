@@ -14,7 +14,7 @@ public class Cutter : MonoBehaviour
     public void ObjectCutter()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -(transform.forward), out hit, 1, LayerMask.GetMask("Cuttable")))
+        if (Physics.Raycast(transform.position, -(transform.forward), out hit, 1, LayerMask.GetMask("Food")))
         {
             Cuttable cuttable = hit.collider.gameObject.GetComponent<Cuttable>();
             if (cuttable != null)

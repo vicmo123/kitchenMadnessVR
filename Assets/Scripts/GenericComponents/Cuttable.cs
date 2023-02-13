@@ -7,7 +7,7 @@ using UnityEngine;
 
 
 public enum CuttingState { NotCutting, StartCut, IsCutting, ReachedCenter, StoppedCutting}
-public enum ColliderPlane { XY, XZ, YZ}
+public enum ColliderPlane { None = 0, XY, XZ, YZ}
 
 class CutInfo
 {
@@ -32,7 +32,8 @@ public class Cuttable : MonoBehaviour
     private Rigidbody rb;
     private MeshRenderer[] childrenMeshRenderers;
     private GameObject[,,] wedges;
-    
+    public ColliderPlane lastCutPlane;
+
     //triggers that span a plane intersects the object for each axis
     private BoxCollider horizontalCuttingTrigger;
     private BoxCollider verticalCuttingTriggerX;
@@ -52,11 +53,17 @@ public class Cuttable : MonoBehaviour
         //get and cache requiered components
         rb = GetComponent<Rigidbody>();
         childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+        Transform[] childrentransform = GetComponentsInChildren<Transform>();
+        InitializeWedgeArray(childrentransform);
 
         //Initialize Variables
         cut = new CutInfo();
         cut.state = CuttingState.NotCutting;
         numberOfCuts = 0;
+
+        //Set Layer To Correct Layer
+
+        gameObject.layer = LayerMask.NameToLayer("Food");
 
         //Check if components have CuttableComponent    
 
@@ -95,10 +102,9 @@ public class Cuttable : MonoBehaviour
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
                 if (distance >= cut.minimumCutDistance)
                 {
-                    Debug.Log("has cut");
                     cut.state = CuttingState.StoppedCutting;
-                    debuggCheckCollider(cut.currentCollider);
-                    ProcessCut();
+                    lastCutPlane = getColliderEnum(cut.currentCollider);
+                    ProcessCut(lastCutPlane);
                 }
                 break;
             case CuttingState.StoppedCutting:
@@ -109,9 +115,57 @@ public class Cuttable : MonoBehaviour
         }
     }
 
-    private void ProcessCut()
+    private void ProcessCut(ColliderPlane colliderPlane)
     {
-        
+        ArrayList leftHalf= new ArrayList();
+        ArrayList rightHalf= new ArrayList();
+        GameObject leftParent;
+        GameObject rightParent;
+        reParentCut(colliderPlane, ref leftHalf, ref rightHalf, out leftParent, out rightParent);
+        setNewParent(leftParent.transform, leftHalf);
+        setNewParent(rightParent.transform, rightHalf);
+
+        leftParent.SetActive(false);
+        rightParent.SetActive(false);
+        Cuttable left = null;
+        Cuttable right = null;
+        Rigidbody leftRb = null;
+        Rigidbody rightRb = null;
+
+        leftRb = leftParent.AddComponent<Rigidbody>();
+        rightRb = rightParent.AddComponent<Rigidbody>();
+
+        if (numberOfCuts < 3)
+        {
+            left = leftParent.AddComponent<Cuttable>();
+            right = rightParent.AddComponent<Cuttable>(); 
+        }
+
+        Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
+        Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
+
+        if (left != null)
+        {
+            left.numberOfCuts = numberOfCuts + 1;
+            left.lastCutPlane = lastCutPlane;
+        }
+        if (right != null)
+        {
+            right.numberOfCuts = numberOfCuts + 1;
+            right.lastCutPlane = lastCutPlane;
+        }
+
+
+
+        leftParent.SetActive(true);
+        rightParent.SetActive(true);
+        leftTopping.ready = true;
+        rightTopping.ready = true;
+
+        leftRb.useGravity = false;
+        rightRb.useGravity = false;
+
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerExit(Collider other)
@@ -152,18 +206,52 @@ public class Cuttable : MonoBehaviour
         }
         
     }
+    private ColliderPlane getColliderEnum(Collider collider)
+    {
+        if (collider.Equals(horizontalCuttingTrigger))
+        {
+            return ColliderPlane.XZ;
+        }
+        else if (collider.Equals(verticalCuttingTriggerX))
+        {
+            return ColliderPlane.XY;
+        }
+        else if (collider.Equals(verticalCuttingTriggerZ))
+        {
+            return ColliderPlane.YZ;
+        }
+        return ColliderPlane.None;
+
+    }
     //Function that creates three trigger zones in each axis of the cuttable game object to detect for cut
     void CreateTriggerZones()
     {
         //Create cutting colliders
-        horizontalCuttingTrigger = gameObject.AddComponent<BoxCollider>();
-        verticalCuttingTriggerZ= gameObject.AddComponent<BoxCollider>();
-        verticalCuttingTriggerX= gameObject.AddComponent<BoxCollider>();
-        
-        //SetCollider to be triggers
-        horizontalCuttingTrigger.isTrigger = true;
-        verticalCuttingTriggerX.isTrigger = true;
-        verticalCuttingTriggerZ.isTrigger = true;
+        switch (lastCutPlane)
+        {
+            case ColliderPlane.None:
+                horizontalCuttingTrigger = gameObject.AddComponent<BoxCollider>();
+                verticalCuttingTriggerZ = gameObject.AddComponent<BoxCollider>();
+                verticalCuttingTriggerX = gameObject.AddComponent<BoxCollider>();
+                break;
+            case ColliderPlane.XY:
+                horizontalCuttingTrigger = gameObject.AddComponent<BoxCollider>();
+                verticalCuttingTriggerZ = gameObject.AddComponent<BoxCollider>();
+                verticalCuttingTriggerX = null;
+                break;
+            case ColliderPlane.XZ:
+                horizontalCuttingTrigger = null;
+                verticalCuttingTriggerZ = gameObject.AddComponent<BoxCollider>();
+                verticalCuttingTriggerX = gameObject.AddComponent<BoxCollider>();
+                break;
+            case ColliderPlane.YZ:
+                horizontalCuttingTrigger = gameObject.AddComponent<BoxCollider>();
+                verticalCuttingTriggerZ = null;
+                verticalCuttingTriggerX = gameObject.AddComponent<BoxCollider>();
+                break;
+            default:
+                break;
+        }
 
         //Get sum of bounds from children wedges
         Bounds bounds = new Bounds();
@@ -173,24 +261,103 @@ public class Cuttable : MonoBehaviour
             bounds.Encapsulate(wedgeRenderer.bounds);
         }
 
-        //Define collider dimensions
-        horizontalCuttingTrigger.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y) / colliderWidthModifier , (bounds.extents.z * 2) / transform.localScale.z);
-        verticalCuttingTriggerX.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y), (bounds.extents.z * 2 / transform.localScale.z) / colliderWidthModifier);
-        verticalCuttingTriggerZ.size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
+        //Define collider dimensions and set as triggers
+        if (horizontalCuttingTrigger)
+        {
+            horizontalCuttingTrigger.isTrigger = true;
+            horizontalCuttingTrigger.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y) / colliderWidthModifier, (bounds.extents.z * 2) / transform.localScale.z);
+        }
+        if (verticalCuttingTriggerX)
+        {
+            verticalCuttingTriggerX.isTrigger = true;
+            verticalCuttingTriggerX.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y), (bounds.extents.z * 2 / transform.localScale.z) / colliderWidthModifier);
+        }
+        if (verticalCuttingTriggerZ)
+        {
+            verticalCuttingTriggerZ.isTrigger = true;
+            verticalCuttingTriggerZ.size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
+        }
     
     }
-    void InitializeWedgeArray()
-    { 
-        int index = 0;
+    void InitializeWedgeArray(Transform[] childrentransform)
+    {
+        childrentransform = GetComponentsInChildren<Transform>();
+        wedges = new GameObject[2, 2, 2];
+        int index = 1;
         for (int y = 0; y <= 1; y++)
-        {
             for (int x = 0; x <= 1; x++)
-            {
                 for (int z = 0; z <= 1; z++)
-                {
-                    wedges[x,y,z] = childrenMeshRenderers[index++].gameObject;
-                }
-            }
+                    if (index < childrentransform.Length)
+                    {
+                        wedges[x, y, z] = childrentransform[index].gameObject;
+                        index += 2;
+                    }
+    }
+    private void setNewParent(Transform newParent, Transform objectToParent)
+    {
+        objectToParent.SetParent(null, true);
+        objectToParent.SetParent(newParent, true);
+    }
+    private void setNewParent(Transform newParent, ArrayList objectsToParent)
+    {
+        foreach (GameObject gameObject in objectsToParent)
+        {
+            setNewParent(newParent, gameObject.transform);
         }
     }
+    private void reParentCut(ColliderPlane colliderPlane, ref ArrayList leftHalf, ref ArrayList rightHalf, out GameObject leftParent, out GameObject rightParent)
+    {
+        leftParent = new GameObject();
+        leftParent.name = "Left" + numberOfCuts + 1;
+        rightParent = new GameObject();
+        rightParent.name = "Right" + numberOfCuts + 1;
+        leftParent.transform.position = transform.position;
+        rightParent.transform.position = transform.position;
+        switch (colliderPlane)
+        {
+            case ColliderPlane.XY:
+                for (int x = 0; x < wedges.GetLength(0); x++)
+                    for (int y = 0; y < wedges.GetLength(1); y++)
+                        leftHalf.Add(wedges[x, y, 1]);
+                leftParent.transform.position += new Vector3(0, 0, -transform.position.z / 2);
+                
+
+                for (int x = 0; x < wedges.GetLength(0); x++)
+                    for (int y = 0; y < wedges.GetLength(1); y++)
+                        rightHalf.Add(wedges[x, y, 0]);
+                rightParent.transform.position += new Vector3(0, 0, transform.position.z / 2);
+
+                break;
+            case ColliderPlane.XZ:
+                for (int x = 0; x < wedges.GetLength(0); x++)
+                    for (int z = 0; z < wedges.GetLength(1); z++)
+                        leftHalf.Add(wedges[x, 1, z]);
+                leftParent.transform.position += new Vector3(0, -transform.position.y / 2, 0);
+
+                for (int x = 0; x < wedges.GetLength(0); x++)
+                    for (int z = 0; z < wedges.GetLength(1); z++)
+                        rightHalf.Add(wedges[x, 0, z]);
+                rightParent.transform.position += new Vector3(0, transform.position.y / 2, 0);
+
+                break;
+            case ColliderPlane.YZ:
+                for (int z = 0; z < wedges.GetLength(0); z++)
+                    for (int y = 0; y < wedges.GetLength(1); y++)
+                        leftHalf.Add(wedges[1, y, z]);
+                leftParent.transform.position += new Vector3(-transform.position.y / 2, 0, 0);
+
+                for (int z = 0; z < wedges.GetLength(0); z++)
+                    for (int y = 0; y < wedges.GetLength(1); y++)
+                        rightHalf.Add(wedges[0, y, z]);
+                rightParent.transform.position += new Vector3(transform.position.y / 2, 0, 0);
+
+                break;
+            case ColliderPlane.None:
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }
