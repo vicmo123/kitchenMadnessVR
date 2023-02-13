@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8623093246866012360}
   - component: {fileID: 7005733371679985498}
   - component: {fileID: 5907550462315630439}
-  - component: {fileID: 8645867569073499291}
   m_Layer: 0
   m_Name: Full_Onion
   m_TagString: Untagged
@@ -71,6 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b8f6cd1a7e40444bebc4bc2c840cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastCutPlane: 0
   colliderWidthModifier: 8
 --- !u!114 &5907550462315630439
 MonoBehaviour:
@@ -199,22 +199,8 @@ MonoBehaviour:
   m_AddDefaultGrabTransformers: 1
   leftHandTransform: {fileID: 0}
   rightHandTransform: {fileID: 0}
-  isGrabbed: 0
---- !u!114 &8645867569073499291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 206540519483894188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88f199d5e6812ed4d8352b13f63eae09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInIngredientReceiver: 0
-  ingredientType: 4
-  ready: 0
+  isGrabbedByPlayer: 0
+  isGrabbedByRat: 0
 --- !u!1001 &1592244328201696752
 PrefabInstance:
   m_ObjectHideFlags: 0

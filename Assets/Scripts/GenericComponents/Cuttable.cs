@@ -143,6 +143,8 @@ public class Cuttable : MonoBehaviour
 
         Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
         Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
+        leftParent.AddComponent<Pickupable>();
+        rightParent.AddComponent<Pickupable>();
 
         if (left != null)
         {
@@ -161,9 +163,8 @@ public class Cuttable : MonoBehaviour
         rightParent.SetActive(true);
         leftTopping.ready = true;
         rightTopping.ready = true;
-
-        leftRb.useGravity = false;
-        rightRb.useGravity = false;
+        //leftRb.useGravity = false;
+        //rightRb.useGravity = false;
 
         gameObject.SetActive(false);
     }
@@ -264,17 +265,16 @@ public class Cuttable : MonoBehaviour
         //Define collider dimensions and set as triggers
         if (horizontalCuttingTrigger)
         {
-            horizontalCuttingTrigger.isTrigger = true;
             horizontalCuttingTrigger.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y) / colliderWidthModifier, (bounds.extents.z * 2) / transform.localScale.z);
+            horizontalCuttingTrigger.isTrigger= true;
         }
         if (verticalCuttingTriggerX)
         {
-            verticalCuttingTriggerX.isTrigger = true;
             verticalCuttingTriggerX.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y), (bounds.extents.z * 2 / transform.localScale.z) / colliderWidthModifier);
         }
         if (verticalCuttingTriggerZ)
         {
-            verticalCuttingTriggerZ.isTrigger = true;
+            verticalCuttingTriggerZ.isTrigger= true;
             verticalCuttingTriggerZ.size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
         }
     
