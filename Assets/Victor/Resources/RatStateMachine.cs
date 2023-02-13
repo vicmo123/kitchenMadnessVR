@@ -120,6 +120,7 @@ public class RatStateMachine
     {
         CurrentState = Hit;
         rat.isScared = true;
+        rat.animCtrl.SetBool("IsHit", rat.isScared);
     }
 
     private void OnTargetSpottedLogic()

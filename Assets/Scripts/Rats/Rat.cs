@@ -12,6 +12,7 @@ public class Rat : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     [Range(0, 100)] public float walkSpeed;
     [Range(0, 100)] public float chaseSpeed;
+    //Max speed
     [Range(0, 100)] public float scaredSpeed;
     [Range(1, 500)] public float walkRadius;
     [Range(1, 20)] public float sightLenght;
@@ -24,16 +25,20 @@ public class Rat : MonoBehaviour
     #endregion
 
     private RatStateMachine ratStateMachine;
+    [HideInInspector]public Animator animCtrl { get; private set; }
 
     private void Awake()
     {
         ratStateMachine = new RatStateMachine(this, 10.0f);
         layerMask = LayerMask.GetMask("Food");
+
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
             agent.speed = walkSpeed;
             agent.SetDestination(GenerateRandomNavMeshPos());
+
+            animCtrl = gameObject.GetComponentInChildren<Animator>();
         }
     }
 
@@ -45,6 +50,10 @@ public class Rat : MonoBehaviour
     private void Update()
     {
         ratStateMachine.UpdateStateMachine();
+        float currentSpeed = agent.velocity.magnitude;
+        currentSpeed = Mathf.Clamp(currentSpeed * 2.0f, 0, chaseSpeed);
+        animCtrl.SetFloat("Speed", currentSpeed / chaseSpeed);
+        Debug.Log(currentSpeed / chaseSpeed);
     }
 
     public Vector3 GenerateRandomNavMeshPos()
@@ -81,6 +90,7 @@ public class Rat : MonoBehaviour
             collision.transform.SetParent(transform);
             agent.SetDestination(FindClosestExit());
             objectPickedUp = true;
+            animCtrl.SetBool("IsItemPickedUp", objectPickedUp);
         }
     }
 
