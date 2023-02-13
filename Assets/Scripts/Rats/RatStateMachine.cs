@@ -87,7 +87,6 @@ public class RatStateMachine
     {
         timer.UpdateTimer();
         stateMachine.OnLogic();
-        Debug.Log(CurrentState);
     }
 
     //OnLogic
@@ -103,7 +102,6 @@ public class RatStateMachine
     private void OnExitLogic()
     {
         CurrentState = Exit;
-        Debug.Log(rat.agent.destination);
         if (rat.CheckIfDestinationReached())
         {
             GameObject.Destroy(rat.gameObject);
