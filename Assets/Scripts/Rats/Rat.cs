@@ -61,12 +61,10 @@ public class Rat : MonoBehaviour
         Vector3 finalPosition = Vector3.zero;
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * walkRadius;
         randomDirection += transform.position;
-        Debug.Log(transform.name);
         if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius, 1))
         {
             finalPosition = hit.position;
         }
-        Debug.Log(finalPosition);
         return finalPosition;
     }
 
@@ -87,9 +85,8 @@ public class Rat : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Food"))
         {
-            collision.transform.SetParent(transform);
             agent.SetDestination(FindClosestExit());
             objectPickedUp = true;
             animCtrl.SetBool("IsItemPickedUp", objectPickedUp);

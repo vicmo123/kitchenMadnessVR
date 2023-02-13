@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
-        Debug.Log(CurrentState);
     }
 
     //Condition check for state transitions
@@ -171,8 +170,6 @@ public class GameManager : MonoBehaviour
             currentNumberOfStars--;
         }
 
-        Debug.Log(currentNumberOfStars);
-
         boardManager.ElapsedTime = timer.Elapsed;
         rats.timeElapsedRound = timer.Elapsed;
     }
@@ -184,8 +181,6 @@ public class GameManager : MonoBehaviour
         isRoundActive = false;
         startGameUi.gameObject.SetActive(true);
         startGameUi.ResetUi();
-
-        Debug.Log(currentNumberOfStars);
 
         //The player will have the option to start a new game with input
         //If option to continue is chosen, will proceed to restart round
