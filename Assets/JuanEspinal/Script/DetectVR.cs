@@ -27,7 +27,7 @@ public class DetectVR : MonoBehaviour
         if (xrLoader == null)
         {
             Debug.Log("xrLoader is null");
-            //cameraOffset.position.Set(1, 1, 1);
+            cameraOffset.transform.position = new Vector3(0, .7f, 0);
             return;
         }
 
