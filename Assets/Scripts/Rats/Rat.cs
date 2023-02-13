@@ -87,9 +87,8 @@ public class Rat : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Food"))
         {
-            collision.transform.SetParent(transform);
             agent.SetDestination(FindClosestExit());
             objectPickedUp = true;
             animCtrl.SetBool("IsItemPickedUp", objectPickedUp);

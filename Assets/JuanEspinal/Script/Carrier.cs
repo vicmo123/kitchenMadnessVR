@@ -6,10 +6,12 @@ public class Carrier : MonoBehaviour
 {
     //public Transform attachPoint; ATTACH POINT NOT WORKING PROPERLY
     [HideInInspector] public bool holdingItem;
+
     private void Start()
     {
         holdingItem = false;
     }
+
     public void DropItem()
     {
         if (holdingItem)
