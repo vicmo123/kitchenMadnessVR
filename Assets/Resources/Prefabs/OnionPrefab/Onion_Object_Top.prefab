@@ -92,7 +92,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2907097343770195202}
-  m_Layer: 0
+  - component: {fileID: 7077069870047384671}
+  - component: {fileID: 4142682623154548020}
+  - component: {fileID: 8803657773098280892}
+  - component: {fileID: 5906318497782456431}
+  m_Layer: 7
   m_Name: Onion_Object_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,3 +119,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &7077069870047384671
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527580476254138296}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.039573457, y: 0.4943979, z: 0.04398957}
+  m_Center: {x: -0.23072256, y: 0.0011036365, z: 0.2240979}
+--- !u!65 &4142682623154548020
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527580476254138296}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.48181292, y: 0.087828845, z: 0.04911007}
+  m_Center: {x: -0.009679117, y: -0.20366532, z: 0.2255244}
+--- !u!65 &8803657773098280892
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527580476254138296}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0503015, y: 0.087542854, z: 0.4704176}
+  m_Center: {x: -0.22742805, y: -0.20630792, z: 0.014870727}
+--- !u!135 &5906318497782456431
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527580476254138296}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14115573
+  m_Center: {x: -0.04640561, y: -0.09961177, z: 0.022275276}
