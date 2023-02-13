@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499344133a0a9b3419388611162b793a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 3544922460525757592}
   agent: {fileID: 0}
   walkSpeed: 3.5
   chaseSpeed: 10
