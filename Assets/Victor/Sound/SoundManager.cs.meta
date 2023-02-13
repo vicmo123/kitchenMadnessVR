@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 93c57d45d38681a45b818bdc4fe8819c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GameOverSource: {instanceID: 0}
+  - MainThemeSource: {instanceID: 0}
+  - LooseStarSource: {instanceID: 0}
+  - ButtonClickSource: {instanceID: 0}
+  - MoveOrderSource: {instanceID: 0}
+  - GoodJobSource: {instanceID: 0}
+  - BellDingSource: {instanceID: 0}
+  - ChoppingSource: {instanceID: 0}
+  - GrillingSource: {instanceID: 0}
+  - SclicingSource: {instanceID: 0}
+  - FoodDropedSource: {instanceID: 0}
+  - ToolDroppedSource: {instanceID: 0}
+  - TreadmillSoundSource: {instanceID: 0}
+  - SpawnSqueekSource: {instanceID: 0}
+  - FoodSpottedSoundSource: {instanceID: 0}
+  - DinosaurRoarSource: {instanceID: 0}
+  - Data: {fileID: 11400000, guid: a395535ca7adee8468f890db34008602, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
