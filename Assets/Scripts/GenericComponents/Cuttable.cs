@@ -129,7 +129,7 @@ public class Cuttable : MonoBehaviour
 
         gameObject.SetActive(false);
         Cuttable leftCuttable = null;
-        Cuttable right = null;
+        Cuttable rightCuttable   = null;
         Rigidbody leftRb = null;
         Rigidbody rightRb = null;
 
@@ -138,31 +138,36 @@ public class Cuttable : MonoBehaviour
         leftCollider.radius = gameObject.transform.localScale.y / 2;
         rightCollider.radius = gameObject.transform.localScale.y / 2;
 
-
         leftRb = leftParent.AddComponent<Rigidbody>();
         rightRb = rightParent.AddComponent<Rigidbody>();
 
+        leftParent.layer = LayerMask.NameToLayer("Food");
+        rightParent.layer = LayerMask.NameToLayer("Food");
+
         //if (numberOfCuts < 3)
         //{
-        //    left = leftParent.AddComponent<Cuttable>();
-        //    right = rightParent.AddComponent<Cuttable>(); 
+        //    leftCuttable = leftParent.AddComponent<Cuttable>();
+        //    rightCuttable = rightParent.AddComponent<Cuttable>();
         //}
 
         Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
         Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
         leftParent.AddComponent<Pickupable>();
         rightParent.AddComponent<Pickupable>();
-
+        leftTopping.ready = true;
+        rightTopping.ready = true;
+        leftTopping.ingredientType = Taco.Ingredients.Onion;
+        rightTopping.ingredientType = Taco.Ingredients.Onion;
 
         if (leftCuttable != null)
         {
             leftCuttable.numberOfCuts = numberOfCuts + 1;
             leftCuttable.lastCutPlane = lastCutPlane;
         }
-        if (right != null)
+        if (rightCuttable != null)
         {
-            right.numberOfCuts = numberOfCuts + 1;
-            right.lastCutPlane = lastCutPlane;
+            rightCuttable.numberOfCuts = numberOfCuts + 1;
+            rightCuttable.lastCutPlane = lastCutPlane;
         }
 
         leftTopping.ready = true;
