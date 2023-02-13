@@ -1,181 +1,150 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class BoardManager : MonoBehaviour
 {
-    private const int FIRST_STAGE_GAME = 60;
-    private const int SECOND_STAGE_GAME = 240;
-    private const int THIRD_STAGE_GAME = 420;
-    //public Player player
-    public BoardUI boardUI;
-    public GameObject prefabOrder;
+    private const float FIRST_STAGE_GAME = 20;
+    private const float SECOND_STAGE_GAME = 30;
+    private const float THIRD_STAGE_GAME = 40;
 
-    private List<Order> orders = new List<Order>();
-    const int NB_ORDERS_LIMIT = 5;
-    int nbOrdersDisplayed = 1;
+    public BoardUI boardUI;
+
+    private List<Order> activeOrders = new List<Order>();
+    private List<Order> iInactiveOrders = new List<Order>();
+    const int NB_ORDERS_MAX = 5;
     private float elapsedTime;
     public float ElapsedTime { get => elapsedTime; set => elapsedTime = value; }
+    int currentDifficultyIndex = 0;
 
     Action RemoveOrder;
+    Action BoardEmpty;
 
-
-    private void Awake()
+    private void Start()
     {
-        InitialiseList();
+        GenerateOrder();
     }
 
-
-    void InitialiseList()
+    public void Update()
     {
-        SetFirstTaco();
+       activeOrders.Where(x => x == null).ToList();
 
-        for (int i = 1; i < NB_ORDERS_LIMIT; i++)
+       
+        for (int i = 0; i < activeOrders.Count; i++)
         {
-            GameObject go = GameObject.Instantiate(prefabOrder, this.transform);
-            Order order = go.GetComponent<Order>();
-            order.SetInUse(false);
-            order = GenerateToppings(order);
-            orders.Add(order);
-        }
-
-        UpdateUI();
-    }
-
-
-    private void Update()
-    {
-        //Order order = GenerateOrder();
-        //order.SetInUse(true);
-    }
-
-    public void GenerateOrder(int index)
-    {
-        Order order = orders[index];
-        order = GenerateToppings(order);
-        order.SetInUse(true);
-        order.TimeOfCreation = ElapsedTime;
-
-        nbOrdersDisplayed++;
-        UpdateUI();
-
-    }
-
-    Order GenerateToppings(Order order)
-    {
-        int ingredients = (int)IngredientEnum.EasyTaco;
-        int result = UnityEngine.Random.Range(0, 2);
-
-        //(first 1 min ) 
-        order.SetTacoIngredients((int)(IngredientEnum.BaseOfTaco | IngredientEnum.Sauce));
-
-        // ( from 1 min to 4 minutes in the game )        
-        if (elapsedTime > FIRST_STAGE_GAME & elapsedTime < SECOND_STAGE_GAME)
-        {
-            ingredients = (int)GetEasyRecipe();
-        }
-
-        //( from 4 to 7 minutes in the game )
-        else if (elapsedTime > SECOND_STAGE_GAME & elapsedTime < THIRD_STAGE_GAME)
-        {
-            if (elapsedTime % 2 == 0)
+            if (activeOrders[i] != null)
             {
-                ingredients = (int)GetMediumRecipe();
-            }
-            else if (elapsedTime % 3 == 0)
-            {
-                ingredients = (int)GetHardRecipe();
-            }
-            else
-            {
-                ingredients = (int)GetEasyRecipe();
-            }
-        }
-        //(after 7 minutes)
-        else if (elapsedTime > THIRD_STAGE_GAME)
-        {
-            if (elapsedTime % 2 == 0)
-            {
-                ingredients = (int)GetHardRecipe();
-            }
-            else if (elapsedTime % 3 == 0)
-            {
-                ingredients = (int)IngredientEnum.HardCoreTaco;
-            }
-            else if (elapsedTime % 4 == 0)
-            {
-                ingredients = (int)GetMediumRecipe();
-            }
-            else
-            {
-                ingredients = (int)GetEasyRecipe();
+                activeOrders[i].UpdateOrder();
             }
         }
 
-        order.SetTacoIngredients(ingredients);
-
-        return order;
+        //Only one order left on the board, and almost done
+        if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+        {
+            GenerateOrder();
+        }
     }
 
-    private IngredientEnum GetEasyRecipe()
+    public void GenerateOrder()
     {
-        IngredientEnum ingredients = IngredientEnum.EasyTaco | IngredientEnum.Sauce;
-
-        if (elapsedTime % 2 == 0)
+        if (activeOrders.Count < NB_ORDERS_MAX)
         {
-            ingredients = IngredientEnum.EasyTaco;
+            Order order = new Order(this);
+            order.IsActive = true;
+            order.SetRecipe((int)GenerateToppings());
+            order.SetOrderTimer();
+            order.SetId();
+
+            activeOrders.Add(order);
+
+            Debug.Log("Generate order id : " + order.GetId());
+            UpdateUI();
+        }
+    }
+
+    IngredientEnum GenerateToppings()
+    {
+        //Default Value
+        IngredientEnum ingredients = IngredientEnum.BaseOfTaco;
+
+        //Recipes stored in arrays according to their difficulty level.
+        IngredientEnum[] firstRecipe = new IngredientEnum[] { IngredientEnum.BaseOfTaco | IngredientEnum.Sauce };
+        IngredientEnum[] easyRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Sauce, IngredientEnum.EasyTaco };
+        IngredientEnum[] mediumRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Cheese, IngredientEnum.EasyTaco | IngredientEnum.Pineapple };
+        IngredientEnum[] hardRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Cheese | IngredientEnum.Sauce, IngredientEnum.EasyTaco | IngredientEnum.Pineapple | IngredientEnum.Sauce };
+        IngredientEnum[] hardCoreRecipes = new IngredientEnum[] { IngredientEnum.HardCoreTaco };
+        //Array of Arrays containing all the recipes in one place
+        IngredientEnum[][] posssibleRecipes = new IngredientEnum[][] { firstRecipe, easyRecipes, mediumRecipes, hardRecipes, hardCoreRecipes };
+
+        //Levels of difficulty stored in a queue
+        float[] timeStages = new float[] { FIRST_STAGE_GAME, SECOND_STAGE_GAME, THIRD_STAGE_GAME };
+        Queue<float> stagesGameTime = new Queue<float>(timeStages);
+
+        //Checking which stage of the game we are in 
+        //(stages are basically tracking the time spent in the game. The longer we stayed in, the harder it gets)
+        if (Time.time >= stagesGameTime.Peek())
+        {
+            currentDifficultyIndex++;
+            stagesGameTime.Dequeue();
+        }
+
+        float stage = stagesGameTime.Peek();
+        switch (stage)
+        {
+            case FIRST_STAGE_GAME:
+                Debug.Log("First Stage Game");
+                ingredients = posssibleRecipes[0][0];
+                ingredients = posssibleRecipes[1][0];
+                break;
+            case SECOND_STAGE_GAME:
+                Debug.Log("Second Stage Game");
+                ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
+                break;
+            case THIRD_STAGE_GAME:
+                Debug.Log("Third Stage Game");
+                ingredients = posssibleRecipes[2][0];
+                ingredients = posssibleRecipes[3][0];
+                ingredients = posssibleRecipes[4][0];
+                break;
+            default:
+                Debug.Log("Generate Toppings, problems");
+                break;
         }
 
         return ingredients;
     }
 
-    private IngredientEnum GetMediumRecipe()
+    public void DoneWithOrder(int id)
     {
-        IngredientEnum ingredients = IngredientEnum.EasyTaco | IngredientEnum.Cheese;
+        LoseOneStar();
+        Debug.Log("Done With Order");
 
-        if (elapsedTime % 2 == 0)
+        for (int i = 0; i < activeOrders.Count; i++)
         {
-            ingredients = IngredientEnum.EasyTaco | IngredientEnum.Pineapple;
+            if (activeOrders[i].IsActive && activeOrders[i].GetId() == id)
+            {
+                activeOrders[i].IsActive = false;
+            }
         }
-        return ingredients;
-    }
 
-    private IngredientEnum GetHardRecipe()
-    {
-        IngredientEnum ingredients = IngredientEnum.EasyTaco | IngredientEnum.Cheese | IngredientEnum.Sauce;
-
-        if (elapsedTime % 2 == 0)
+        for (int i = activeOrders.Count -1; i > -1; i--)
         {
-            ingredients = IngredientEnum.EasyTaco | IngredientEnum.Pineapple | IngredientEnum.Sauce;
+            if(activeOrders[i].IsActive == false)
+            {
+                activeOrders.Remove(activeOrders[i]);
+            }
         }
-        return ingredients;
-    }
+        //activeOrders.Where(x => x.IsActive == false).ToList();
 
-    void SetFirstTaco()
-    {
-        GameObject order = GameObject.Instantiate(prefabOrder, this.transform);
-        Order firstOrder = order.GetComponent<Order>();
-
-        firstOrder.SetTacoIngredients((int)IngredientEnum.EasyTaco);
-        firstOrder.SetInUse(true);
-        firstOrder.TimeOfCreation = ElapsedTime;
-
-        orders.Add(firstOrder);
-    }
-
-    public void DoneWithOrder(Order order)
-    {
-        order.SetInUse(false);
-        nbOrdersDisplayed--;
         UpdateUI();
     }
 
-    int TacoToInt(params IngredientEnum[] ingredients)
+    int TacoToInt(params IngredientEnum[] recipe)
     {
         IngredientEnum taco = IngredientEnum.Tortilla | IngredientEnum.Meat;
 
-        foreach (IngredientEnum ingredient in ingredients)
+        foreach (IngredientEnum ingredient in recipe)
         {
             taco = taco | ingredient;
         }
@@ -185,17 +154,8 @@ public class BoardManager : MonoBehaviour
 
     void UpdateUI()
     {
-        List<Order> temp = new List<Order>();
-
-        //transfering only the active orders
-        foreach (Order order in orders)
-        {
-            if (order.GetIsInUse())
-            {
-                temp.Add(order);
-            }
-        }
-        boardUI.UpdateOrdersToDisplay(temp);
+        if (activeOrders != null)
+            boardUI.UpdateOrdersToDisplay(activeOrders);
     }
 
     public void LoseOneStar()
