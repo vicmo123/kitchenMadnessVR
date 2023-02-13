@@ -12,6 +12,8 @@ public class IngredientSpawner : MonoBehaviour
 
     private float timeForNextSpawn;
 
+    private bool roundStarted;
+
     public GameObject InvokeSpawn() {
         //Returns the game object to be able to acces it data
         return SpawnObject();
@@ -28,15 +30,20 @@ public class IngredientSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeForNextSpawn = Time.time + spawnCooldown;
+        roundStarted = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time >= timeForNextSpawn) {
+        if (Time.time >= timeForNextSpawn && roundStarted) {
             InvokeSpawn();
             timeForNextSpawn = Time.time + spawnCooldown;
         }
+    }
+
+    public void RoundStarting() {
+        roundStarted = true;
+        timeForNextSpawn = Time.time + spawnCooldown;
     }
 }

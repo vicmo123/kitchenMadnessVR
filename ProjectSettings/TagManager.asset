@@ -8,12 +8,13 @@ TagManager:
   - RoomLight
   - Left Hand
   - Right Hand
+  - Rat
   - UI
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Cutter
   - Water
   - UI
   - Food

@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransitionFromAny(new Transition("", RestartRound, t => (currentNumberOfStars <= 0)));
 
         OnUpdateRoundEnter += () => { timer.Reset(); };
+        OnUpdateRoundEnter += () => { ingredientSpawner.RoundStarting(); };
         OnUpdateRoundEnter += () => { rats.StartRound(); };
         OnUpdateRoundExit += () => { rats.EndRound(); };
 
@@ -99,6 +100,7 @@ public class GameManager : MonoBehaviour
     public RatsManager rats;
     public BoardManager boardManager;
     public StartGameUi startGameUi;
+    public IngredientSpawner ingredientSpawner;
 
     //GameFlow variables
     [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;

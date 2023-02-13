@@ -18,7 +18,7 @@ public class MovingCubeTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GetComponent<XRGrabTransformLeftRightHands>().isGrabbed)
+        if (!GetComponent<Pickupable>().isGrabbedByPlayer)
         {
             switch (moving)
             {

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1256181093605332308}
   - component: {fileID: 1256181093605332309}
   - component: {fileID: 1256181093605332310}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Knife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256181094330887918}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RightHandGripPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1256181094333402692}
   - component: {fileID: 1118879779480582132}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: knifeBlade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256181095137185460}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LeftHandGripPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
