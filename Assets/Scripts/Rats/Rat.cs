@@ -61,6 +61,7 @@ public class Rat : MonoBehaviour
         Vector3 finalPosition = Vector3.zero;
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * walkRadius;
         randomDirection += transform.position;
+        Debug.Log(transform.name);
         if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius, 1))
         {
             finalPosition = hit.position;
