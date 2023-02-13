@@ -51,7 +51,7 @@ public class Order
     }
     public void SetOrderTimer()
     {
-        Debug.Log("Set Order Timer");
+        //Debug.Log("Set Order Timer");
         orderTimer = new OrderTimer(GetRecipeTime());
         orderTimer.timer.OnTimeIsUpLogic = () => { OntimerIsOutLogic(); };
         orderTimer.StartTimer();
@@ -123,7 +123,7 @@ public class Order
 
     public void CrossOrder()
     {
-        Debug.Log("Cross Order");
+        //Debug.Log("Cross Order");
         //if time is up for the order, the background goes red
         //and the order disapear.
         //TODO        

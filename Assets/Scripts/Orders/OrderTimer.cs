@@ -27,10 +27,7 @@ public class OrderTimer
         timer.UpdateTimer();
         timeRemaining = timer.Timer;
         pourcentage = timeRemaining / timeDuration;
-       if(timeRemaining < 2)
-        {
-            Debug.Log(timeRemaining);
-        }
+       
 
         if (pourcentage >= 70)
         {

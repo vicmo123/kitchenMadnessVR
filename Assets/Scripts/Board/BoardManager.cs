@@ -93,22 +93,22 @@ public class BoardManager : MonoBehaviour
         switch (stage)
         {
             case FIRST_STAGE_GAME:
-                Debug.Log("First Stage Game");
+                //Debug.Log("First Stage Game");
                 ingredients = posssibleRecipes[0][0];
                 ingredients = posssibleRecipes[1][0];
                 break;
             case SECOND_STAGE_GAME:
-                Debug.Log("Second Stage Game");
+                //Debug.Log("Second Stage Game");
                 ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
                 break;
             case THIRD_STAGE_GAME:
-                Debug.Log("Third Stage Game");
+                //Debug.Log("Third Stage Game");
                 ingredients = posssibleRecipes[2][0];
                 ingredients = posssibleRecipes[3][0];
                 ingredients = posssibleRecipes[4][0];
                 break;
             default:
-                Debug.Log("Generate Toppings, problems");
+                //Debug.Log("Generate Toppings, problems");
                 break;
         }
 
@@ -118,7 +118,6 @@ public class BoardManager : MonoBehaviour
     public void DoneWithOrder(int id)
     {
         LoseOneStar();
-        Debug.Log("Done With Order");
 
         for (int i = 0; i < activeOrders.Count; i++)
         {
