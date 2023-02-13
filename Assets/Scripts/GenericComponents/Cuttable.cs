@@ -117,6 +117,7 @@ public class Cuttable : MonoBehaviour
 
     private void ProcessCut(ColliderPlane colliderPlane)
     {
+        gameObject.SetActive(false);
         ArrayList leftHalf= new ArrayList();
         ArrayList rightHalf= new ArrayList();
         GameObject leftParent;
@@ -124,30 +125,33 @@ public class Cuttable : MonoBehaviour
         reParentCut(colliderPlane, ref leftHalf, ref rightHalf, out leftParent, out rightParent);
         setNewParent(leftParent.transform, leftHalf);
         setNewParent(rightParent.transform, rightHalf);
-
-        leftParent.SetActive(false);
-        rightParent.SetActive(false);
-        Cuttable left = null;
+        Cuttable leftCuttable = null;
         Cuttable right = null;
         Rigidbody leftRb = null;
         Rigidbody rightRb = null;
 
+        leftParent.AddComponent<BoxCollider>();
+        rightParent.AddComponent<BoxCollider>();
+
         leftRb = leftParent.AddComponent<Rigidbody>();
         rightRb = rightParent.AddComponent<Rigidbody>();
 
-        if (numberOfCuts < 3)
-        {
-            left = leftParent.AddComponent<Cuttable>();
-            right = rightParent.AddComponent<Cuttable>(); 
-        }
+        //if (numberOfCuts < 3)
+        //{
+        //    left = leftParent.AddComponent<Cuttable>();
+        //    right = rightParent.AddComponent<Cuttable>(); 
+        //}
 
         Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
         Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
+        leftParent.AddComponent<Pickupable>();
+        rightParent.AddComponent<Pickupable>();
 
-        if (left != null)
+
+        if (leftCuttable != null)
         {
-            left.numberOfCuts = numberOfCuts + 1;
-            left.lastCutPlane = lastCutPlane;
+            leftCuttable.numberOfCuts = numberOfCuts + 1;
+            leftCuttable.lastCutPlane = lastCutPlane;
         }
         if (right != null)
         {
@@ -155,17 +159,11 @@ public class Cuttable : MonoBehaviour
             right.lastCutPlane = lastCutPlane;
         }
 
-
-
-        leftParent.SetActive(true);
-        rightParent.SetActive(true);
         leftTopping.ready = true;
         rightTopping.ready = true;
+        //leftRb.useGravity = false;
+        //rightRb.useGravity = false;
 
-        leftRb.useGravity = false;
-        rightRb.useGravity = false;
-
-        gameObject.SetActive(false);
     }
 
     private void OnTriggerExit(Collider other)
@@ -264,18 +262,18 @@ public class Cuttable : MonoBehaviour
         //Define collider dimensions and set as triggers
         if (horizontalCuttingTrigger)
         {
-            horizontalCuttingTrigger.isTrigger = true;
             horizontalCuttingTrigger.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y) / colliderWidthModifier, (bounds.extents.z * 2) / transform.localScale.z);
+            horizontalCuttingTrigger.isTrigger= true;
         }
         if (verticalCuttingTriggerX)
         {
-            verticalCuttingTriggerX.isTrigger = true;
             verticalCuttingTriggerX.size = new Vector3((bounds.extents.x * 2) / transform.localScale.x, (bounds.extents.y * 2 / transform.localScale.y), (bounds.extents.z * 2 / transform.localScale.z) / colliderWidthModifier);
+            verticalCuttingTriggerX.isTrigger= true;    
         }
         if (verticalCuttingTriggerZ)
         {
-            verticalCuttingTriggerZ.isTrigger = true;
             verticalCuttingTriggerZ.size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
+            verticalCuttingTriggerZ.isTrigger= true;
         }
     
     }
@@ -308,9 +306,9 @@ public class Cuttable : MonoBehaviour
     private void reParentCut(ColliderPlane colliderPlane, ref ArrayList leftHalf, ref ArrayList rightHalf, out GameObject leftParent, out GameObject rightParent)
     {
         leftParent = new GameObject();
-        leftParent.name = "Left" + numberOfCuts + 1;
+        leftParent.name = "OnionHalf" + numberOfCuts + 1;
         rightParent = new GameObject();
-        rightParent.name = "Right" + numberOfCuts + 1;
+        rightParent.name = "OnionHalf" + numberOfCuts + 2;
         leftParent.transform.position = transform.position;
         rightParent.transform.position = transform.position;
         switch (colliderPlane)
@@ -319,37 +317,37 @@ public class Cuttable : MonoBehaviour
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         leftHalf.Add(wedges[x, y, 1]);
-                leftParent.transform.position += new Vector3(0, 0, -transform.position.z / 2);
+                leftParent.transform.position += new Vector3(0, .5f, -transform.position.z / 2);
                 
 
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         rightHalf.Add(wedges[x, y, 0]);
-                rightParent.transform.position += new Vector3(0, 0, transform.position.z / 2);
+                rightParent.transform.position += new Vector3(0, .5f, transform.position.z / 2);
 
                 break;
             case ColliderPlane.XZ:
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int z = 0; z < wedges.GetLength(1); z++)
                         leftHalf.Add(wedges[x, 1, z]);
-                leftParent.transform.position += new Vector3(0, -transform.position.y / 2, 0);
+                leftParent.transform.position += new Vector3(0, -transform.position.y, 0);
 
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int z = 0; z < wedges.GetLength(1); z++)
                         rightHalf.Add(wedges[x, 0, z]);
-                rightParent.transform.position += new Vector3(0, transform.position.y / 2, 0);
+                rightParent.transform.position += new Vector3(0, transform.position.y, 0);
 
                 break;
             case ColliderPlane.YZ:
                 for (int z = 0; z < wedges.GetLength(0); z++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         leftHalf.Add(wedges[1, y, z]);
-                leftParent.transform.position += new Vector3(-transform.position.y / 2, 0, 0);
+                leftParent.transform.position += new Vector3(-transform.position.x / 2, .5f, 0);
 
                 for (int z = 0; z < wedges.GetLength(0); z++)
                     for (int y = 0; y < wedges.GetLength(1); y++)
                         rightHalf.Add(wedges[0, y, z]);
-                rightParent.transform.position += new Vector3(transform.position.y / 2, 0, 0);
+                rightParent.transform.position += new Vector3(transform.position.x / 2, .5f, 0);
 
                 break;
             case ColliderPlane.None:
