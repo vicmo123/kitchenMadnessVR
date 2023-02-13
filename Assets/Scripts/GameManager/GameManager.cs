@@ -199,7 +199,11 @@ public class GameManager : MonoBehaviour
         CurrentState = EndGame;
 
         //Once you are here, you cannot go to another state
-        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     public static IEnumerator WaitForFrames(int frameCount)
