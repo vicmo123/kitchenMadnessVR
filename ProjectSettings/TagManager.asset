@@ -10,6 +10,7 @@ TagManager:
   - Right Hand
   - Rat
   - UI
+  - Food
   layers:
   - Default
   - TransparentFX
