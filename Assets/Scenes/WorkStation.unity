@@ -1867,6 +1867,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2405367424021123448, guid: 685cd2ab83cfebb4cb439f22c14c63f2, type: 3}
+--- !u!1 &1997660911 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 206540519483894188, guid: ca019643c55b7234eb39353b1d4046b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1753290544}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1997660917
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997660911}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2064249137
 GameObject:
   m_ObjectHideFlags: 0
