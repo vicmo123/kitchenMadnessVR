@@ -1,48 +1,52 @@
 using System;
 using UnityEngine;
 
-public class OrderTimer : MonoBehaviour
+public class OrderTimer
 {
-    public Action TimerIstOut = () => { };
-    private Order order;
-    private CountDownTimer timer;
+    public CountDownTimer timer;
     private Color color;
-    private float timeDuration = 5;
+    private float timeDuration = 8;
     private float timeRemaining = 0;
     private float pourcentage = 100;
-    private void Awake()
+
+    public OrderTimer(float timeDuration)
     {
-        timer = new CountDownTimer(timeDuration, false);        
-    }
-    void Start()
-    {
+        timer = new CountDownTimer(timeDuration, false);
         color = Color.green;
-
-        if (order.GetIsInUse())
-        {
-            timer.StartTimer();
-        }
-        timer.OnTimeIsUpLogic += () => { TimerWentOut(); };
+   
     }
 
-    private void Update()
+    public void StartTimer()
+    {
+        Debug.Log("Timer starts");
+        timer.StartTimer();
+    }
+
+    public void UpdateTimer()
     {
         timer.UpdateTimer();
         timeRemaining = timer.Timer;
         pourcentage = timeRemaining / timeDuration;
+       if(timeRemaining < 2)
+        {
+            Debug.Log(timeRemaining);
+        }
 
         if (pourcentage >= 70)
         {
             color = Color.green;
+            Debug.Log("Green");
         }
         else if (pourcentage < 70 && pourcentage >= 40)
         {
             color = Color.yellow;
+            Debug.Log("Yellow");
         }
         else if (pourcentage < 40)
         {
             color = Color.red;
-        }    
+            Debug.Log("Red");
+        }
     }
 
     public void SetDuration(float duration)
@@ -50,27 +54,13 @@ public class OrderTimer : MonoBehaviour
         timeDuration = duration;
     }
 
-    public void TimerWentOut()
-    {
-        TimerIstOut.Invoke();
-    }
     public Color GetColor()
     {
         return color;
-    }
-
-    public void SetOrder(Order orderInBoard)
-    {
-        order = orderInBoard;
-    }
+    }    
 
     public float GetTimeLeft()
     {
         return timeRemaining;
-    }
-
-    public void StartTimer()
-    {
-        timer.StartTimer();
-    }
+    }    
 }

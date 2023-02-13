@@ -25,39 +25,38 @@ public enum IngredientEnum
     HardIngredients = Pineapple | Cheese
 }
 #endregion
-public class Order : MonoBehaviour
+public class Order
 {
-    const float EASY_RECIPE_TIME = 6.0f;
-    const float MEDIUM_RECIPE_TIME = 8.0f;
-    const float HARD_RECIPE_TIME = 10.0f;
-    const float HARDCORE_RECIPE_TIME = 12.0f;
-    const float ALMOST_OVER_TIME = 2;
+    const float EASY_RECIPE_TIME = 10.0f;
+    const float MEDIUM_RECIPE_TIME = 15.0f;
+    const float HARD_RECIPE_TIME = 20.0f;
+    const float HARDCORE_RECIPE_TIME = 25.0f;
+    const float ALMOST_OVER_TIME = 4;
+    private static int id = 0;
 
     public BoardManager board;
-    public GameObject orderTimerPrefab;
     private float timeOfCreation;
     public float TimeOfCreation { get => timeOfCreation; set => timeOfCreation = value; }
+    public bool IsActive { get => isActive; set => isActive = value; }
+
     private OrderTimer orderTimer;
     private int recipe = 0b111000;
-    private bool isInUse = false;
     private bool almostOver = false;
+    private int orderId = 0;
+    private bool isActive = false;
 
-    private void Awake()
+   public Order(BoardManager board)
     {
-        GameObject go = GameObject.Instantiate(orderTimerPrefab, this.transform);
-        orderTimer = go.GetComponent<OrderTimer>();
+        this.board = board;
     }
-
-    private void Start()
+    public void SetOrderTimer()
     {
-        
-        orderTimer.SetOrder(this);
-        orderTimer.TimerIstOut += () => { CrossOrder(); };
-        SetRecipeTime();
-        
+        Debug.Log("Set Order Timer");
+        orderTimer = new OrderTimer(GetRecipeTime());
+        orderTimer.timer.OnTimeIsUpLogic = () => { OntimerIsOutLogic(); };
+        orderTimer.StartTimer();
         //Load Sprite Prefab of the tortilla and the meat
         //Load Prefab Sprite
-        //OrderLostEvent += board.DoneWithOrder;
     }
 
     public bool IsCorrespondingToOrder(int ingredients)
@@ -70,28 +69,26 @@ public class Order : MonoBehaviour
         return corresponding;
     }
 
-    private void Update()
+    public void UpdateOrder()
     {
+        orderTimer.UpdateTimer();
+
         float timeLeft = orderTimer.GetTimeLeft();
-        if(timeLeft <= ALMOST_OVER_TIME)
+        if (timeLeft <= ALMOST_OVER_TIME)
         {
             almostOver = true;
+            Debug.Log("Time almost up for order #" + orderId);
         }
     }
 
-    public void SetTacoIngredients(int ingredientsSerialized)
+    public void SetRecipe(int recipe)
     {
-        recipe = ingredientsSerialized;
+        this.recipe = recipe;        
         //Load Sprite Prefabs Accordingly to the list of topings
     }
 
-    public void SetOrderTimer(float duration)
-    {
-        orderTimer.SetDuration(duration);
-        orderTimer.StartTimer();
-    }
 
-    public void SetRecipeTime()
+    public float GetRecipeTime()
     {
         //sauce | cheese | pineapple | onion | meat | tortilla
         // exemple : 100011 = taco that constains sauce + meat + tortilla
@@ -102,43 +99,35 @@ public class Order : MonoBehaviour
         // tortilla + meat + onion + pineapple = 43
         // tortilla + meat + onion + pineapple + sauce  = 47
 
+        float time;
+
         if (recipe > 7 & recipe < 30)
         {
-            SetOrderTimer(MEDIUM_RECIPE_TIME);
+            time = MEDIUM_RECIPE_TIME;
         }
         else if (recipe > 30 & recipe < 59)
         {
-            SetOrderTimer(HARD_RECIPE_TIME);
+            time = HARD_RECIPE_TIME;
         }
         else if (recipe >= 60)
         {
-            SetOrderTimer(HARDCORE_RECIPE_TIME);
+            time = HARDCORE_RECIPE_TIME;
         }
         else
         {
-            SetOrderTimer(EASY_RECIPE_TIME);
+            time = EASY_RECIPE_TIME;
         }
+
+        return time;
     }
 
     public void CrossOrder()
     {
+        Debug.Log("Cross Order");
         //if time is up for the order, the background goes red
         //and the order disapear.
-        //TODO
-        Debug.Log("Taco : " + recipe + " = Order crossed cause Timer went out!");
-        board.LoseOneStar();
-        board.DoneWithOrder(this);
-        Reset();
-    }
-
-    public void SetInUse(bool inUse)
-    {
-        isInUse = inUse;
-    }
-
-    public bool GetIsInUse()
-    {
-        return isInUse;
+        //TODO        
+        board.DoneWithOrder(orderId);
     }
 
 
@@ -147,16 +136,24 @@ public class Order : MonoBehaviour
         return taco | topingToAdd;
     }
 
-    public void Reset()
-    {
-        //TODO
-        isInUse = false;
-        almostOver = false;        
-    }
-
     public bool IsAlmostOver()
     {
         return almostOver;
     }
 
+    public void SetId()
+    {
+        id++;
+        orderId = id;
+    }
+
+    public int GetId()
+    {
+        return orderId;
+    }
+
+    public void OntimerIsOutLogic()
+    {
+        CrossOrder();
+    }
 }
