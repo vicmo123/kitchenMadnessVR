@@ -130,8 +130,13 @@ public class Cuttable : MonoBehaviour
         Rigidbody leftRb = null;
         Rigidbody rightRb = null;
 
-        leftParent.AddComponent<BoxCollider>();
-        rightParent.AddComponent<BoxCollider>();
+        BoxCollider leftCollider = leftParent.AddComponent<BoxCollider>();
+        BoxCollider rightCollider = rightParent.AddComponent<BoxCollider>();
+        leftCollider.size = gameObject.transform.localScale;
+        rightCollider.size = gameObject.transform.localScale;
+        leftCollider.center = leftParent.transform.localPosition;
+        rightCollider.center = rightParent.transform.localPosition;
+
 
         leftRb = leftParent.AddComponent<Rigidbody>();
         rightRb = rightParent.AddComponent<Rigidbody>();
@@ -294,7 +299,7 @@ public class Cuttable : MonoBehaviour
     private void setNewParent(Transform newParent, Transform objectToParent)
     {
         objectToParent.SetParent(null, true);
-        objectToParent.SetParent(newParent, true);
+        objectToParent.SetParent(newParent, false);
     }
     private void setNewParent(Transform newParent, ArrayList objectsToParent)
     {
@@ -330,12 +335,12 @@ public class Cuttable : MonoBehaviour
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int z = 0; z < wedges.GetLength(1); z++)
                         leftHalf.Add(wedges[x, 1, z]);
-                leftParent.transform.position += new Vector3(0, -transform.position.y, 0);
+                leftParent.transform.position += new Vector3(0, transform.position.y / 2, 0);
 
                 for (int x = 0; x < wedges.GetLength(0); x++)
                     for (int z = 0; z < wedges.GetLength(1); z++)
                         rightHalf.Add(wedges[x, 0, z]);
-                rightParent.transform.position += new Vector3(0, transform.position.y, 0);
+                rightParent.transform.position += new Vector3(0, -transform.position.y / 2, 0);
 
                 break;
             case ColliderPlane.YZ:
