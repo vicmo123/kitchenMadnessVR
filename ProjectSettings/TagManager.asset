@@ -8,6 +8,7 @@ TagManager:
   - RoomLight
   - Left Hand
   - Right Hand
+  - Rat
   layers:
   - Default
   - TransparentFX
