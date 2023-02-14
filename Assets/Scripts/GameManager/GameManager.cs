@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
-        Debug.Log(CurrentState);
     }
 
     //Condition check for state transitions
@@ -171,8 +170,6 @@ public class GameManager : MonoBehaviour
             currentNumberOfStars--;
         }
 
-        Debug.Log(currentNumberOfStars);
-
         boardManager.ElapsedTime = timer.Elapsed;
         rats.timeElapsedRound = timer.Elapsed;
     }
@@ -184,8 +181,6 @@ public class GameManager : MonoBehaviour
         isRoundActive = false;
         startGameUi.gameObject.SetActive(true);
         startGameUi.ResetUi();
-
-        Debug.Log(currentNumberOfStars);
 
         //The player will have the option to start a new game with input
         //If option to continue is chosen, will proceed to restart round
@@ -199,7 +194,11 @@ public class GameManager : MonoBehaviour
         CurrentState = EndGame;
 
         //Once you are here, you cannot go to another state
-        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     public static IEnumerator WaitForFrames(int frameCount)

@@ -45,7 +45,6 @@ public class RatsManager : MonoBehaviour
 
     private void OnTimerInvokeLogic()
     {
-        Debug.Log("Ding ding");
         SpawnNewRat();
         timeBeforeSpawnInvoke = Random.Range(timeRange.x, timeRange.y) * timePassedFactor;
         timer.SetDuration(timeBeforeSpawnInvoke);

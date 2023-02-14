@@ -87,7 +87,6 @@ public class RatStateMachine
     {
         timer.UpdateTimer();
         stateMachine.OnLogic();
-        Debug.Log(CurrentState);
     }
 
     //OnLogic
@@ -96,6 +95,7 @@ public class RatStateMachine
         CurrentState = Walk;
         if (rat.CheckIfDestinationReached())
         {
+            SoundManager.GameOver.Invoke();
             rat.agent.SetDestination(rat.GenerateRandomNavMeshPos());
         }
     }
@@ -103,7 +103,6 @@ public class RatStateMachine
     private void OnExitLogic()
     {
         CurrentState = Exit;
-        Debug.Log(rat.agent.destination);
         if (rat.CheckIfDestinationReached())
         {
             GameObject.Destroy(rat.gameObject);
@@ -149,11 +148,13 @@ public class RatStateMachine
 
             for (int i = 0; i < sphereCastHits.Length; i++)
             {
-                if (sphereCastHits[i].collider.gameObject.tag == "Player")
+                if (sphereCastHits[i].collider.gameObject.tag == "Food")
                 {
-                    Debug.Log("Hit");
-                    rat.agent.SetDestination(sphereCastHits[i].transform.position);
-                    return true;
+                    if(sphereCastHits[i].collider.GetComponent<Pickupable>().isGrabbedByRat == false)
+                    {
+                        rat.agent.SetDestination(sphereCastHits[i].transform.position);
+                        return true;
+                    }
                 }
             }
         }

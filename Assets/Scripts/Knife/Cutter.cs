@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Cutter : MonoBehaviour
 {
-    Transform cutterPosition;
-
 
     // Update is called once per frame
     void FixedUpdate()
@@ -16,7 +14,7 @@ public class Cutter : MonoBehaviour
     public void ObjectCutter()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cutterPosition.position, -(cutterPosition.forward), out hit, 0.4f, LayerMask.GetMask("Cuttable")))
+        if (Physics.Raycast(transform.position, -(transform.forward), out hit, 1, LayerMask.GetMask("Food")))
         {
             Cuttable cuttable = hit.collider.gameObject.GetComponent<Cuttable>();
             if (cuttable != null)
