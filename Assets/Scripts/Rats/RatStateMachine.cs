@@ -95,6 +95,7 @@ public class RatStateMachine
         CurrentState = Walk;
         if (rat.CheckIfDestinationReached())
         {
+            SoundManager.GameOver.Invoke();
             rat.agent.SetDestination(rat.GenerateRandomNavMeshPos());
         }
     }
