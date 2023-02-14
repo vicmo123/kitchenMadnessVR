@@ -14,18 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOver: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
     type: 3}
-  MainTheme: {fileID: 0}
-  LooseStar: {fileID: 0}
-  ButtonClick: {fileID: 0}
-  MoveOrder: {fileID: 0}
-  GoodJob: {fileID: 0}
-  BellDing: {fileID: 0}
-  Chopping: {fileID: 0}
-  Grilling: {fileID: 0}
-  Sclicing: {fileID: 0}
-  FoodDroped: {fileID: 0}
-  ToolDropped: {fileID: 0}
-  TreadmillSound: {fileID: 0}
-  SpawnSqueek: {fileID: 0}
-  FoodSpottedSound: {fileID: 0}
-  DinosaurRoar: {fileID: 0}
+  MainTheme: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  LooseStar: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  ButtonClick: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  MoveOrder: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  GoodJob: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0, type: 3}
+  BellDing: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  Chopping: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  Grilling: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  Sclicing: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  FoodDroped: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  ToolDropped: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  TreadmillSound: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  CatchFire: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  SauceSquirt: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  FoodFallsInTrash: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  SpawnSqueek: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  FoodSpottedSound: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}
+  DinosaurRoar: {fileID: 6941257477189453603, guid: e0b1b310cd2e2584b8a4a36239f077a0,
+    type: 3}

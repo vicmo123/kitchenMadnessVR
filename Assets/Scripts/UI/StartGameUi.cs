@@ -14,7 +14,7 @@ public class StartGameUi : MonoBehaviour
     {
         StartButtonClickedEvent = new UnityEvent();
         StartButtonClickedEvent.AddListener(StartGame);
-
+        StartButtonClickedEvent.AddListener(SoundManager.ButtonClick.Invoke);
         cam = Camera.main;
     }
 
@@ -61,7 +61,6 @@ public class StartGameUi : MonoBehaviour
     public void StartGame()
     {
         startGame = true;
-        Debug.Log("GAME STARTED!!!!!");
     }
 
     public void ResetUi()

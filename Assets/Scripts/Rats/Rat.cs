@@ -9,7 +9,6 @@ using UnityEngine.AI;
 public class Rat : MonoBehaviour
 {
     #region AiData
-    public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
     [Range(0, 100)] public float walkSpeed;
     [Range(0, 100)] public float chaseSpeed;
