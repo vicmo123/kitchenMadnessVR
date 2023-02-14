@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 5697931731396676574}
   - component: {fileID: 6352482926457772325}
   - component: {fileID: 462081788646120671}
+  - component: {fileID: 2074811178}
   m_Layer: 0
   m_Name: Raw_Tortilla_Prefab
   m_TagString: Untagged
@@ -503,7 +504,8 @@ MonoBehaviour:
   m_AddDefaultGrabTransformers: 1
   leftHandTransform: {fileID: 0}
   rightHandTransform: {fileID: 0}
-  isGrabbed: 0
+  isGrabbedByPlayer: 0
+  isGrabbedByRat: 0
 --- !u!114 &462081788646120671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,6 +518,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602eda310ba323540b8c0d0845117876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2074811178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4935668597468439439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aca5acf9a25e87f4ca3c289f51a54484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burningTime: 3
+  grillingTime: 10
+  material1: {fileID: 2100000, guid: 7a39bb2b132283a4cbec0235d8a4aaea, type: 2}
+  material2: {fileID: 2100000, guid: 371bb48cfe125e1439ac65a8e9e3774a, type: 2}
+  rend: {fileID: 2019955281649024231}
 --- !u!1 &5306847867103008278
 GameObject:
   m_ObjectHideFlags: 0

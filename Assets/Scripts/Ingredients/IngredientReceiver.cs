@@ -10,13 +10,13 @@ public class IngredientReceiver : MonoBehaviour
     public delegate void ReceiverDelegate(Toppingable ingredient);
     public ReceiverDelegate receiverDelegate;
 
-    [HideInInspector] public bool ready;
+    public bool ready;
 
     // Start is called before the first frame update
     void Start()
     {
         ingredients = new List<Toppingable>();
-        ready = true;
+        ready = false;
     }
 
     // Update is called once per frame
