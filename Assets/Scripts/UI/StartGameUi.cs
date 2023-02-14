@@ -58,9 +58,10 @@ public class StartGameUi : MonoBehaviour
         }
     } 
 
-    private void StartGame()
+    public void StartGame()
     {
         startGame = true;
+        Debug.Log("GAME STARTED!!!!!");
     }
 
     public void ResetUi()
@@ -69,9 +70,9 @@ public class StartGameUi : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.CompareTag("Right Hand") || collision.gameObject.CompareTag("Left Hand"))
+        if(other.gameObject.CompareTag("Right Hand") || other.gameObject.CompareTag("Left Hand"))
         {
             StartButtonClickedEvent.Invoke();
         }
