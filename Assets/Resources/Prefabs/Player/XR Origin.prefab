@@ -1269,4 +1269,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a06c83b70d7eb448077c43ef9db196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraOffset: {fileID: 0}
+  cameraOffset: {fileID: 1638117932593303428}
