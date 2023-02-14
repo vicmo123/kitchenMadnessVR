@@ -8,8 +8,9 @@ using UnityEngine;
 
 public enum CuttingState { NotCutting, StartCut, IsCutting, ReachedCenter, StoppedCutting}
 public enum ColliderPlane { None = 0, XY, XZ, YZ}
-
-class CutInfo
+ 
+public enum CuttingMode { Ingredient, MeatCone}
+class CutInfo 
 {
     //This class stores the information of a cut that is currently being made to the object
 
@@ -27,7 +28,7 @@ class CutInfo
 }
 
 [RequireComponent(typeof(Rigidbody))]
-public class Cuttable : MonoBehaviour
+public class Cuttable : MonoBehaviour,InterFace_Cutter
 {
     private Rigidbody rb;
     private MeshRenderer[] childrenMeshRenderers;
@@ -38,7 +39,6 @@ public class Cuttable : MonoBehaviour
     private BoxCollider horizontalCuttingTrigger;
     private BoxCollider verticalCuttingTriggerX;
     private BoxCollider verticalCuttingTriggerZ;
-
     private SphereCollider physicsCollider;
 
     
@@ -72,7 +72,7 @@ public class Cuttable : MonoBehaviour
         CreateTriggerZones();
     }
 
-    public void tryCut(RaycastHit hit)
+    public void Cut(RaycastHit hit)
     {
         //transform the normal and point from worldspace to localspace
         Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
@@ -111,7 +111,7 @@ public class Cuttable : MonoBehaviour
                 break;
             case CuttingState.StoppedCutting:
                 //erase information of the cut
-                cut = new();
+                cut = new CutInfo();
                 cut.state = CuttingState.NotCutting;
                 break;
         }
@@ -179,7 +179,7 @@ public class Cuttable : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        cut = new();
+        cut = new CutInfo();
         cut.state = CuttingState.NotCutting;
     }
 
@@ -193,6 +193,7 @@ public class Cuttable : MonoBehaviour
             return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z : collider.bounds.size.x ;
         return 0;
     }
+
     private void debuggCheckCollider(Collider collider)
     {
         if (collider.Equals(horizontalCuttingTrigger))
@@ -215,6 +216,7 @@ public class Cuttable : MonoBehaviour
         }
         
     }
+
     private ColliderPlane getColliderEnum(Collider collider)
     {
         if (collider.Equals(horizontalCuttingTrigger))
@@ -233,6 +235,7 @@ public class Cuttable : MonoBehaviour
 
     }
     //Function that creates three trigger zones in each axis of the cuttable game object to detect for cut
+
     void CreateTriggerZones()
     {
         //Create cutting colliders
@@ -288,6 +291,7 @@ public class Cuttable : MonoBehaviour
         }
     
     }
+
     void InitializeWedgeArray(Transform[] childrentransform)
     {
         childrentransform = GetComponentsInChildren<Transform>();
@@ -302,11 +306,13 @@ public class Cuttable : MonoBehaviour
                         index += 2;
                     }
     }
+
     private void setNewParent(Transform newParent, Transform objectToParent)
     {
         objectToParent.SetParent(null, true);
         objectToParent.SetParent(newParent, true);
     }
+
     private void setNewParent(Transform newParent, ArrayList objectsToParent)
     {
         foreach (GameObject gameObject in objectsToParent)
@@ -314,6 +320,7 @@ public class Cuttable : MonoBehaviour
             setNewParent(newParent, gameObject.transform);
         }
     }
+
     private void reParentCut(ColliderPlane colliderPlane, ref ArrayList leftHalf, ref ArrayList rightHalf, out GameObject leftParent, out GameObject rightParent)
     {
         leftParent = new GameObject();

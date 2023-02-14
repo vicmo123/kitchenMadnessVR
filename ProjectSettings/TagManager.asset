@@ -11,6 +11,7 @@ TagManager:
   - Rat
   - UI
   - Food
+  - MeatCone
   layers:
   - Default
   - TransparentFX
