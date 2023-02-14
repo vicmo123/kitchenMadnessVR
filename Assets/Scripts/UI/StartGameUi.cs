@@ -68,4 +68,12 @@ public class StartGameUi : MonoBehaviour
         startGame = false;
         transform.position = new Vector3(0, 0, 0);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Right Hand") || collision.gameObject.CompareTag("Left Hand"))
+        {
+            StartButtonClickedEvent.Invoke();
+        }
+    }
 }
