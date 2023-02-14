@@ -21,6 +21,10 @@ public class SoundManager : MonoBehaviour
     public static Action FoodDroped;
     public static Action ToolDropped;
     public static Action TreadmillSound;
+    public static Action CatchFire;
+    public static Action SauceSquirt;
+    public static Action FoodFallsInTrash;
+
     //Rats
     public static Action SpawnSqueek;
     public static Action FoodSpottedSound;
@@ -44,6 +48,9 @@ public class SoundManager : MonoBehaviour
     public AudioSource SpawnSqueekSource;
     public AudioSource FoodSpottedSoundSource;
     public AudioSource DinosaurRoarSource;
+    public AudioSource CatchFireSource;
+    public AudioSource SauceSquirtSource;
+    public AudioSource FoodFallsInTrashSource;
 
     public SoundData Data;
 
@@ -65,7 +72,9 @@ public class SoundManager : MonoBehaviour
         SpawnSqueekSource = Instantiate(Data.SpawnSqueek, transform);
         FoodSpottedSoundSource = Instantiate(Data.FoodSpottedSound, transform);
         DinosaurRoarSource = Instantiate(Data.DinosaurRoar, transform);
-
+        CatchFireSource = Instantiate(Data.CatchFire, transform);
+        SauceSquirtSource = Instantiate(Data.SauceSquirt, transform);
+        FoodFallsInTrashSource = Instantiate(Data.FoodFallsInTrash, transform);
 
         GameOver += () => { PlaySound(GameOverSource); };
         MainTheme += () => { PlaySound(MainThemeSource); };
@@ -83,6 +92,9 @@ public class SoundManager : MonoBehaviour
         SpawnSqueek += () => { PlaySound(SpawnSqueekSource); };
         FoodSpottedSound += () => { PlaySound(FoodSpottedSoundSource); };
         DinosaurRoar += () => { PlaySound(DinosaurRoarSource); };
+        CatchFire += () => { PlaySound(CatchFireSource); };
+        SauceSquirt += () => { PlaySound(SauceSquirtSource); };
+        FoodFallsInTrash += () => { PlaySound(FoodFallsInTrashSource); };
     }
 
     private void OnDisable()
@@ -103,6 +115,9 @@ public class SoundManager : MonoBehaviour
         SpawnSqueek = null;
         FoodSpottedSound = null;
         DinosaurRoar = null;
+        CatchFire = null;
+        SauceSquirt = null;
+        FoodSpottedSound = null;
     }
 
     private void PlaySound(AudioSource audio)

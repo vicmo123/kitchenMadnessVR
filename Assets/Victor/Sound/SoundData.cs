@@ -22,6 +22,9 @@ public class SoundData : ScriptableObject
     public AudioSource FoodDroped;
     public AudioSource ToolDropped;
     public AudioSource TreadmillSound;
+    public AudioSource CatchFire;
+    public AudioSource SauceSquirt;
+    public AudioSource FoodFallsInTrash;
 
     //Rats
     public AudioSource SpawnSqueek;
