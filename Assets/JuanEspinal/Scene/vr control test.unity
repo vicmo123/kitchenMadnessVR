@@ -1010,6 +1010,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &698471810 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1638117932593303428, guid: 72d4ba244125ac74d88202fe51595254,
+    type: 3}
+  m_PrefabInstance: {fileID: 1724138819969819891}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &791095178
 GameObject:
   m_ObjectHideFlags: 0
@@ -3052,5 +3058,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin
       objectReference: {fileID: 0}
+    - target: {fileID: 1724138820262046791, guid: 72d4ba244125ac74d88202fe51595254,
+        type: 3}
+      propertyPath: cameraOffset
+      value: 
+      objectReference: {fileID: 698471810}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d4ba244125ac74d88202fe51595254, type: 3}
