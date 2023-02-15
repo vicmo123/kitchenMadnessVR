@@ -7,14 +7,18 @@ public class Burnable : MonoBehaviour
     private enum State
     {
         Grilling,
-        Burning
+        Burning,
+        Destroying
     }
 
+    public float destroyingTime = .5f;
     public float burningTime = 3;
     public float grillingTime = 10;
 
+    public GameObject firePrefab;
+
     float initialGrillingTime;
-    float initialBurningTime;
+    float startDestroying;
 
     private State state;
 
@@ -29,14 +33,14 @@ public class Burnable : MonoBehaviour
     private void Start() {
         if (grillingTime <= 0) {
             state = State.Burning;
-        } else {
+        }
+        else {
             state = State.Grilling;
         }
 
         rend.material = material1;
 
         initialGrillingTime = grillingTime;
-        initialBurningTime = burningTime;
     }
 
     public void OnGrill(Burner burner) {
@@ -45,7 +49,8 @@ public class Burnable : MonoBehaviour
             if (grillingTime <= 0) {
                 Grilled();
             }
-        } else if (state == State.Burning) {
+        }
+        else if (state == State.Burning) {
             burningTime -= burner.grillingMultiplier * Time.deltaTime;
             if (burningTime <= 0) {
                 Burnt();
@@ -60,16 +65,27 @@ public class Burnable : MonoBehaviour
     }
 
     private void Burnt() {
-        Destroy(this.gameObject);
+        Instantiate(firePrefab, this.gameObject.transform.position, firePrefab.transform.rotation);
 
-        burntDelegate.Invoke();
+        state = State.Destroying;
+        startDestroying = Time.time;
+
+        //burntDelegate.Invoke();
+    }
+
+    private void Destroyed() {
+        if (Time.time >= startDestroying + destroyingTime) {
+            Destroy(this.gameObject);
+        }
     }
 
     void Update() {
-        float lerp = (initialGrillingTime - grillingTime) / initialGrillingTime;
-        rend.material.Lerp(material1, material2, lerp);
-
-        //float burnLevel = 255 * burningTime / initialBurningTime;
-        //rend.material.color = new Color(burnLevel, burnLevel, burnLevel);
+        if (state == State.Grilling) {
+            float lerp = (initialGrillingTime - grillingTime) / initialGrillingTime;
+            rend.material.Lerp(material1, material2, lerp);
+        }
+        if (state == State.Destroying) {
+            Destroyed();
+        }
     }
 }
