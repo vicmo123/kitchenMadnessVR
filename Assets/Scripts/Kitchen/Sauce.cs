@@ -22,11 +22,12 @@ public class Sauce : MonoBehaviour
             {
                 if(hit.collider.gameObject.CompareTag("Counter"))
                 {
-                    Debug.DrawRay(transform.position, -(transform.up), Color.red);
+                    Debug.Log("Counterhit"); 
+                  //  Debug.DrawLine(transform.position, -(transform.up), Color.red);
                 }
                 if (hit.collider.gameObject.CompareTag("Floor"))
                 {
-                    Debug.DrawRay(transform.position, -(transform.up), Color.red);
+                    Debug.DrawLine(transform.position,transform.up, Color.red);
                 }
 
 
