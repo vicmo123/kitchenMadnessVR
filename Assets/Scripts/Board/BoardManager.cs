@@ -52,7 +52,7 @@ public class BoardManager : MonoBehaviour
         {
             Order order = new Order(this);
             order.IsActive = true;
-            order.SetRecipe((int)GenerateToppings());
+            order.SetRecipe(GenerateToppings());
             order.SetOrderTimer();
             order.SetId();
 

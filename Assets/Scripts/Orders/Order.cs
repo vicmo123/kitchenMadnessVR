@@ -31,23 +31,30 @@ public class Order
     const float MEDIUM_RECIPE_TIME = 15.0f;
     const float HARD_RECIPE_TIME = 20.0f;
     const float HARDCORE_RECIPE_TIME = 25.0f;
-    const float ALMOST_OVER_TIME = 4;
+    const float ALMOST_OVER_TIME = 10;
     private static int id = 0;
 
     public BoardManager board;
+    public List<Image> images = new List<Image>();
     private float timeOfCreation;
+    private bool isActive = false;
     public float TimeOfCreation { get => timeOfCreation; set => timeOfCreation = value; }
     public bool IsActive { get => isActive; set => isActive = value; }
+    public float Pourcentage { get => pourcentage; }
 
     private OrderTimer orderTimer;
-    private int recipe = 0b111000;
+    private IngredientEnum recipe = IngredientEnum.EasyTaco;
+    private float pourcentage = 100;
     private bool almostOver = false;
     private int orderId = 0;
-    private bool isActive = false;
 
    public Order(BoardManager board)
     {
         this.board = board;
+        foreach (Image image in images)
+        {
+            image.rectTransform.gameObject.active = false;
+        }
     }
     public void SetOrderTimer()
     {
@@ -59,7 +66,7 @@ public class Order
         //Load Prefab Sprite
     }
 
-    public bool IsCorrespondingToOrder(int ingredients)
+    public bool IsCorrespondingToOrder(IngredientEnum ingredients)
     {
         bool corresponding = false;
         if ((recipe | ingredients) == recipe)
@@ -72,19 +79,25 @@ public class Order
     public void UpdateOrder()
     {
         orderTimer.UpdateTimer();
-
-        float timeLeft = orderTimer.GetTimeLeft();
-        if (timeLeft <= ALMOST_OVER_TIME)
+        pourcentage = orderTimer.GetPourcentageLeft();
+        
+        if (pourcentage <= ALMOST_OVER_TIME)
         {
             almostOver = true;
             Debug.Log("Time almost up for order #" + orderId);
         }
     }
 
-    public void SetRecipe(int recipe)
+    public void SetRecipe(IngredientEnum recipe)
     {
-        this.recipe = recipe;        
+        this.recipe = recipe;
         //Load Sprite Prefabs Accordingly to the list of topings
+        
+    }
+
+    public IngredientEnum GetRecipe()
+    {
+        return recipe;
     }
 
 
@@ -101,15 +114,15 @@ public class Order
 
         float time;
 
-        if (recipe > 7 & recipe < 30)
+        if ((int)recipe > 7 & (int)recipe < 30)
         {
             time = MEDIUM_RECIPE_TIME;
         }
-        else if (recipe > 30 & recipe < 59)
+        else if ((int)recipe > 30 & (int)recipe < 59)
         {
             time = HARD_RECIPE_TIME;
         }
-        else if (recipe >= 60)
+        else if ((int)recipe >= 60)
         {
             time = HARDCORE_RECIPE_TIME;
         }

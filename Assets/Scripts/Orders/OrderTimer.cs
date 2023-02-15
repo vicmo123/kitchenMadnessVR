@@ -59,7 +59,7 @@ public class OrderTimer
         return color;
     }    
 
-    public float GetTimeLeft()
+    public float GetPourcentageLeft()
     {
         return timeRemaining;
     }    
