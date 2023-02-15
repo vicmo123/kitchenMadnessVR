@@ -128,7 +128,6 @@ GameObject:
   - component: {fileID: 1638117932758370424}
   - component: {fileID: 1638117932758370425}
   - component: {fileID: 1724138820882195473}
-  - component: {fileID: 1724138820882195478}
   - component: {fileID: 1724138820882195472}
   m_Layer: 0
   m_Name: LeftController
@@ -357,19 +356,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &1724138820882195478
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638117932758370427}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1724138820882195472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +451,6 @@ GameObject:
   - component: {fileID: 1638117933187288311}
   - component: {fileID: 1638117933187288308}
   - component: {fileID: 1724138821074146029}
-  - component: {fileID: 1724138821074146002}
   - component: {fileID: 1724138821074146028}
   m_Layer: 0
   m_Name: RightController
@@ -693,19 +678,6 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &1724138821074146002
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638117933187288310}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1724138821074146028
 MonoBehaviour:
@@ -1126,6 +1098,8 @@ GameObject:
   - component: {fileID: 2071939057687465277}
   - component: {fileID: 931865679316975042}
   - component: {fileID: 1724138820262046791}
+  - component: {fileID: 376910048213739512}
+  - component: {fileID: 536361267}
   m_Layer: 0
   m_Name: XR Device Simulator
   m_TagString: Untagged
@@ -1269,4 +1243,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a06c83b70d7eb448077c43ef9db196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraOffset: {fileID: 1638117932593303428}
+  XROrigin: {fileID: 1638117933489889874}
+--- !u!114 &376910048213739512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724138820262046787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e63b23e5878ca7c4fb132e2071290fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensX: 350
+  sensY: 350
+  orientation: {fileID: 1638117933489889874}
+--- !u!114 &536361267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724138820262046787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 938201b2bc18a844bad7cb04ae956706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1638117933489889874}
+  speed: 2

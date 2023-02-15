@@ -6,7 +6,8 @@ using UnityEngine.XR.Management;
 
 public class DetectVR : MonoBehaviour
 {
-    public Transform cameraOffset;
+    public Transform XROrigin;
+    static public Vector3 startingPosition = new Vector3(0, .7f, 0);
 
     void Start()
     {
@@ -27,7 +28,8 @@ public class DetectVR : MonoBehaviour
         if (xrLoader == null)
         {
             Debug.Log("xrLoader is null");
-            cameraOffset.transform.position = new Vector3(0, .7f, 0);
+
+            XROrigin.transform.position = startingPosition;
             return;
         }
 
