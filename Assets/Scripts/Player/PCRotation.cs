@@ -19,6 +19,8 @@ public class PCRotation : MonoBehaviour
     }
     private void Update()
     {
+        if (!Input.GetMouseButton(2) && !Input.GetMouseButton(1))
+        {
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
@@ -27,5 +29,6 @@ public class PCRotation : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         orientation.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        }
     }
 }
