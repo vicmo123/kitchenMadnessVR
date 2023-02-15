@@ -18,8 +18,8 @@ public class Dinosaur : MonoBehaviour
     [Range(1, 20)] public float sightLenght;
     [Range(1, 20)] public float sightRadius;
 
-    [HideInInspector] public float loopTime;
-    [HideInInspector] public float hungryFactor;
+    private float loopTime = 10.0f;
+    private float hungryFactor = 1.0f;
     [HideInInspector] public bool isAngry = false;
     #endregion
 
@@ -30,22 +30,22 @@ public class Dinosaur : MonoBehaviour
     {
         timer = new CountDownTimer(loopTime * hungryFactor, true);
 
-        stateMachine = new DinosaurStateMachine();
-        SetStateMachineActions();
-
+        stateMachine = new DinosaurStateMachine(this);
         agent = GetComponent<NavMeshAgent>();
+        SetStateMachineActions();
 
         timer.OnTimeIsUpLogic = () =>
         {
             hungryFactor -= 0.1f;
             timer.SetDuration(loopTime * hungryFactor);
             DinosaurMakeSound();
+            Debug.Log("Ding");
+            Debug.Log(loopTime * hungryFactor);
         };
     }
     private void Start()
     {
         stateMachine.InitStateMachine();
-        timer.StartTimer();
     }
 
     private void Update()
@@ -58,6 +58,8 @@ public class Dinosaur : MonoBehaviour
     {
         stateMachine.OnWalkEnter += () =>
         {
+            timer.StartTimer();
+
             if (agent != null)
             {
                 agent.Warp(EntryPoint);
@@ -66,7 +68,7 @@ public class Dinosaur : MonoBehaviour
             }
         };
         stateMachine.OnWaitForOrderEnter += () => { agent.SetDestination(WaitForFoodPoint); };
-        stateMachine.OnAngryEnter += () => { agent.speed = angrySpeed; };
+        stateMachine.OnAngryEnter += () => { agent.speed = angrySpeed; StartCoroutine(BeAnry()); };
         stateMachine.OnExitEnter += () => { agent.SetDestination(ExitPoint); };
 
         stateMachine.OnWalkLogic += () => { OnWalkLogic(); };
@@ -123,32 +125,53 @@ public class Dinosaur : MonoBehaviour
 
     private void OnExitLogic()
     {
-
+        if (CheckIfDestinationReached())
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 
     //Condition check for state machine
-    private bool IsWalkFinished()
+    public bool IsWalkFinished()
     {
-        return timer.Iterations > 1;
+        return timer.Iterations >= 1;
     }
 
-    private bool IsWaitForFoodFinished()
+    public bool IsWaitForFoodFinished()
     {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    private bool IsAngryFinished()
+    public bool IsAngryFinished()
     {
-        return true;
-    }
-
-    private bool IsExitFinished()
-    {
-        return true;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void DinosaurMakeSound()
     {
-        SoundManager.DinosaurRoar.Invoke();
+        //SoundManager.DinosaurRoar.Invoke();
+    }
+
+    private IEnumerator BeAnry()
+    {
+        int i = 0;
+        while (i != 0)
+        {
+            //TODO
+            yield return null;
+        }
     }
 }

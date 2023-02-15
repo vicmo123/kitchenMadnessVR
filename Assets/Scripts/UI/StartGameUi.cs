@@ -17,7 +17,6 @@ public class StartGameUi : MonoBehaviour
         cam = Camera.main;
     }
 
-
     private void Update()
     {
         if (startGame)

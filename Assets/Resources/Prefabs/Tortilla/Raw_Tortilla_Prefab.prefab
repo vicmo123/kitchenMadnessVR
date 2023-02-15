@@ -530,8 +530,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca5acf9a25e87f4ca3c289f51a54484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyingTime: 1
   burningTime: 3
   grillingTime: 10
+  firePrefab: {fileID: 1253142483436318, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
   material1: {fileID: 2100000, guid: 7a39bb2b132283a4cbec0235d8a4aaea, type: 2}
   material2: {fileID: 2100000, guid: 371bb48cfe125e1439ac65a8e9e3774a, type: 2}
   rend: {fileID: 2019955281649024231}
