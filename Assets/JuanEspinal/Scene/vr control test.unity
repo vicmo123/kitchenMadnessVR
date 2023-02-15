@@ -1112,7 +1112,7 @@ PrefabInstance:
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1.654
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
@@ -2467,7 +2467,7 @@ Transform:
   m_GameObject: {fileID: 1681502337}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.25, z: 0.391}
-  m_LocalScale: {x: 1, y: 0.5, z: 0.54531}
+  m_LocalScale: {x: 1, y: 2.5562155, z: 0.54531}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2772,7 +2772,7 @@ PrefabInstance:
     - target: {fileID: 5043626175490654381, guid: ca019643c55b7234eb39353b1d4046b0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.558
+      value: 1.719
       objectReference: {fileID: 0}
     - target: {fileID: 5043626175490654381, guid: ca019643c55b7234eb39353b1d4046b0,
         type: 3}
@@ -3223,6 +3223,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Origin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071939057687465277, guid: 72d4ba244125ac74d88202fe51595254,
+        type: 3}
+      propertyPath: m_MouseXTranslateSensitivity
+      value: 0.0002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071939057687465277, guid: 72d4ba244125ac74d88202fe51595254,
+        type: 3}
+      propertyPath: m_MouseYTranslateSensitivity
+      value: 0.0002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d4ba244125ac74d88202fe51595254, type: 3}
