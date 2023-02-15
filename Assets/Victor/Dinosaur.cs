@@ -162,7 +162,7 @@ public class Dinosaur : MonoBehaviour
 
     private void DinosaurMakeSound()
     {
-        //SoundManager.DinosaurRoar.Invoke();
+        SoundManager.DinosaurRoar.Invoke();
     }
 
     private IEnumerator BeAnry()

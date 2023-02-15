@@ -25,6 +25,7 @@ public class DinosaurManager : MonoBehaviour
         {
             duration = Random.Range(timeRange.x, timeRange.y);
             timer.SetDuration(duration);
+            SpawnDinosaur();
         };
     }
 

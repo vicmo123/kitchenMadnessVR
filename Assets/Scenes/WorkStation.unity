@@ -1303,6 +1303,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: KitchLayout
       objectReference: {fileID: 0}
+    - target: {fileID: 4984587804068325784, guid: 25291abe5d4acba43acc7d8da9b912f0,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4984587804068325784, guid: 25291abe5d4acba43acc7d8da9b912f0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4984587804068325788, guid: 25291abe5d4acba43acc7d8da9b912f0,
         type: 3}
       propertyPath: m_RootOrder
@@ -1372,6 +1382,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 817155944}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &835640216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835640217}
+  m_Layer: 0
+  m_Name: WaitForFoodArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &835640217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835640216}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.474, y: 0.5, z: -14.23}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856602663
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,6 +2423,7 @@ GameObject:
   - component: {fileID: 1601479751}
   - component: {fileID: 1601479750}
   - component: {fileID: 1601479752}
+  - component: {fileID: 1601479753}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -2420,6 +2462,7 @@ MonoBehaviour:
   boardManager: {fileID: 1601479750}
   startGameUi: {fileID: 1111984019}
   ingredientSpawner: {fileID: 358422401}
+  dinoManager: {fileID: 1601479753}
   timeBeforeRoundStarts: 3
   maxNumberOfStars: 5
 --- !u!114 &1601479750
@@ -2484,6 +2527,22 @@ MonoBehaviour:
   SauceSquirtSource: {fileID: 0}
   FoodFallsInTrashSource: {fileID: 0}
   Data: {fileID: 11400000, guid: a395535ca7adee8468f890db34008602, type: 2}
+--- !u!114 &1601479753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601479744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc53c59a5cfd5d145815db26ca2329af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DinoPrefab: {fileID: 7907179060993962223, guid: 675912258f91fe84da370618f6f99bb8,
+    type: 3}
+  ServiceZone: {fileID: 835640217}
+  spawnRadius: 30
 --- !u!1 &1705835273
 GameObject:
   m_ObjectHideFlags: 0
@@ -2502,7 +2561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1705835274
 RectTransform:
   m_ObjectHideFlags: 0
