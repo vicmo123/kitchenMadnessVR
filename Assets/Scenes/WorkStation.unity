@@ -785,6 +785,7 @@ GameObject:
   - component: {fileID: 441604555}
   - component: {fileID: 441604554}
   - component: {fileID: 441604558}
+  - component: {fileID: 441604559}
   m_Layer: 6
   m_Name: food (2)
   m_TagString: Food
@@ -1015,6 +1016,87 @@ MonoBehaviour:
   rightHandTransform: {fileID: 0}
   isGrabbedByPlayer: 0
   isGrabbedByRat: 0
+--- !u!114 &441604559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441604552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders: []
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_CustomReticle: {fileID: 0}
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &480869035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,7 +1815,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.3, y: 1.3, z: 0.13}
-  m_Center: {x: 0, y: 3.96, z: -3.62}
+  m_Center: {x: -0.12, y: 3.96, z: -3.62}
 --- !u!114 &1111984019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2202,6 +2284,7 @@ GameObject:
   - component: {fileID: 1601479749}
   - component: {fileID: 1601479751}
   - component: {fileID: 1601479750}
+  - component: {fileID: 1601479752}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -2272,6 +2355,38 @@ MonoBehaviour:
   - {fileID: 1917883327}
   - {fileID: 1027236821}
   - {fileID: 900653241}
+--- !u!114 &1601479752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601479744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c57d45d38681a45b818bdc4fe8819c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameOverSource: {fileID: 0}
+  MainThemeSource: {fileID: 0}
+  LooseStarSource: {fileID: 0}
+  ButtonClickSource: {fileID: 0}
+  MoveOrderSource: {fileID: 0}
+  GoodJobSource: {fileID: 0}
+  BellDingSource: {fileID: 0}
+  ChoppingSource: {fileID: 0}
+  GrillingSource: {fileID: 0}
+  SclicingSource: {fileID: 0}
+  FoodDropedSource: {fileID: 0}
+  ToolDroppedSource: {fileID: 0}
+  TreadmillSoundSource: {fileID: 0}
+  SpawnSqueekSource: {fileID: 0}
+  FoodSpottedSoundSource: {fileID: 0}
+  DinosaurRoarSource: {fileID: 0}
+  CatchFireSource: {fileID: 0}
+  SauceSquirtSource: {fileID: 0}
+  FoodFallsInTrashSource: {fileID: 0}
+  Data: {fileID: 11400000, guid: a395535ca7adee8468f890db34008602, type: 2}
 --- !u!1 &1705835273
 GameObject:
   m_ObjectHideFlags: 0

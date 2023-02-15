@@ -14,7 +14,6 @@ public class StartGameUi : MonoBehaviour
     {
         StartButtonClickedEvent = new UnityEvent();
         StartButtonClickedEvent.AddListener(StartGame);
-
         cam = Camera.main;
     }
 
@@ -47,19 +46,19 @@ public class StartGameUi : MonoBehaviour
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if(Physics.Raycast(ray, out hit, 100))
+            if (Physics.Raycast(ray, out hit, 100))
             {
                 if (hit.collider.gameObject.CompareTag("UI"))
                 {
                     StartButtonClickedEvent.Invoke();
-                    Debug.Log("Click");
                 }
             }
         }
-    } 
+    }
 
-    private void StartGame()
+    public void StartGame()
     {
+        SoundManager.ButtonClick.Invoke();
         startGame = true;
     }
 
@@ -67,5 +66,13 @@ public class StartGameUi : MonoBehaviour
     {
         startGame = false;
         transform.position = new Vector3(0, 0, 0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Right Hand") || other.gameObject.CompareTag("Left Hand"))
+        {
+            StartButtonClickedEvent.Invoke();
+        }
     }
 }
