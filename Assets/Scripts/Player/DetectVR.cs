@@ -15,25 +15,19 @@ public class DetectVR : MonoBehaviour
         var xrSettings = XRGeneralSettings.Instance;
         if (xrSettings == null)
         {
-            Debug.Log("xrSettings is null");
             return;
         }
         var xrManager = xrSettings.Manager;
         if (xrManager == null)
         {
-            Debug.Log("xrManager is null");
             return;
         }
         var xrLoader = xrManager.activeLoader;
         if (xrLoader == null)
         {
-            Debug.Log("xrLoader is null");
-
             XROrigin.transform.position = startingPosition;
             return;
         }
-
-        Debug.Log("VR set Connected");
         gameObject.SetActive(false);
     }
 }
