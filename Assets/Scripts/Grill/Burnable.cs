@@ -36,9 +36,9 @@ public class Burnable : MonoBehaviour
         }
         else {
             state = State.Grilling;
-        }
 
-        rend.material = material1;
+            rend.material = material1;
+        }
 
         initialGrillingTime = grillingTime;
     }

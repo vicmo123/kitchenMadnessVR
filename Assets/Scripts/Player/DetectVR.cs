@@ -9,7 +9,7 @@ public class DetectVR : MonoBehaviour
     public Transform XROrigin;
     //public Transform rightHand;
     //bool hasStarted = false;
-    static public Vector3 startingPosition = new Vector3(0, .7f, 0);
+    static public Vector3 startingPosition = new Vector3(0, 1.8f, 0);
 
     void Start()
     {
