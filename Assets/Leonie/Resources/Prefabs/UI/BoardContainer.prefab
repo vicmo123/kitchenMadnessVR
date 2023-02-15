@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7332803852158248653}
   - component: {fileID: 7332803852158248652}
   - component: {fileID: 7332803852158248651}
+  - component: {fileID: 4869123170935746811}
   m_Layer: 0
   m_Name: BoardContainer
   m_TagString: Untagged
@@ -36,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.1}
+  m_AnchoredPosition: {x: 0, y: 0.1000061}
   m_SizeDelta: {x: 4.5, y: 5.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7332803852158248653
@@ -100,3 +101,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4869123170935746811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7332803852158248649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53fe439c372ca7b4a81d66cbed5bf815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orderContainer: {fileID: 729260897274329666, guid: a25a34624c0158348a2f51ecbc932e30,
+    type: 3}
+  starContainer: {fileID: 7864479149725849964, guid: e880174a6e84bab488f85d5611f8a5b9,
+    type: 3}
+  star_Prefab: {fileID: 2256609202842204863, guid: c4e3c2fe3ea6ad849b0309057e102be9,
+    type: 3}
+  orderUI_Prefab: {fileID: 6579994693472626625, guid: adc2b12902844094cac02b5ac927309b,
+    type: 3}

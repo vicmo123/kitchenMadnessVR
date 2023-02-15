@@ -28,9 +28,9 @@ public class BoardManager : MonoBehaviour
 
     public void Update()
     {
-       activeOrders.Where(x => x == null).ToList();
+        activeOrders.Where(x => x == null).ToList();
 
-       
+
         for (int i = 0; i < activeOrders.Count; i++)
         {
             if (activeOrders[i] != null)
@@ -59,7 +59,7 @@ public class BoardManager : MonoBehaviour
             activeOrders.Add(order);
 
             Debug.Log("Generate order id : " + order.GetId());
-            UpdateUI();
+            boardUI.AddOrderToDisplay(order);
         }
     }
 
@@ -128,16 +128,16 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        for (int i = activeOrders.Count -1; i > -1; i--)
+        for (int i = activeOrders.Count - 1; i > -1; i--)
         {
-            if(activeOrders[i].IsActive == false)
+            if (activeOrders[i].IsActive == false)
             {
                 activeOrders.Remove(activeOrders[i]);
             }
         }
         //activeOrders.Where(x => x.IsActive == false).ToList();
 
-        UpdateUI();
+        boardUI.RemoveOrder(id);
     }
 
     int TacoToInt(params IngredientEnum[] recipe)
@@ -152,15 +152,29 @@ public class BoardManager : MonoBehaviour
         return (int)taco;
     }
 
-    void UpdateUI()
-    {
-        if (activeOrders != null)
-            boardUI.UpdateOrdersToDisplay(activeOrders);
-    }
-
     public void LoseOneStar()
     {
         //TODO
         Debug.Log("Lose one star, oh no!");
+    }
+
+    public bool isTacoGoodToServe(IngredientEnum taco)
+    {
+        bool result = false;
+        int indexRecipeToRemove = -1;
+        for (int i = 0; i < activeOrders.Count; i++)
+        {
+            if (activeOrders[i].IsCorrespondingToOrder(taco))
+            {
+                result = true;
+                indexRecipeToRemove = i;
+                break;
+            }
+        }
+        if (indexRecipeToRemove != -1)
+        {            
+            activeOrders.Remove(activeOrders[indexRecipeToRemove]);            
+        }
+        return result;
     }
 }

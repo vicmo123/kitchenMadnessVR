@@ -3,28 +3,57 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class BoardUI : MonoBehaviour
 {
-    public List<Image> images = new List<Image>();
-    private List<Order> orders = new List<Order>();
+    private const int NB_STARS = 5;
+    public Transform orderContainer;
+    public RectTransform starContainer;
+    public Image star_Prefab;
+    public GameObject orderUI_Prefab;
+    private Transform orderSlot;
 
-    private void DisplayOrders()
+    private List<OrderUI> ordersUI = new List<OrderUI>();
+
+
+    public void AddOrderToDisplay(Order order)
     {
-        //TODO
-        //display orders on the board in a grid layout
+        OrderUI orderUI = CreateOrderUI(order);
+        ordersUI.Add(orderUI);
     }
-    public void UpdateOrdersToDisplay(List<Order> updatedList)
+    
+    public void RemoveOrder(int id)
     {
-        orders.Clear();
-        foreach (Order order in updatedList)
+        for (int i =  ordersUI.Count -1; i > -1; i --)
         {
-            orders.Add(order);
-            Debug.Log("updatedList : " + updatedList.Count);
+            if(id == ordersUI[i].GetId())
+            {
+                OrderUI orderToDelete = ordersUI[i];
+                ordersUI.Remove(ordersUI[i]);
+                GameObject.Destroy(orderToDelete.gameObject);
+            }
         }
     }
+
     void Update()
     {
-        DisplayOrders();
+        foreach (OrderUI orderUI in ordersUI)
+        {
+            //orderUI.UpdateTimerUI();
+        }
+    }
+
+    OrderUI CreateOrderUI(Order order)
+    {
+        GameObject go = GameObject.Instantiate<GameObject>(orderUI_Prefab, orderContainer);
+        OrderUI newOrder = go.GetComponent<OrderUI>();
+        //get the last child that got in
+        newOrder.SetOrder(order);
+        ordersUI.Add(newOrder);
+        //newOrder.UpdateTimerUI();
+        newOrder.SetIngredientVisible(order.GetRecipe());
+
+        return newOrder;
     }
 }
