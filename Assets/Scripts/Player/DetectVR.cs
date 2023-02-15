@@ -6,32 +6,38 @@ using UnityEngine.XR.Management;
 
 public class DetectVR : MonoBehaviour
 {
-    public Transform cameraOffset;
+    public Transform XROrigin;
+    //public Transform rightHand;
+    //bool hasStarted = false;
+    static public Vector3 startingPosition = new Vector3(0, .7f, 0);
 
     void Start()
     {
-
         var xrSettings = XRGeneralSettings.Instance;
         if (xrSettings == null)
         {
-            Debug.Log("xrSettings is null");
             return;
         }
         var xrManager = xrSettings.Manager;
         if (xrManager == null)
         {
-            Debug.Log("xrManager is null");
             return;
         }
         var xrLoader = xrManager.activeLoader;
         if (xrLoader == null)
         {
-            Debug.Log("xrLoader is null");
-            cameraOffset.transform.position = new Vector3(0, .7f, 0);
+            XROrigin.transform.position = startingPosition;
             return;
         }
-
-        Debug.Log("VR set Connected");
         gameObject.SetActive(false);
+    }
+    private void Update()
+    {
+        //if (!hasStarted)
+        //{
+        //    Debug.Log("Started");
+        //    hasStarted = true;
+        //    rightHand.position = new Vector3(startingPosition.x + .2f, startingPosition.y - .2f, startingPosition.z + .2f);
+        //}
     }
 }
