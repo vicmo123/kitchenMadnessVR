@@ -319,12 +319,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &148640478 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1638117933187288311, guid: 72d4ba244125ac74d88202fe51595254,
-    type: 3}
-  m_PrefabInstance: {fileID: 1724138819969819891}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &357355681
 GameObject:
   m_ObjectHideFlags: 0
@@ -3170,46 +3164,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 376910048213739512, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: sensX
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 376910048213739512, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: sensY
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638117932758370424, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638117932758370424, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638117932758370424, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638117933187288311, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638117933187288311, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638117933187288311, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1638117933489889874, guid: 72d4ba244125ac74d88202fe51595254,
         type: 3}
       propertyPath: m_RootOrder
@@ -3270,10 +3224,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin
       objectReference: {fileID: 0}
-    - target: {fileID: 1724138820262046791, guid: 72d4ba244125ac74d88202fe51595254,
-        type: 3}
-      propertyPath: rightHand
-      value: 
-      objectReference: {fileID: 148640478}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d4ba244125ac74d88202fe51595254, type: 3}
