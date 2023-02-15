@@ -4,36 +4,69 @@ using UnityEngine;
 
 public class Sauce : MonoBehaviour
 {
-   
+    
+     LineRenderer lr;
+     
+    private void Start()
+    {
+      
+        lr = gameObject.GetComponent<LineRenderer>();
+     //  gameObject.SetActive(true);
+    }
     void Update()
     {
         pourSauce();
     }
 
 
-   public void pourSauce()
+    public void pourSauce()
     {
+
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.up, out hit, 1))
+        if (Physics.Raycast(transform.position, transform.up, out hit, 5))
         {
 
-           
+
             if (hit.collider != null)
             {
-                if(hit.collider.gameObject.CompareTag("Counter"))
+                if (hit.collider.gameObject.CompareTag("Counter"))
                 {
-                    Debug.Log("Counterhit"); 
-                  //  Debug.DrawLine(transform.position, -(transform.up), Color.red);
-                }
-                if (hit.collider.gameObject.CompareTag("Floor"))
-                {
-                    Debug.DrawLine(transform.position,transform.up, Color.red);
+                    // gameObject.SetActive(true);
+                    lr.enabled = true;
+                    saucePouring(hit);
                 }
 
+
+                else if (hit.collider.gameObject.CompareTag("Floor"))
+                {
+                    //gameObject.SetActive(true);
+                    lr.enabled = true;
+                    saucePouring(hit);
+                }
+                else
+                {
+
+                    lr.enabled = false;
+                    //GameObject.Destroy(lr);
+
+                }
 
             }
 
         }
-        
     }
+
+
+        public void saucePouring(RaycastHit hit)
+        {
+            lr.startColor = Color.red;
+            lr.endColor = Color.red;
+            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, hit.point);
+            lr.startWidth = 0.09f;
+            lr.endWidth = 0.2f;
+        }
+    
+    
 }
+
