@@ -91,7 +91,7 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
                 cut.exitPoint = hitPoint;
                 cut.cutPointNormal = hit.normal;
                 cut.currentCollider = hit.collider;
-                cut.minimumCutDistance = GetMinimumCutDistance(cut.currentCollider, hit.normal);
+                //cut.minimumCutDistance = GetMinimumCutDistance(cut.currentCollider, hit.normal);
                 //start the cut
                 cut.state = CuttingState.IsCutting;
                 break;
