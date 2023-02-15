@@ -16,11 +16,17 @@ public class Cutter : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -(transform.forward), out hit, .2f, LayerMask.GetMask("Food")))
         {
-            Cuttable cuttable = hit.collider.gameObject.GetComponent<Cuttable>();
-            if (cuttable != null)
+            
+            InterFace_Cutter ic = hit.collider.GetComponent<InterFace_Cutter>();
+            if(ic!=null)
             {
-                cuttable.tryCut(hit);
+                ic.Cut(hit);
+              
             }
+           
         }
+
+
+
     }
 }
