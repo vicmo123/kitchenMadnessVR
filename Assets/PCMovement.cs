@@ -6,8 +6,14 @@ public class PCMovement : MonoBehaviour
 {
     public Transform player;
 
-    public float fowardBackwardSpeed = 2f;
-    public float leftRightSpeed = 1f;
+    public float fowardBackwardSpeed;
+    public float leftRightSpeed;
+
+    private void Start()
+    {
+        fowardBackwardSpeed = 1.5f;
+        leftRightSpeed = 1.5f;
+    }
 
     private void FixedUpdate()
     {
