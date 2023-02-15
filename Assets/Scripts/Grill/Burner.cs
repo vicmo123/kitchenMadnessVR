@@ -25,18 +25,18 @@ public class Burner : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision) {
-        Burnable burnable = collision.gameObject.GetComponent<Burnable>();
+    private void OnTriggerStay(Collider other) {
+        Burnable burnable = other.gameObject.GetComponent<Burnable>();
         if (burnable != null) {
             burnable.OnGrill(this);
         }
     }
 
-    private void OnCollisionEnter(Collision collision) {
+    private void OnTriggerEnter(Collider other) {
         quantityGrilling++;
     }
 
-    private void OnCollisionExit(Collision collision) {
+    private void OnTriggerExit(Collider other) {
         quantityGrilling--;
     }
 }

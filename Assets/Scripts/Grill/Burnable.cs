@@ -60,7 +60,7 @@ public class Burnable : MonoBehaviour
     }
 
     private void Burnt() {
-        Destroy(this);
+        Destroy(this.gameObject);
 
         burntDelegate.Invoke();
     }
