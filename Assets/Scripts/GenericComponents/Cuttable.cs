@@ -336,20 +336,21 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
                 break;
         }
     }
-    private float GetMinimumCutDistance(Collider collider, Vector3 normal)
+    private float getMinimumCutDistance(Collider collider, Vector3 normal)
     {
-        if (Aproximate(normal.x, 1, .1f) || Aproximate(normal.x, -1, .1f));
-            return collider.Equals(verticalCuttingTriggerX) ? collider.bounds.size.y : collider.bounds.size.z ;
-        if (normal.z == 1 || normal.z == -1)                                  
-            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.y : collider.bounds.extents.x ;
-        if (normal.y == 1 || normal.y == -1)                                  
-            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z : collider.bounds.size.x ;
+        normal.Normalize();
+        if (Approximate(normal.x, 1, .1f) || Approximate(normal.x, -1, .1f))
+            return collider.Equals(verticalCuttingTriggerX) ? collider.bounds.size.y / 2 : collider.bounds.size.z / 2;
+        if (Approximate(normal.z, 1, .1f) || Approximate(normal.z, -1, .1f))
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.y / 2 : collider.bounds.extents.x / 2;
+        if (Approximate(normal.y, 1, .1f) || Approximate(normal.y, -1, .1f))
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z / 2 : collider.bounds.size.x / 2;
         return 0;
     }
 
-    private bool Aproximate(float value, float comparer, float range)
+    bool Approximate(float value, float compare, float range)
     {
-        return false;
+        return value >= compare - range || value <= compare + range;
     }
 
 }
