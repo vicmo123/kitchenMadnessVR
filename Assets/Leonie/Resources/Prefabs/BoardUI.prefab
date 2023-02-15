@@ -110,3 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53fe439c372ca7b4a81d66cbed5bf815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  orderPrefab: {fileID: 4136442920354655371, guid: 288b6510e92236f4c9eaafa97a906730,
+    type: 3}
+  ordersUI: []
+  starPanel: {fileID: 0}
