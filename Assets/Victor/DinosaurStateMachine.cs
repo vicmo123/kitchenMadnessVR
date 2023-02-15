@@ -6,8 +6,11 @@ using FSM;
 
 public class DinosaurStateMachine
 {
-    public DinosaurStateMachine()
+    Dinosaur dino;
+
+    public DinosaurStateMachine(Dinosaur _dino)
     {
+        dino = _dino;
     }
 
     #region StateMachine
@@ -60,9 +63,9 @@ public class DinosaurStateMachine
             onLogic: _ => OnExitLogic.Invoke(),
             onExit: _ => OnExitExit.Invoke()));
 
-        stateMachine.AddTransition(Walk, WaitForOrder, _ => true);
-        stateMachine.AddTransition(WaitForOrder, Angry, _ => false);
-        stateMachine.AddTransition(WaitForOrder, Exit, _ => true);
+        stateMachine.AddTransition(Walk, WaitForOrder, _ => dino.IsWalkFinished());
+        stateMachine.AddTransition(WaitForOrder, Exit, _ => dino.IsWaitForFoodFinished());
+        stateMachine.AddTransition(WaitForOrder, Angry, _ => dino.isAngry);
         stateMachine.AddTransition(Angry, Exit, _ => true);
 
         stateMachine.SetStartState(Walk);
