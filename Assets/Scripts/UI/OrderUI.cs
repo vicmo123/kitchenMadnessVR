@@ -7,7 +7,7 @@ using System;
 
 public class OrderUI : MonoBehaviour
 {
-    private bool DEBUG_MODE = true;
+    private bool DEBUG_MODE = false;
 
     public Transform orderContainer;
 
@@ -56,15 +56,15 @@ public class OrderUI : MonoBehaviour
 
     public void UpdateTimerUI()
     {
-        timer.localScale = new Vector3(order.Pourcentage, 1, 1);
+        timer.localScale = new Vector3(order.PourcentageLeft, 1, 1);
 
-        if (order.Pourcentage > .5)
+        if (order.PourcentageLeft > .5)
         {
             timerImg.color = Color.green;
-        }else if (order.Pourcentage >.2)
+        }else if (order.PourcentageLeft >.2)
         {
             timerImg.color = Color.yellow;
-        }else if (order.Pourcentage <= .20)
+        }else if (order.PourcentageLeft <= .20)
         {
             timerImg.color = Color.red;
         }

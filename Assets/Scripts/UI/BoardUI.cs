@@ -7,7 +7,7 @@ using System.Linq;
 
 public class BoardUI : MonoBehaviour
 {
-    private bool DEBUG_MODE = true;
+    private bool DEBUG_MODE = false;
 
     private const int NB_STARS = 5;
     public Transform orderContainer;

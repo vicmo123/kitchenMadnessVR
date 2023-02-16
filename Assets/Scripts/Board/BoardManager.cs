@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    private bool DEBUG_MODE = true;
+    private bool DEBUG_MODE = false;
 
     private const float FIRST_STAGE_GAME = 60;
     private const float SECOND_STAGE_GAME = 90;

@@ -27,7 +27,7 @@ public enum IngredientEnum
 #endregion
 public class Order
 {
-    private bool DEBUG_MODE = true;
+    private bool DEBUG_MODE = false;
 
     const float EASY_RECIPE_TIME = 20.0f;
     const float MEDIUM_RECIPE_TIME = 25.0f;
@@ -39,17 +39,16 @@ public class Order
     public BoardManager board;
     private bool isActive = false;
     public bool IsActive { get => isActive; set => isActive = value; }
-    public float Pourcentage { get => pourcentage; set => pourcentage = value; }
+    public float PourcentageLeft { get => pourcentage; set => pourcentage = value; }
 
     //private OrderTimer orderTimer;
     private IngredientEnum recipe = IngredientEnum.EasyTaco;
     private bool almostOver = false;
     private int orderId = 0;
     private float duration;
-
-    private CountDownTimer timer;
-    private float timeDuration;
-    private float timeRemaining;
+    private float timeIsOver;
+    private float startTime;
+    
     private float pourcentage;
 
     public Order(BoardManager board, IngredientEnum recipe)
@@ -63,7 +62,9 @@ public class Order
 
     public void SetOrderTimer()
     {
-        duration = GetRecipeTime() + Time.time;
+        startTime = Time.time;
+        duration = GetRecipeTime();
+        timeIsOver = duration + startTime;
     }
 
     public bool IsCorrespondingToOrder(IngredientEnum ingredients)
@@ -78,15 +79,15 @@ public class Order
 
     public void UpdateOrder()
     {
-        Pourcentage = (duration - Time.time) / duration;
+        PourcentageLeft = 1 - ((Time.time - startTime) / (timeIsOver - startTime));
 
-        if (Pourcentage < .3f && almostOver == false)
+        if (PourcentageLeft < .3f && almostOver == false)
         {
             almostOver = true;
             if (DEBUG_MODE)
                 Debug.Log("Time Almost Over :  30%");
         }
-        else if (duration <= Time.time)
+        else if (timeIsOver <= Time.time)
         {
             CrossOrder();
         }
@@ -112,7 +113,7 @@ public class Order
         // tortilla + meat + onion + cheese + sauce  = 31      
         // tortilla + meat + onion + pineapple = 43
         // tortilla + meat + onion + pineapple + sauce  = 47
-        int value = (int)recipe;
+        int value = (int)this.recipe;
         float time;
 
         if (value > 7 & value < 30)
@@ -154,5 +155,5 @@ public class Order
     public int GetId()
     {
         return orderId;
-    }    
+    }
 }
