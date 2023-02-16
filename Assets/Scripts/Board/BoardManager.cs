@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    private const float FIRST_STAGE_GAME = 20;
-    private const float SECOND_STAGE_GAME = 30;
-    private const float THIRD_STAGE_GAME = 40;
+    private const float FIRST_STAGE_GAME = 60;
+    private const float SECOND_STAGE_GAME = 90;
+    private const float THIRD_STAGE_GAME = 180;
 
     public BoardUI boardUI;
 
@@ -28,7 +28,7 @@ public class BoardManager : MonoBehaviour
 
     public void Update()
     {
-        activeOrders.Where(x => x == null).ToList();
+        //activeOrders.Where(x => x == null).ToList();
 
 
         for (int i = 0; i < activeOrders.Count; i++)
@@ -40,22 +40,21 @@ public class BoardManager : MonoBehaviour
         }
 
         //Only one order left on the board, and almost done
-        if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
-        {
-            GenerateOrder();
-        }
+        //if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+        //{
+        //    GenerateOrder();
+        //}
+        //if (ElapsedTime % 90 == 0)
+        //{
+        //    GenerateOrder();
+        //}
     }
 
     public void GenerateOrder()
     {
         if (activeOrders.Count < NB_ORDERS_MAX)
         {
-            Order order = new Order(this);
-            order.IsActive = true;
-            order.SetRecipe(GenerateToppings());
-            order.SetOrderTimer();
-            order.SetId();
-
+            Order order = new Order(this, GenerateToppings());
             activeOrders.Add(order);
 
             Debug.Log("Generate order id : " + order.GetId());
@@ -94,8 +93,10 @@ public class BoardManager : MonoBehaviour
         {
             case FIRST_STAGE_GAME:
                 Debug.Log("First Stage Game");
-                ingredients = posssibleRecipes[0][0];
-                ingredients = posssibleRecipes[1][0];
+                if (Time.time % 2 == 0)
+                    ingredients = posssibleRecipes[0][0];
+                else
+                    ingredients = posssibleRecipes[1][UnityEngine.Random.Range(0, 2)];
                 break;
             case SECOND_STAGE_GAME:
                 Debug.Log("Second Stage Game");
@@ -103,9 +104,12 @@ public class BoardManager : MonoBehaviour
                 break;
             case THIRD_STAGE_GAME:
                 Debug.Log("Third Stage Game");
-                ingredients = posssibleRecipes[2][0];
-                ingredients = posssibleRecipes[3][0];
-                ingredients = posssibleRecipes[4][0];
+                if (Time.time % 2 == 0)
+                    ingredients = posssibleRecipes[2][UnityEngine.Random.Range(0, 2)];
+                else if (Time.time % 3 == 0)
+                    ingredients = posssibleRecipes[4][0];
+                else
+                    ingredients = posssibleRecipes[3][UnityEngine.Random.Range(0, 2)];
                 break;
             default:
                 Debug.Log("Generate Toppings, problems");
@@ -118,6 +122,7 @@ public class BoardManager : MonoBehaviour
     public void DoneWithOrder(int id)
     {
         LoseOneStar();
+
         Debug.Log("Done With Order");
 
         for (int i = 0; i < activeOrders.Count; i++)
@@ -172,8 +177,8 @@ public class BoardManager : MonoBehaviour
             }
         }
         if (indexRecipeToRemove != -1)
-        {            
-            activeOrders.Remove(activeOrders[indexRecipeToRemove]);            
+        {
+            activeOrders.Remove(activeOrders[indexRecipeToRemove]);
         }
         return result;
     }

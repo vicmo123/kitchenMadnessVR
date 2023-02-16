@@ -27,43 +27,41 @@ public enum IngredientEnum
 #endregion
 public class Order
 {
-    const float EASY_RECIPE_TIME = 10.0f;
-    const float MEDIUM_RECIPE_TIME = 15.0f;
-    const float HARD_RECIPE_TIME = 20.0f;
-    const float HARDCORE_RECIPE_TIME = 25.0f;
-    const float ALMOST_OVER_TIME = 10;
+    const float EASY_RECIPE_TIME = 20.0f;
+    const float MEDIUM_RECIPE_TIME = 25.0f;
+    const float HARD_RECIPE_TIME = 40.0f;
+    const float HARDCORE_RECIPE_TIME = 45.0f;
+    const float ALMOST_OVER_TIME = 20;
     private static int id = 0;
 
     public BoardManager board;
-    public List<Image> images = new List<Image>();
-    private float timeOfCreation;
     private bool isActive = false;
-    public float TimeOfCreation { get => timeOfCreation; set => timeOfCreation = value; }
     public bool IsActive { get => isActive; set => isActive = value; }
-    public float Pourcentage { get => pourcentage; }
+    public float Pourcentage { get => pourcentage; set => pourcentage = value; }
 
     private OrderTimer orderTimer;
     private IngredientEnum recipe = IngredientEnum.EasyTaco;
-    private float pourcentage = 100;
     private bool almostOver = false;
     private int orderId = 0;
+    private float duration;
 
-   public Order(BoardManager board)
+    private CountDownTimer timer;
+    private float timeDuration;
+    private float timeRemaining;
+    private float pourcentage;
+
+    public Order(BoardManager board, IngredientEnum recipe)
     {
         this.board = board;
-        foreach (Image image in images)
-        {
-            image.rectTransform.gameObject.active = false;
-        }
+        this.IsActive = true;
+        this.recipe = recipe;
+        orderId = ++id;
+        SetOrderTimer();
     }
+
     public void SetOrderTimer()
     {
-        Debug.Log("Set Order Timer");
-        orderTimer = new OrderTimer(GetRecipeTime());
-        orderTimer.timer.OnTimeIsUpLogic = () => { OntimerIsOutLogic(); };
-        orderTimer.StartTimer();
-        //Load Sprite Prefab of the tortilla and the meat
-        //Load Prefab Sprite
+        duration = GetRecipeTime() + Time.time;
     }
 
     public bool IsCorrespondingToOrder(IngredientEnum ingredients)
@@ -78,28 +76,28 @@ public class Order
 
     public void UpdateOrder()
     {
-        orderTimer.UpdateTimer();
-        pourcentage = orderTimer.GetPourcentageLeft();
-        
-        if (pourcentage <= ALMOST_OVER_TIME)
+        Pourcentage = (duration - Time.time)  / duration;
+
+        if ((duration <= Time.time - (duration / 2.0)) && almostOver == false)
         {
             almostOver = true;
             Debug.Log("Time almost up for order #" + orderId);
+        }
+        else if (duration <= Time.time)
+        {
+            CrossOrder();
         }
     }
 
     public void SetRecipe(IngredientEnum recipe)
     {
         this.recipe = recipe;
-        //Load Sprite Prefabs Accordingly to the list of topings
-        
     }
 
     public IngredientEnum GetRecipe()
     {
         return recipe;
     }
-
 
     public float GetRecipeTime()
     {
@@ -111,18 +109,18 @@ public class Order
         // tortilla + meat + onion + cheese + sauce  = 31      
         // tortilla + meat + onion + pineapple = 43
         // tortilla + meat + onion + pineapple + sauce  = 47
-
+        int value = (int)recipe;
         float time;
 
-        if ((int)recipe > 7 & (int)recipe < 30)
+        if (value > 7 & value < 30)
         {
             time = MEDIUM_RECIPE_TIME;
         }
-        else if ((int)recipe > 30 & (int)recipe < 59)
+        else if (value > 30 & value < 59)
         {
             time = HARD_RECIPE_TIME;
         }
-        else if ((int)recipe >= 60)
+        else if (value >= 60)
         {
             time = HARDCORE_RECIPE_TIME;
         }
@@ -135,11 +133,7 @@ public class Order
     }
 
     public void CrossOrder()
-    {
-        Debug.Log("Cross Order");
-        //if time is up for the order, the background goes red
-        //and the order disapear.
-        //TODO        
+    {     
         board.DoneWithOrder(orderId);
     }
 
@@ -154,12 +148,6 @@ public class Order
         return almostOver;
     }
 
-    public void SetId()
-    {
-        id++;
-        orderId = id;
-    }
-
     public int GetId()
     {
         return orderId;
@@ -167,6 +155,7 @@ public class Order
 
     public void OntimerIsOutLogic()
     {
+        Debug.Log("In order :  timer is up!");
         CrossOrder();
     }
 }

@@ -19,15 +19,14 @@ public class BoardUI : MonoBehaviour
 
     public void AddOrderToDisplay(Order order)
     {
-        OrderUI orderUI = CreateOrderUI(order);
-        ordersUI.Add(orderUI);
+         CreateOrderUI(order);
     }
-    
+
     public void RemoveOrder(int id)
     {
-        for (int i =  ordersUI.Count -1; i > -1; i --)
+        for (int i = ordersUI.Count - 1; i > -1; i--)
         {
-            if(id == ordersUI[i].GetId())
+            if (id == ordersUI[i].GetId())
             {
                 OrderUI orderToDelete = ordersUI[i];
                 ordersUI.Remove(ordersUI[i]);
@@ -40,20 +39,18 @@ public class BoardUI : MonoBehaviour
     {
         foreach (OrderUI orderUI in ordersUI)
         {
-            //orderUI.UpdateTimerUI();
+            orderUI.UpdateTimerUI();
         }
     }
 
-    OrderUI CreateOrderUI(Order order)
+    void CreateOrderUI(Order order)
     {
         GameObject go = GameObject.Instantiate<GameObject>(orderUI_Prefab, orderContainer);
         OrderUI newOrder = go.GetComponent<OrderUI>();
-        //get the last child that got in
+        //Link it with the data order
         newOrder.SetOrder(order);
-        ordersUI.Add(newOrder);
-        //newOrder.UpdateTimerUI();
+        newOrder.UpdateTimerUI();
         newOrder.SetIngredientVisible(order.GetRecipe());
-
-        return newOrder;
+        ordersUI.Add(newOrder);        
     }
 }

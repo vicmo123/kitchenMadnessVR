@@ -11,6 +11,7 @@ public class OrderUI : MonoBehaviour
 
     private List<Transform> ingredients = new List<Transform>();
     private RectTransform timer;
+    private Image timerImg;
     private Transform ingredientContainer;
     private Order order;
     Dictionary<IngredientEnum, GameObject> ingredientsToDisplay = new Dictionary<IngredientEnum, GameObject>();
@@ -36,6 +37,8 @@ public class OrderUI : MonoBehaviour
         }
 
         timer = transform.GetChild(1).GetComponent<RectTransform>();
+        timerImg  = timer.GetComponent<Image>();
+        timerImg.color = Color.green;
     }
 
     public void SetIngredientVisible(IngredientEnum recipe)
@@ -51,7 +54,36 @@ public class OrderUI : MonoBehaviour
 
     public void UpdateTimerUI()
     {
-        timer.localScale = new Vector3(order.Pourcentage / 100, 1, 1);
+        timer.localScale = new Vector3(order.Pourcentage, 1, 1);
+
+        if (order.Pourcentage > .5)
+        {
+            timerImg.color = Color.green;
+        }else if (order.Pourcentage >.2)
+        {
+            timerImg.color = Color.yellow;
+        }else if (order.Pourcentage < .20)
+        {
+            timerImg.color = Color.red;
+        }
+        //switch (order.Pourcentage)
+        //{
+        //    case .7f:
+        //        timerImg.color =  Color.yellow;
+        //        break;
+        //    case .40f:
+        //        timerImg.color = Color.red;
+        //        break;            
+        //    default:
+        //        break;
+        //}
+    }
+    private void Update()
+    {
+        if (order.IsAlmostOver())
+        {
+            timerImg.color = Color.red;
+        }
     }
 
     public void SetOrder(Order order)
