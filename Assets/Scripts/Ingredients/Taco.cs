@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(IngredientReceiver))]
+[RequireComponent(typeof(Burnable))]
 
 public class Taco : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class Taco : MonoBehaviour
         Sauce = 1 << 5    //32
     }
 
+    Burnable burnable;
+
     IngredientReceiver ingredientReceiver;
     List<Ingredients> ingredientList;
 
@@ -38,6 +41,9 @@ public class Taco : MonoBehaviour
         ingredientReceiver = this.GetComponent<IngredientReceiver>();
         ingredientReceiver.receiverDelegate += AddIngredient;
 
+        burnable = this.GetComponent<Burnable>();
+        burnable.grilledDelegate += SetReady;
+        
         ingredientList = new List<Ingredients>();
     }
 
@@ -129,5 +135,9 @@ public class Taco : MonoBehaviour
         }
 
         return taco;
+    }
+
+    public void SetReady() {
+        this.ingredientReceiver.ready = true;
     }
 }

@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
     public BoardManager boardManager;
     public StartGameUi startGameUi;
     public IngredientSpawner ingredientSpawner;
+    public DinosaurManager dinoManager;
 
     //GameFlow variables
     [SerializeField, Range(1.0f, 10.0f)] float timeBeforeRoundStarts = 3.0f;
@@ -121,6 +122,9 @@ public class GameManager : MonoBehaviour
         startGameUi.StartButtonClickedEvent.AddListener(ActivateRound);
         countDownTimer = new CountDownTimer(3.0f, false);
         timer = new Timer();
+
+        OnUpdateRoundEnter += () => { dinoManager.roundActive = true; };
+        OnUpdateRoundExit += () => { dinoManager.roundActive = false; };
     }
 
    
