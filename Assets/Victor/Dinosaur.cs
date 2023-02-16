@@ -12,19 +12,18 @@ public class Dinosaur : MonoBehaviour
     #region AiData
     [HideInInspector] public NavMeshAgent agent;
     [Range(0, 100)] public float walkSpeed;
-    [Range(0, 100)] public float angrySpeed;
-    //Max speed
-    [Range(1, 500)] public float walkRadius;
-    [Range(1, 20)] public float sightLenght;
-    [Range(1, 20)] public float sightRadius;
+    [Range(1, 100)] public float angrySpeed;
+    [Range(1, 00)] public float walkRadius;
 
     private float loopTime = 10.0f;
     private float hungryFactor = 1.0f;
     [HideInInspector] public bool isAngry = false;
+    public GameObject SmokeParticleEffect;
     #endregion
 
     private DinosaurStateMachine stateMachine;
     private CountDownTimer timer;
+    public Animator animator;
 
     private void Awake()
     {
@@ -52,6 +51,10 @@ public class Dinosaur : MonoBehaviour
     {
         stateMachine.UpdateStateMachine();
         timer.UpdateTimer();
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            StartCoroutine(BeAnry());
+        }
     }
 
     private void SetStateMachineActions()
@@ -68,7 +71,7 @@ public class Dinosaur : MonoBehaviour
             }
         };
         stateMachine.OnWaitForOrderEnter += () => { agent.SetDestination(WaitForFoodPoint); };
-        stateMachine.OnAngryEnter += () => { agent.speed = angrySpeed; StartCoroutine(BeAnry()); };
+        stateMachine.OnAngryEnter += () => { agent.speed = angrySpeed; };
         stateMachine.OnExitEnter += () => { agent.SetDestination(ExitPoint); };
 
         stateMachine.OnWalkLogic += () => { OnWalkLogic(); };
@@ -167,11 +170,16 @@ public class Dinosaur : MonoBehaviour
 
     private IEnumerator BeAnry()
     {
-        int i = 0;
-        while (i != 0)
+        animator.SetTrigger("IsAngry");
+        GameObject effect = GameObject.Instantiate<GameObject>(SmokeParticleEffect);
+        
+        while (effect.activeInHierarchy == true)
         {
-            //TODO
+            effect.transform.eulerAngles = transform.eulerAngles;
+            effect.transform.position = new Vector3(transform.position.x, 1.45f, transform.position.z) + (transform.forward * 0.82f);
             yield return null;
         }
+
+        isAngry = true;
     }
 }
