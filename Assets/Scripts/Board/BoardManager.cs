@@ -140,21 +140,8 @@ public class BoardManager : MonoBehaviour
                 activeOrders.Remove(activeOrders[i]);
             }
         }
-        //activeOrders.Where(x => x.IsActive == false).ToList();
 
         boardUI.RemoveOrder(id);
-    }
-
-    int TacoToInt(params IngredientEnum[] recipe)
-    {
-        IngredientEnum taco = IngredientEnum.Tortilla | IngredientEnum.Meat;
-
-        foreach (IngredientEnum ingredient in recipe)
-        {
-            taco = taco | ingredient;
-        }
-
-        return (int)taco;
     }
 
     public void LoseOneStar()

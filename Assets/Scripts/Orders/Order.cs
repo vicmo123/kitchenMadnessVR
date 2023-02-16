@@ -39,7 +39,7 @@ public class Order
     public bool IsActive { get => isActive; set => isActive = value; }
     public float Pourcentage { get => pourcentage; set => pourcentage = value; }
 
-    private OrderTimer orderTimer;
+    //private OrderTimer orderTimer;
     private IngredientEnum recipe = IngredientEnum.EasyTaco;
     private bool almostOver = false;
     private int orderId = 0;
@@ -81,7 +81,6 @@ public class Order
         if ((duration <= Time.time - (duration / 2.0)) && almostOver == false)
         {
             almostOver = true;
-            Debug.Log("Time almost up for order #" + orderId);
         }
         else if (duration <= Time.time)
         {

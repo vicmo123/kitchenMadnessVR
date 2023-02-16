@@ -66,25 +66,8 @@ public class OrderUI : MonoBehaviour
         {
             timerImg.color = Color.red;
         }
-        //switch (order.Pourcentage)
-        //{
-        //    case .7f:
-        //        timerImg.color =  Color.yellow;
-        //        break;
-        //    case .40f:
-        //        timerImg.color = Color.red;
-        //        break;            
-        //    default:
-        //        break;
-        //}
     }
-    private void Update()
-    {
-        if (order.IsAlmostOver())
-        {
-            timerImg.color = Color.red;
-        }
-    }
+    
 
     public void SetOrder(Order order)
     {
