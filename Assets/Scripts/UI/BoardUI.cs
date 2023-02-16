@@ -7,6 +7,8 @@ using System.Linq;
 
 public class BoardUI : MonoBehaviour
 {
+    private bool DEBUG_MODE = true;
+
     private const int NB_STARS = 5;
     public Transform orderContainer;
     public RectTransform starContainer;
@@ -49,7 +51,7 @@ public class BoardUI : MonoBehaviour
         OrderUI newOrder = go.GetComponent<OrderUI>();
         //Link it with the data order
         newOrder.SetOrder(order);
-        newOrder.UpdateTimerUI();
+        //newOrder.UpdateTimerUI();
         newOrder.SetIngredientVisible(order.GetRecipe());
         ordersUI.Add(newOrder);        
     }

@@ -5,21 +5,19 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    private bool DEBUG_MODE = true;
+
     private const float FIRST_STAGE_GAME = 60;
     private const float SECOND_STAGE_GAME = 90;
     private const float THIRD_STAGE_GAME = 180;
+    private const int NB_ORDERS_MAX = 5;
 
     public BoardUI boardUI;
 
     private List<Order> activeOrders = new List<Order>();
-    private List<Order> iInactiveOrders = new List<Order>();
-    const int NB_ORDERS_MAX = 5;
     private float elapsedTime;
     public float ElapsedTime { get => elapsedTime; set => elapsedTime = value; }
-    int currentDifficultyIndex = 0;
-
-    Action RemoveOrder;
-    Action BoardEmpty;
+    int currentDifficultyIndex = 0;   
 
     private void Start()
     {
@@ -40,10 +38,11 @@ public class BoardManager : MonoBehaviour
         }
 
         //Only one order left on the board, and almost done
-        //if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
-        //{
-        //    GenerateOrder();
-        //}
+        if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+        {
+            GenerateOrder();
+        }
+
         //if (ElapsedTime % 90 == 0)
         //{
         //    GenerateOrder();
@@ -56,8 +55,17 @@ public class BoardManager : MonoBehaviour
         {
             Order order = new Order(this, GenerateToppings());
             activeOrders.Add(order);
+            if (DEBUG_MODE)
+                Debug.Log("Generate order id : " + order.GetId());
 
-            Debug.Log("Generate order id : " + order.GetId());
+            if (DEBUG_MODE)
+            {
+                foreach (Order item in activeOrders)
+                {
+                    Debug.Log("Order in the active list : " + item.GetId());
+                }
+            }
+
             boardUI.AddOrderToDisplay(order);
         }
     }
@@ -92,18 +100,24 @@ public class BoardManager : MonoBehaviour
         switch (stage)
         {
             case FIRST_STAGE_GAME:
-                Debug.Log("First Stage Game");
+                if (DEBUG_MODE)
+                    Debug.Log("First Stage Game");
+
                 if (Time.time % 2 == 0)
                     ingredients = posssibleRecipes[0][0];
                 else
                     ingredients = posssibleRecipes[1][UnityEngine.Random.Range(0, 2)];
                 break;
             case SECOND_STAGE_GAME:
-                Debug.Log("Second Stage Game");
+                if (DEBUG_MODE)
+                    Debug.Log("Second Stage Game");
+
                 ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
                 break;
             case THIRD_STAGE_GAME:
-                Debug.Log("Third Stage Game");
+                if (DEBUG_MODE)
+                    Debug.Log("Third Stage Game");
+
                 if (Time.time % 2 == 0)
                     ingredients = posssibleRecipes[2][UnityEngine.Random.Range(0, 2)];
                 else if (Time.time % 3 == 0)
@@ -142,6 +156,21 @@ public class BoardManager : MonoBehaviour
         }
 
         boardUI.RemoveOrder(id);
+
+        if (DEBUG_MODE)
+        {
+            if (activeOrders.Count == 0)
+            {
+                Debug.Log("List of active orders is empty.");
+            }
+            else
+            {
+                foreach (Order item in activeOrders)
+                {
+                    Debug.Log("Order in the active list : " + item.GetId());
+                }
+            }
+        }
     }
 
     public void LoseOneStar()

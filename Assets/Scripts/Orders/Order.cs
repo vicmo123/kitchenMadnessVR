@@ -27,6 +27,8 @@ public enum IngredientEnum
 #endregion
 public class Order
 {
+    private bool DEBUG_MODE = true;
+
     const float EASY_RECIPE_TIME = 20.0f;
     const float MEDIUM_RECIPE_TIME = 25.0f;
     const float HARD_RECIPE_TIME = 40.0f;
@@ -76,11 +78,13 @@ public class Order
 
     public void UpdateOrder()
     {
-        Pourcentage = (duration - Time.time)  / duration;
+        Pourcentage = (duration - Time.time) / duration;
 
-        if ((duration <= Time.time - (duration / 2.0)) && almostOver == false)
+        if (Pourcentage < .3f && almostOver == false)
         {
             almostOver = true;
+            if (DEBUG_MODE)
+                Debug.Log("Time Almost Over :  30%");
         }
         else if (duration <= Time.time)
         {
@@ -132,7 +136,7 @@ public class Order
     }
 
     public void CrossOrder()
-    {     
+    {
         board.DoneWithOrder(orderId);
     }
 
@@ -150,11 +154,5 @@ public class Order
     public int GetId()
     {
         return orderId;
-    }
-
-    public void OntimerIsOutLogic()
-    {
-        Debug.Log("In order :  timer is up!");
-        CrossOrder();
-    }
+    }    
 }

@@ -7,6 +7,8 @@ using System;
 
 public class OrderUI : MonoBehaviour
 {
+    private bool DEBUG_MODE = true;
+
     public Transform orderContainer;
 
     private List<Transform> ingredients = new List<Transform>();
@@ -62,7 +64,7 @@ public class OrderUI : MonoBehaviour
         }else if (order.Pourcentage >.2)
         {
             timerImg.color = Color.yellow;
-        }else if (order.Pourcentage < .20)
+        }else if (order.Pourcentage <= .20)
         {
             timerImg.color = Color.red;
         }
