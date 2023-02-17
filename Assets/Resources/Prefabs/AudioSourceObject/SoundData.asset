@@ -47,5 +47,7 @@ MonoBehaviour:
     type: 3}
   FoodSpottedSound: {fileID: 5472660762723102606, guid: 54f964685950b9d46a18ddb0f7887bbe,
     type: 3}
+  RatLaugh: {fileID: 5437483366069066096, guid: 86374a22fb66e3b47bbed152b26de934,
+    type: 3}
   DinosaurRoar: {fileID: 8697487975262080476, guid: 165a6a2664ab61b4088da3f12c27fab6,
     type: 3}
