@@ -29,7 +29,7 @@ public class OrderUI : MonoBehaviour
             ingredientsToDisplay.Add((IngredientEnum)Enum.Parse(typeof(IngredientEnum), ingredient), go);
         }
 
-        //Get all the images of ingredients and set them to unvisible
+        //Get all the images of ingredients and set them to non visible
         ingredientContainer = transform.GetChild(0);
         for (int i = 0; i < ingredientContainer.childCount; i++)
         {

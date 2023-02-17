@@ -39,7 +39,7 @@ public class BoardUI : MonoBehaviour
 
     void Update()
     {
-        if (ordersUI.Count > 0)
+        if (ordersUI.Count != 0)
         {
             foreach (OrderUI orderUI in ordersUI)
             {
@@ -57,5 +57,10 @@ public class BoardUI : MonoBehaviour
         //newOrder.UpdateTimerUI();
         newOrder.SetIngredientVisible(order.GetRecipe());
         ordersUI.Add(newOrder);        
+    }
+
+    public void ClearBoard()
+    {
+        ordersUI.Clear();
     }
 }

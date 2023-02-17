@@ -126,8 +126,8 @@ public class GameManager : MonoBehaviour
         OnUpdateRoundEnter += () => 
         { 
             dinoManager.roundActive = true;
-            boardManager.roundActive = true;
             boardManager.GenerateOrder();
+            boardManager.roundActive = true;
         };
         OnUpdateRoundExit += () => 
         { 
