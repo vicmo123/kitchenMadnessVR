@@ -69,11 +69,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 206540519483894188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b8f6cd1a7e40444bebc4bc2c840cc0, type: 3}
+  m_Script: {fileID: 11500000, guid: 472bd2005c87ddd48bb8035c5cf3700f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastCutPlane: 0
-  colliderWidthModifier: 8
 --- !u!114 &5907550462315630439
 MonoBehaviour:
   m_ObjectHideFlags: 0
