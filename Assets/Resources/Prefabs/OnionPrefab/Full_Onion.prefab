@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8623093246866012360}
   - component: {fileID: 7005733371679985498}
   - component: {fileID: 5907550462315630439}
+  - component: {fileID: 5723189199901093877}
+  - component: {fileID: 5797097438969057493}
   m_Layer: 0
   m_Name: Full_Onion
   m_TagString: Untagged
@@ -201,6 +203,37 @@ MonoBehaviour:
   rightHandTransform: {fileID: 0}
   isGrabbedByPlayer: 0
   isGrabbedByRat: 0
+--- !u!114 &5723189199901093877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206540519483894188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aca5acf9a25e87f4ca3c289f51a54484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyingTime: 0.5
+  burningTime: 3
+  grillingTime: 0
+  firePrefab: {fileID: 1253142483436318, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+  material1: {fileID: 0}
+  material2: {fileID: 0}
+  rend: {fileID: 0}
+--- !u!114 &5797097438969057493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206540519483894188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602eda310ba323540b8c0d0845117876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1592244328201696752
 PrefabInstance:
   m_ObjectHideFlags: 0

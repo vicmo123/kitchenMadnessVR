@@ -46,7 +46,6 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
     public float colliderWidthModifier = 4;
     private int numberOfCuts;
    
-
     CutInfo cut;
 
 
@@ -71,10 +70,15 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
 
         CreateTriggerZones();
     }
+    private void OnTriggerExit(Collider other)
+    {
+        cut = new CutInfo();
+        cut.state = CuttingState.NotCutting;
+    }
 
     public void Cut(RaycastHit hit)
     {
-        //transform the normal and point from worldspace to localspace
+        //transform the point of collision from worldspace to localspace
         Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
         
         switch (cut.state)
@@ -82,12 +86,12 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
             case CuttingState.NotCutting:
                 goto case CuttingState.StartCut;
             case CuttingState.StartCut:
-                //get cut info from the raycast
+                //get collision info from the raycast
                 cut.entryPoint = hitPoint;
                 cut.exitPoint = hitPoint;
                 cut.cutPointNormal = hit.normal;
                 cut.currentCollider = hit.collider;
-                cut.minimumCutDistance = getMinimumCutDistance(cut.currentCollider, hit.normal);
+                //cut.minimumCutDistance = GetMinimumCutDistance(cut.currentCollider, hit.normal);
                 //start the cut
                 cut.state = CuttingState.IsCutting;
                 break;
@@ -105,7 +109,7 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
                 if (distance >= cut.minimumCutDistance)
                 {
                     cut.state = CuttingState.StoppedCutting;
-                    lastCutPlane = getColliderEnum(cut.currentCollider);
+                    lastCutPlane = GetColliderEnum(cut.currentCollider);
                     ProcessCut(lastCutPlane);
                 }
                 break;
@@ -116,85 +120,7 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
                 break;
         }
     }
-
-    private void ProcessCut(ColliderPlane colliderPlane)
-    {
-        ArrayList leftHalf= new ArrayList();
-        ArrayList rightHalf= new ArrayList();
-        GameObject leftParent;
-        GameObject rightParent;
-        reParentCut(colliderPlane, ref leftHalf, ref rightHalf, out leftParent, out rightParent);
-        setNewParent(leftParent.transform, leftHalf);
-        setNewParent(rightParent.transform, rightHalf);
-
-        gameObject.SetActive(false);
-        Cuttable leftCuttable = null;
-        Cuttable rightCuttable   = null;
-        Rigidbody leftRb = null;
-        Rigidbody rightRb = null;
-
-        SphereCollider leftCollider = leftParent.AddComponent<SphereCollider>();
-        SphereCollider rightCollider = rightParent.AddComponent<SphereCollider>();
-        leftCollider.radius = gameObject.transform.localScale.y / 2;
-        rightCollider.radius = gameObject.transform.localScale.y / 2;
-
-        leftRb = leftParent.AddComponent<Rigidbody>();
-        rightRb = rightParent.AddComponent<Rigidbody>();
-
-        leftParent.layer = LayerMask.NameToLayer("Food");
-        rightParent.layer = LayerMask.NameToLayer("Food");
-
-        //if (numberOfCuts < 3)
-        //{
-        //    leftCuttable = leftParent.AddComponent<Cuttable>();
-        //    rightCuttable = rightParent.AddComponent<Cuttable>();
-        //}
-
-        Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
-        Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
-        leftParent.AddComponent<Pickupable>();
-        rightParent.AddComponent<Pickupable>();
-        leftTopping.ready = true;
-        rightTopping.ready = true;
-        leftTopping.ingredientType = Taco.Ingredients.Onion;
-        rightTopping.ingredientType = Taco.Ingredients.Onion;
-
-        if (leftCuttable != null)
-        {
-            leftCuttable.numberOfCuts = numberOfCuts + 1;
-            leftCuttable.lastCutPlane = lastCutPlane;
-        }
-        if (rightCuttable != null)
-        {
-            rightCuttable.numberOfCuts = numberOfCuts + 1;
-            rightCuttable.lastCutPlane = lastCutPlane;
-        }
-
-        leftTopping.ready = true;
-        rightTopping.ready = true;
-        //leftRb.useGravity = false;
-        //rightRb.useGravity = false;
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        cut = new CutInfo();
-        cut.state = CuttingState.NotCutting;
-    }
-
-    private float getMinimumCutDistance(Collider collider, Vector3 normal)
-    {
-        if (normal.x == 1 || normal.x == -1)
-            return collider.Equals(verticalCuttingTriggerX) ? collider.bounds.size.y : collider.bounds.size.z ;
-        if (normal.z == 1 || normal.z == -1)                                  
-            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.y : collider.bounds.extents.x ;
-        if (normal.y == 1 || normal.y == -1)                                  
-            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z : collider.bounds.size.x ;
-        return 0;
-    }
-
-    private void debuggCheckCollider(Collider collider)
+    private void DebugCheckCollider(Collider collider)
     {
         if (collider.Equals(horizontalCuttingTrigger))
         {
@@ -217,25 +143,53 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
         
     }
 
-    private ColliderPlane getColliderEnum(Collider collider)
-    {
-        if (collider.Equals(horizontalCuttingTrigger))
-        {
-            return ColliderPlane.XZ;
-        }
-        else if (collider.Equals(verticalCuttingTriggerX))
-        {
-            return ColliderPlane.XY;
-        }
-        else if (collider.Equals(verticalCuttingTriggerZ))
-        {
-            return ColliderPlane.YZ;
-        }
-        return ColliderPlane.None;
-
-    }
     //Function that creates three trigger zones in each axis of the cuttable game object to detect for cut
+    private void ProcessCut(ColliderPlane colliderPlane)
+    {
+        ArrayList leftHalf= new ArrayList();
+        ArrayList rightHalf= new ArrayList();
+        GameObject leftParent = new GameObject();
+        GameObject rightParent = new GameObject();
+        leftParent.name = "OnionHalf" + numberOfCuts + 1;
+        rightParent.name = "OnionHalf" + numberOfCuts + 2;
+        leftParent.transform.position = transform.position;
+        rightParent.transform.position = transform.position;
+        ReParentCut(colliderPlane, ref leftHalf, ref rightHalf);
+        SetNewParent(leftParent.transform, leftHalf);
+        SetNewParent(rightParent.transform, rightHalf);
 
+        gameObject.SetActive(false);
+
+        SphereCollider leftCollider = leftParent.AddComponent<SphereCollider>();
+        SphereCollider rightCollider = rightParent.AddComponent<SphereCollider>();
+        leftCollider.radius = gameObject.transform.localScale.y / 2;
+        rightCollider.radius = gameObject.transform.localScale.y / 2;
+
+        leftParent.AddComponent<Rigidbody>();
+        rightParent.AddComponent<Rigidbody>();
+        
+        leftParent.AddComponent<Pickupable>();
+        rightParent.AddComponent<Pickupable>();
+
+        Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
+        Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
+        leftTopping.ready = true;
+        rightTopping.ready = true;
+        leftTopping.ingredientType = Taco.Ingredients.Onion;
+        rightTopping.ingredientType = Taco.Ingredients.Onion;
+
+        //if (numberOfCuts < 3)
+        //{
+        //    Cuttable leftCuttable = leftParent.AddComponent<Cuttable>();
+        //    Cuttable rightCuttable = rightParent.AddComponent<Cuttable>();
+        //    leftCuttable.numberOfCuts = numberOfCuts + 1;
+        //    leftCuttable.lastCutPlane = lastCutPlane;
+        //    rightCuttable.numberOfCuts = numberOfCuts + 1;
+        //    rightCuttable.lastCutPlane = lastCutPlane;
+        //    leftParent.layer = LayerMask.NameToLayer("Food");
+        //    rightParent.layer = LayerMask.NameToLayer("Food");
+        //}
+    }
     void CreateTriggerZones()
     {
         //Create cutting colliders
@@ -291,7 +245,23 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
         }
     
     }
+    private ColliderPlane GetColliderEnum(Collider collider)
+    {
+        if (collider.Equals(horizontalCuttingTrigger))
+        {
+            return ColliderPlane.XZ;
+        }
+        else if (collider.Equals(verticalCuttingTriggerX))
+        {
+            return ColliderPlane.XY;
+        }
+        else if (collider.Equals(verticalCuttingTriggerZ))
+        {
+            return ColliderPlane.YZ;
+        }
+        return ColliderPlane.None;
 
+    }
     void InitializeWedgeArray(Transform[] childrentransform)
     {
         childrentransform = GetComponentsInChildren<Transform>();
@@ -306,29 +276,21 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
                         index += 2;
                     }
     }
-
-    private void setNewParent(Transform newParent, Transform objectToParent)
+    private void SetNewParent(Transform newParent, Transform objectToParent)
     {
         objectToParent.SetParent(null, true);
         objectToParent.SetParent(newParent, true);
     }
-
-    private void setNewParent(Transform newParent, ArrayList objectsToParent)
+    private void SetNewParent(Transform newParent, ArrayList objectsToParent)
     {
         foreach (GameObject gameObject in objectsToParent)
         {
-            setNewParent(newParent, gameObject.transform);
+            SetNewParent(newParent, gameObject.transform);
         }
     }
-
-    private void reParentCut(ColliderPlane colliderPlane, ref ArrayList leftHalf, ref ArrayList rightHalf, out GameObject leftParent, out GameObject rightParent)
+    private void ReParentCut(ColliderPlane colliderPlane, ref ArrayList leftHalf, ref ArrayList rightHalf)
     {
-        leftParent = new GameObject();
-        leftParent.name = "OnionHalf" + numberOfCuts + 1;
-        rightParent = new GameObject();
-        rightParent.name = "OnionHalf" + numberOfCuts + 2;
-        leftParent.transform.position = transform.position;
-        rightParent.transform.position = transform.position;
+        
         switch (colliderPlane)
         {
             case ColliderPlane.XY:
@@ -374,6 +336,21 @@ public class Cuttable : MonoBehaviour,InterFace_Cutter
                 break;
         }
     }
+    private float getMinimumCutDistance(Collider collider, Vector3 normal)
+    {
+        normal.Normalize();
+        if (Approximate(normal.x, 1, .1f) || Approximate(normal.x, -1, .1f))
+            return collider.Equals(verticalCuttingTriggerX) ? collider.bounds.size.y / 2 : collider.bounds.size.z / 2;
+        if (Approximate(normal.z, 1, .1f) || Approximate(normal.z, -1, .1f))
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.y / 2 : collider.bounds.extents.x / 2;
+        if (Approximate(normal.y, 1, .1f) || Approximate(normal.y, -1, .1f))
+            return collider.Equals(verticalCuttingTriggerZ) ? collider.bounds.size.z / 2 : collider.bounds.size.x / 2;
+        return 0;
+    }
 
+    bool Approximate(float value, float compare, float range)
+    {
+        return value >= compare - range || value <= compare + range;
+    }
 
 }
