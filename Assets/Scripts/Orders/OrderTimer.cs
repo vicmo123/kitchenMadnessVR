@@ -5,13 +5,16 @@ public class OrderTimer
 {
     public CountDownTimer timer;
     private Color color;
-    private float timeDuration = 8;
-    private float timeRemaining = 0;
-    private float pourcentage = 100;
+    private float timeDuration ;
+    private float timeRemaining ;
+    private float pourcentage;
 
     public OrderTimer(float timeDuration)
     {
+        this.timeDuration = timeDuration;
         timer = new CountDownTimer(timeDuration, false);
+        timeRemaining = timer.Timer;
+        pourcentage = timeRemaining / timeDuration;
         color = Color.green;
    
     }
@@ -27,26 +30,12 @@ public class OrderTimer
         timer.UpdateTimer();
         timeRemaining = timer.Timer;
         pourcentage = timeRemaining / timeDuration;
+
        if(timeRemaining < 2)
         {
             Debug.Log(timeRemaining);
         }
-
-        if (pourcentage >= 70)
-        {
-            color = Color.green;
-            Debug.Log("Green");
-        }
-        else if (pourcentage < 70 && pourcentage >= 40)
-        {
-            color = Color.yellow;
-            Debug.Log("Yellow");
-        }
-        else if (pourcentage < 40)
-        {
-            color = Color.red;
-            Debug.Log("Red");
-        }
+       
     }
 
     public void SetDuration(float duration)
@@ -57,9 +46,13 @@ public class OrderTimer
     public Color GetColor()
     {
         return color;
-    }    
+    }  
+    public void SetColor(Color color)
+    {
+        this.color = color;
+    }
 
-    public float GetTimeLeft()
+    public float GetPourcentageLeft()
     {
         return timeRemaining;
     }    

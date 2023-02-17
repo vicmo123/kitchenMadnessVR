@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9108d358a91a1df40a12545d93e46c30, type: 3}
+  m_Name: SoundData
+  m_EditorClassIdentifier: 
+  GameOver: {fileID: 7991808420951190872, guid: a1c2c60b702202f43995b07228e4a13c,
+    type: 3}
+  MainTheme: {fileID: 9202323938667882526, guid: 928a143a6123e6b41a4e1a15507e47e7,
+    type: 3}
+  LooseStar: {fileID: 4729179784810991070, guid: 5719b8e64ee54954794b8f29d3c0434e,
+    type: 3}
+  ButtonClick: {fileID: 1548704647949720361, guid: 264639336728f924fa9ac546465f89e3,
+    type: 3}
+  MoveOrder: {fileID: 2862412145065057923, guid: cb98bc6ee9f3f15468111bfe8e9af36d,
+    type: 3}
+  GoodJob: {fileID: 7703543255228434650, guid: 2748d126c447e454daec1bfdf3ffe89f, type: 3}
+  BellDing: {fileID: 7638198798624123494, guid: 3401a92771c1c1d4f938919db7873b9d,
+    type: 3}
+  Chopping: {fileID: 4136570810299268481, guid: f8fcfd170e19e8c428b7725608b6cad6,
+    type: 3}
+  Grilling: {fileID: 1322937564728164948, guid: 31f4a3b8d4a232c44964839af76a7cdc,
+    type: 3}
+  Sclicing: {fileID: 7974328502837309956, guid: 102fcb53f5758814e8036de823eaae14,
+    type: 3}
+  FoodDroped: {fileID: 3057376190372972879, guid: a804c976a0a619442bf84bc39c4a1fb8,
+    type: 3}
+  ToolDropped: {fileID: 8589255578485296815, guid: 0917da3af11e8c54aae34657267d4c20,
+    type: 3}
+  TreadmillSound: {fileID: 2682444174532986783, guid: 7ccb616e5599e05499c082ac2d13c31b,
+    type: 3}
+  CatchFire: {fileID: 4351454789926479494, guid: 48c6e41e445a4f64fbbf5a3857bda328,
+    type: 3}
+  SauceSquirt: {fileID: 5000693832467082221, guid: f06c8be95c03a8341ab006b5f8b56525,
+    type: 3}
+  FoodFallsInTrash: {fileID: 983423562174741474, guid: f099258f2698a3043ba7bda4ddc94e81,
+    type: 3}
+  SpawnSqueek: {fileID: 2650457449360184352, guid: fb77421dcfba6cc4cbc39c2c4dd1057c,
+    type: 3}
+  FoodSpottedSound: {fileID: 5472660762723102606, guid: 54f964685950b9d46a18ddb0f7887bbe,
+    type: 3}
+  DinosaurRoar: {fileID: 8697487975262080476, guid: 165a6a2664ab61b4088da3f12c27fab6,
+    type: 3}
