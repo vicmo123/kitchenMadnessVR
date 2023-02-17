@@ -13,7 +13,7 @@ public class Burnable : MonoBehaviour
 
     public float destroyingTime = .5f;
     public float burningTime = 3;
-    public float grillingTime = 10;
+    public float grillingTime = 0;
 
     public GameObject firePrefab;
 
@@ -67,6 +67,8 @@ public class Burnable : MonoBehaviour
     private void Burnt() {
         Instantiate(firePrefab, this.gameObject.transform.position, firePrefab.transform.rotation);
 
+
+        //SoundManager.CatchFire?.Invoke();
         state = State.Destroying;
         startDestroying = Time.time;
 
