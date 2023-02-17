@@ -14,7 +14,7 @@ public class DinosaurStateMachine
     }
 
     #region StateMachine
-    public static string CurrentState { get; set; }
+    public string CurrentState { get; set; }
 
     //States
     public const string Walk = "Walk";
@@ -64,7 +64,7 @@ public class DinosaurStateMachine
             onExit: _ => OnExitExit.Invoke()));
 
         stateMachine.AddTransition(Walk, WaitForOrder, _ => dino.IsWalkFinished());
-        stateMachine.AddTransition(WaitForOrder, Exit, _ => dino.IsWaitForFoodFinished());
+        stateMachine.AddTransition(WaitForOrder, Exit, _ => dino.IsFoodRecieved());
         stateMachine.AddTransition(WaitForOrder, Angry, _ => dino.isAngry);
         stateMachine.AddTransition(Angry, Exit, _ => true);
 
