@@ -17,7 +17,9 @@ public class BoardManager : MonoBehaviour
     private List<Order> activeOrders = new List<Order>();
     private float elapsedTime;
     public float ElapsedTime { get => elapsedTime; set => elapsedTime = value; }
-    int currentDifficultyIndex = 0;   
+    int currentDifficultyIndex = 0;
+
+    public bool roundActive { get; set; } = false;
 
     private void Start()
     {
