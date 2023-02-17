@@ -28,29 +28,32 @@ public class SoundManager : MonoBehaviour
     //Rats
     public static Action SpawnSqueek;
     public static Action FoodSpottedSound;
+    public static Action RatLaugh;
+
     //Dinosaurs
     public static Action DinosaurRoar;
 
     //Audio Source
-    public AudioSource GameOverSource;
-    public AudioSource MainThemeSource;
-    public AudioSource LooseStarSource;
-    public AudioSource ButtonClickSource;
-    public AudioSource MoveOrderSource;
-    public AudioSource GoodJobSource;
-    public AudioSource BellDingSource;
-    public AudioSource ChoppingSource;
-    public AudioSource GrillingSource;
-    public AudioSource SclicingSource;
-    public AudioSource FoodDropedSource;
-    public AudioSource ToolDroppedSource;
-    public AudioSource TreadmillSoundSource;
-    public AudioSource SpawnSqueekSource;
-    public AudioSource FoodSpottedSoundSource;
-    public AudioSource DinosaurRoarSource;
-    public AudioSource CatchFireSource;
-    public AudioSource SauceSquirtSource;
-    public AudioSource FoodFallsInTrashSource;
+    [HideInInspector] public AudioSource GameOverSource;
+    [HideInInspector] public AudioSource MainThemeSource;
+    [HideInInspector] public AudioSource LooseStarSource;
+    [HideInInspector] public AudioSource ButtonClickSource;
+    [HideInInspector] public AudioSource MoveOrderSource;
+    [HideInInspector] public AudioSource GoodJobSource;
+    [HideInInspector] public AudioSource BellDingSource;
+    [HideInInspector] public AudioSource ChoppingSource;
+    [HideInInspector] public AudioSource GrillingSource;
+    [HideInInspector] public AudioSource SclicingSource;
+    [HideInInspector] public AudioSource FoodDropedSource;
+    [HideInInspector] public AudioSource ToolDroppedSource;
+    [HideInInspector] public AudioSource TreadmillSoundSource;
+    [HideInInspector] public AudioSource SpawnSqueekSource;
+    [HideInInspector] public AudioSource FoodSpottedSoundSource;
+    [HideInInspector] public AudioSource RatLaughSource;
+    [HideInInspector] public AudioSource DinosaurRoarSource;
+    [HideInInspector] public AudioSource CatchFireSource;
+    [HideInInspector] public AudioSource SauceSquirtSource;
+    [HideInInspector] public AudioSource FoodFallsInTrashSource;
 
     public SoundData Data;
 
@@ -71,6 +74,7 @@ public class SoundManager : MonoBehaviour
         TreadmillSoundSource = Instantiate(Data.TreadmillSound, transform);
         SpawnSqueekSource = Instantiate(Data.SpawnSqueek, transform);
         FoodSpottedSoundSource = Instantiate(Data.FoodSpottedSound, transform);
+        RatLaughSource = Instantiate(Data.RatLaugh, transform);
         DinosaurRoarSource = Instantiate(Data.DinosaurRoar, transform);
         CatchFireSource = Instantiate(Data.CatchFire, transform);
         SauceSquirtSource = Instantiate(Data.SauceSquirt, transform);
@@ -91,6 +95,7 @@ public class SoundManager : MonoBehaviour
         TreadmillSound += () => { PlaySound(TreadmillSoundSource); };
         SpawnSqueek += () => { PlaySound(SpawnSqueekSource); };
         FoodSpottedSound += () => { PlaySound(FoodSpottedSoundSource); };
+        RatLaugh += () => { PlaySound(RatLaughSource); };
         DinosaurRoar += () => { PlaySound(DinosaurRoarSource); };
         CatchFire += () => { PlaySound(CatchFireSource); };
         SauceSquirt += () => { PlaySound(SauceSquirtSource); };
@@ -114,6 +119,7 @@ public class SoundManager : MonoBehaviour
         TreadmillSound = null;
         SpawnSqueek = null;
         FoodSpottedSound = null;
+        RatLaugh = null;
         DinosaurRoar = null;
         CatchFire = null;
         SauceSquirt = null;
