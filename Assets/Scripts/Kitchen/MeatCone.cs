@@ -12,8 +12,8 @@ public class MeatCone : MonoBehaviour, InterFace_Cutter
     {
         Debug.Log("Cut started");
     }
-    
-    public void EndCut()
+
+    public void StopCut()
     {
         meatIngredient = Instantiate(meatIngredient, meatSpawn);
     }
