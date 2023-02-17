@@ -39,9 +39,12 @@ public class BoardUI : MonoBehaviour
 
     void Update()
     {
-        foreach (OrderUI orderUI in ordersUI)
+        if (ordersUI.Count > 0)
         {
-            orderUI.UpdateTimerUI();
+            foreach (OrderUI orderUI in ordersUI)
+            {
+                orderUI.UpdateTimerUI();
+            }
         }
     }
 
