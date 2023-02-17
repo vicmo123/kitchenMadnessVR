@@ -17,7 +17,7 @@ public class Dinosaur : MonoBehaviour
 
     private float loopTime = 10.0f;
     private float hungryFactor = 1.0f;
-    [HideInInspector] public bool isAngry = false;
+    public bool isAngry { get; private set; } = false;
     public GameObject SmokeParticleEffect;
     #endregion
 
@@ -28,20 +28,11 @@ public class Dinosaur : MonoBehaviour
     private void Awake()
     {
         timer = new CountDownTimer(loopTime * hungryFactor, true);
-
         stateMachine = new DinosaurStateMachine(this);
         agent = GetComponent<NavMeshAgent>();
         SetStateMachineActions();
-
-        timer.OnTimeIsUpLogic = () =>
-        {
-            hungryFactor -= 0.1f;
-            timer.SetDuration(loopTime * hungryFactor);
-            DinosaurMakeSound();
-            Debug.Log("Ding");
-            Debug.Log(loopTime * hungryFactor);
-        };
     }
+
     private void Start()
     {
         stateMachine.InitStateMachine();
@@ -51,10 +42,6 @@ public class Dinosaur : MonoBehaviour
     {
         stateMachine.UpdateStateMachine();
         timer.UpdateTimer();
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartCoroutine(BeAnry());
-        }
     }
 
     private void SetStateMachineActions()
@@ -62,7 +49,6 @@ public class Dinosaur : MonoBehaviour
         stateMachine.OnWalkEnter += () =>
         {
             timer.StartTimer();
-
             if (agent != null)
             {
                 agent.Warp(EntryPoint);
@@ -70,8 +56,10 @@ public class Dinosaur : MonoBehaviour
                 agent.SetDestination(GenerateRandomNavMeshPos());
             }
         };
-        stateMachine.OnWaitForOrderEnter += () => { agent.SetDestination(WaitForFoodPoint); };
-        stateMachine.OnAngryEnter += () => { agent.speed = angrySpeed; };
+        stateMachine.OnWaitForOrderEnter += () => 
+        {
+            timer.OnTimeIsUpLogic += () => { isAngry = true; };
+        };
         stateMachine.OnExitEnter += () => { agent.SetDestination(ExitPoint); };
 
         stateMachine.OnWalkLogic += () => { OnWalkLogic(); };
@@ -110,24 +98,41 @@ public class Dinosaur : MonoBehaviour
     //OnLogic for stateMachine
     private void OnWalkLogic()
     {
+        stateMachine.CurrentState = DinosaurStateMachine.Walk;
         if (CheckIfDestinationReached())
         {
-            agent.SetDestination(GenerateRandomNavMeshPos());
+            if (timer.Iterations < 0)
+            {
+                agent.SetDestination(GenerateRandomNavMeshPos());
+            }
+            else
+            {
+                agent.SetDestination(WaitForFoodPoint);
+            }
         }
     }
 
     private void OnWaitForOrderLogic()
     {
+        stateMachine.CurrentState = DinosaurStateMachine.WaitForOrder;
 
+        if (CheckIfDestinationReached())
+        {
+
+        }
     }
 
     private void OnAngryLogic()
     {
+        stateMachine.CurrentState = DinosaurStateMachine.Angry;
 
+        StartCoroutine(BeAnry());
+        agent.speed = angrySpeed;
     }
 
     private void OnExitLogic()
     {
+        stateMachine.CurrentState = DinosaurStateMachine.Exit;
         if (CheckIfDestinationReached())
         {
             GameObject.Destroy(gameObject);
@@ -137,24 +142,14 @@ public class Dinosaur : MonoBehaviour
     //Condition check for state machine
     public bool IsWalkFinished()
     {
-        return timer.Iterations >= 1;
+        return timer.Iterations >= 2;
     }
 
-    public bool IsWaitForFoodFinished()
+    public bool IsFoodRecieved()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public bool IsAngryFinished()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+            timer.EndTimer();
             return true;
         }
         else
@@ -163,23 +158,22 @@ public class Dinosaur : MonoBehaviour
         }
     }
 
-    private void DinosaurMakeSound()
-    {
-        SoundManager.DinosaurRoar.Invoke();
-    }
-
     private IEnumerator BeAnry()
     {
+        SoundManager.DinosaurRoar.Invoke();
+
         animator.SetTrigger("IsAngry");
         GameObject effect = GameObject.Instantiate<GameObject>(SmokeParticleEffect);
-        
-        while (effect.activeInHierarchy == true)
+        ParticleSystem smoke = effect.GetComponentInChildren<ParticleSystem>();
+        Transform model = gameObject.transform.GetChild(0);
+
+        while (smoke.isPlaying == true)
         {
-            effect.transform.eulerAngles = transform.eulerAngles;
-            effect.transform.position = new Vector3(transform.position.x, 1.45f, transform.position.z) + (transform.forward * 0.82f);
+            effect.transform.eulerAngles = transform.eulerAngles + (model.eulerAngles + new Vector3(0, 90, 0));
+            effect.transform.position = new Vector3(transform.position.x, transform.position.y + model.position.y + 1.15f, transform.position.z) + (transform.forward * 0.82f);
             yield return null;
         }
 
-        isAngry = true;
+        GameObject.Destroy(effect.gameObject);
     }
 }
