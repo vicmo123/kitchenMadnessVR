@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class ServingArea : MonoBehaviour
 {
+    public BoardManager boardManager;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Taco")
+        if (other.tag == "Taco")
         {
             if(!other.GetComponent<Pickupable>().isGrabbedByPlayer || !other.GetComponent<Pickupable>().isGrabbedByRat)
             {
-               // IngredientEnum recipe = other.GetComponent<Taco>().SendTaco();
+                if (boardManager.isTacoGoodToServe(other.GetComponent<Taco>().SendTaco()) )
+                {                
+                    SoundManager.GoodJob?.Invoke();
+                }
+                else 
+                {
+                    SoundManager.LooseStar?.Invoke();
+
+                }
+                //taco goes away
+                GameObject.Destroy(other);
             }
         }
     }
