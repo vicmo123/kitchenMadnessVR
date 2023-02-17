@@ -52,6 +52,7 @@ public class Taco : MonoBehaviour
 
     public void AddIngredient(Toppingable ingredient) {
         ingredientList.Add(ingredient.ingredientType);
+        SetRotation(ingredient);
         PlaceIngredients();
     }
 
@@ -125,6 +126,10 @@ public class Taco : MonoBehaviour
         }
 
         return mixedIngredients;
+    }
+
+    private void SetRotation(Toppingable ingredient) {
+
     }
 
     public IngredientEnum SendTaco() {
