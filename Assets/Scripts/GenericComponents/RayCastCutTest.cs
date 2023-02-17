@@ -22,7 +22,7 @@ public class RayCastCutTest : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.up,out hit, 1, LayerMask.GetMask("Cuttable")))
         {
             Cuttable cutObject = hit.collider.gameObject.GetComponent<Cuttable>();
-            cutObject.tryCut(hit);
+            cutObject.Cut(hit);
         }
     }
 }
