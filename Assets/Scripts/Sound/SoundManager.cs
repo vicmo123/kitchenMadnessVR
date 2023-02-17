@@ -55,7 +55,7 @@ public class SoundManager : MonoBehaviour
     [HideInInspector] public AudioSource SauceSquirtSource;
     [HideInInspector] public AudioSource FoodFallsInTrashSource;
 
-    public SoundData Data;
+    [Tooltip("Link to AudioSource prefabs in the assets, the script will load them in the scene when the game starts")] public SoundData Data;
 
     private void Awake()
     {
