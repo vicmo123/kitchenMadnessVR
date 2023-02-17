@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class Taco : MonoBehaviour
 {
+    #region Pivots
+
     // Pivots to get height depending on ingredients quantity
     public GameObject pivotLayer1;
     public GameObject pivotLayer2;
@@ -18,6 +20,8 @@ public class Taco : MonoBehaviour
     public GameObject pivot3_1;
     public GameObject pivot3_2;
     public GameObject pivot3_3;
+
+    #endregion
 
     public enum Ingredients
     {
@@ -36,7 +40,6 @@ public class Taco : MonoBehaviour
     IngredientReceiver ingredientReceiver;
     List<Ingredients> ingredientList;
 
-    // Start is called before the first frame update
     void Start() {
         ingredientReceiver = this.GetComponent<IngredientReceiver>();
         ingredientReceiver.receiverDelegate += AddIngredient;
@@ -47,16 +50,7 @@ public class Taco : MonoBehaviour
         ingredientList = new List<Ingredients>();
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     public void AddIngredient(Toppingable ingredient) {
-        if (ingredientList.Contains(Ingredients.Meat))
-            ingredient.gameObject.transform.SetParent(pivotLayer2.transform);
-        else
-            ingredient.gameObject.transform.SetParent(pivotLayer1.transform);
         ingredientList.Add(ingredient.ingredientType);
         PlaceIngredients();
     }
@@ -107,32 +101,45 @@ public class Taco : MonoBehaviour
         Toppingable tempIngredient = ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Cheese);
         if (tempIngredient != null) {
             mixedIngredients.Add(tempIngredient);
+            if (ingredientList.Contains(Ingredients.Meat))
+                tempIngredient.gameObject.transform.SetParent(pivotLayer2.transform);
+            else
+                tempIngredient.gameObject.transform.SetParent(pivotLayer1.transform);
         }
         tempIngredient = ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Onion);
         if (tempIngredient != null) {
             mixedIngredients.Add(tempIngredient);
+            if (ingredientList.Contains(Ingredients.Meat))
+                tempIngredient.gameObject.transform.SetParent(pivotLayer2.transform);
+            else
+                tempIngredient.gameObject.transform.SetParent(pivotLayer1.transform);
         }
 
         tempIngredient = ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Pineapple);
         if (tempIngredient != null) {
             mixedIngredients.Add(tempIngredient);
+            if (ingredientList.Contains(Ingredients.Meat))
+                tempIngredient.gameObject.transform.SetParent(pivotLayer2.transform);
+            else
+                tempIngredient.gameObject.transform.SetParent(pivotLayer1.transform);
         }
 
         return mixedIngredients;
     }
 
-    public Ingredients SendTaco() {
-        Ingredients taco = Ingredients.None;
-        for (int i = 1; i < Enum.GetNames(typeof(Ingredients)).Length; i++) {
-            if (ingredientList.Contains((Ingredients)i)) {
-                if (i == 1) {
-                    taco = (Ingredients)i;
-                }
-                else {
-                    taco = taco | (Ingredients)i;
-                }
-            }
-        }
+    public IngredientEnum SendTaco() {
+        IngredientEnum taco = IngredientEnum.Tortilla;
+
+        if (ingredientList.Contains(Ingredients.Meat))
+            taco = taco | IngredientEnum.Meat;
+        if (ingredientList.Contains(Ingredients.Cheese))
+            taco = taco | IngredientEnum.Cheese;
+        if (ingredientList.Contains(Ingredients.Onion))
+            taco = taco | IngredientEnum.Onion;
+        if (ingredientList.Contains(Ingredients.Pineapple))
+            taco = taco | IngredientEnum.Pineapple;
+        if (ingredientList.Contains(Ingredients.Sauce))
+            taco = taco | IngredientEnum.Sauce;
 
         return taco;
     }

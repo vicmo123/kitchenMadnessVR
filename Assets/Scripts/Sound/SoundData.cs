@@ -29,6 +29,7 @@ public class SoundData : ScriptableObject
     //Rats
     public AudioSource SpawnSqueek;
     public AudioSource FoodSpottedSound;
+    public AudioSource RatLaugh;
 
     //Dinosaurs
     public AudioSource DinosaurRoar;
