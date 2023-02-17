@@ -56,10 +56,7 @@ public class Dinosaur : MonoBehaviour
                 agent.SetDestination(GenerateRandomNavMeshPos());
             }
         };
-        stateMachine.OnWaitForOrderEnter += () => 
-        {
-            timer.OnTimeIsUpLogic += () => { isAngry = true; };
-        };
+        stateMachine.OnWaitForOrderEnter += () => { timer.OnTimeIsUpLogic += () => { isAngry = true; }; };
         stateMachine.OnExitEnter += () => { agent.SetDestination(ExitPoint); };
 
         stateMachine.OnWalkLogic += () => { OnWalkLogic(); };
@@ -169,7 +166,7 @@ public class Dinosaur : MonoBehaviour
 
         while (smoke.isPlaying == true)
         {
-            effect.transform.eulerAngles = transform.eulerAngles + (model.eulerAngles + new Vector3(0, 90, 0));
+            effect.transform.eulerAngles = transform.eulerAngles + new Vector3(model.eulerAngles.x, 0, model.eulerAngles.z);
             effect.transform.position = new Vector3(transform.position.x, transform.position.y + model.position.y + 1.15f, transform.position.z) + (transform.forward * 0.82f);
             yield return null;
         }
