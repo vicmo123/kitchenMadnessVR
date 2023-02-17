@@ -5,12 +5,12 @@ using UnityEngine;
 public class Sauce : MonoBehaviour
 {
     
-     LineRenderer lr;
+     public LineRenderer lr;
      
     private void Start()
     {
       
-        lr = gameObject.GetComponent<LineRenderer>();
+        //lr = gameObject.GetComponent<LineRenderer>();
      //  gameObject.SetActive(true);
     }
     void Update()
