@@ -1425,6 +1425,7 @@ GameObject:
   - component: {fileID: 4550117398419830743}
   - component: {fileID: 3778162079439906007}
   - component: {fileID: 587944836540011562}
+  - component: {fileID: 8221834409086488302}
   m_Layer: 6
   m_Name: MeatCone
   m_TagString: MeatCone
@@ -1439,7 +1440,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3318308646278519982}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.07845902, z: 0, w: -0.99691737}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
@@ -1448,7 +1449,7 @@ Transform:
   - {fileID: 1251356665405193988}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 369, z: 0}
 --- !u!33 &7365346387326538201
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1538,6 +1539,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 512cfd7edf8fd18459c066275bffc3b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8221834409086488302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3318308646278519982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e089aaa69871df943a721256d23253e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3462058879175981667
