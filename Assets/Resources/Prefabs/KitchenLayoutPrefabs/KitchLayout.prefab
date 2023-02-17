@@ -1381,6 +1381,8 @@ GameObject:
   - component: {fileID: 4984587804334007579}
   - component: {fileID: 4984587804334007578}
   - component: {fileID: 4984587804334007573}
+  - component: {fileID: 8439658638036713246}
+  - component: {fileID: 4834877647204792267}
   m_Layer: 0
   m_Name: Conveyer
   m_TagString: Untagged
@@ -1431,7 +1433,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 25a691ea9636e8a4988a19a81c36c68a, type: 2}
+  - {fileID: 2100000, guid: a7902915580a0bf4085ad11ad6c3c73c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1467,6 +1469,32 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &8439658638036713246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984587804334007572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c0330085caddc4e99aa54311393512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+--- !u!114 &4834877647204792267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984587804334007572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba992e56e4362d641bfb2d5ffbaa586b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 0.5
 --- !u!1 &4984587804337837012
 GameObject:
   m_ObjectHideFlags: 0
