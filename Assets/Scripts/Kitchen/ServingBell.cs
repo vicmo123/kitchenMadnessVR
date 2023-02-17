@@ -6,11 +6,14 @@ public class ServingBell : MonoBehaviour
 {
 
     public AudioClip bellSoundEffect;
-    public AudioClip winSoundEffect;
-    public AudioClip loseSoundEffect;
-
     private AudioSource bellAudioSource;
+
+
+    public AudioClip winSoundEffect;
     private AudioSource winAudioSource;
+
+
+    public AudioClip loseSoundEffect;
     private AudioSource loseAudioSource;
 
     bool isServable;
@@ -19,7 +22,9 @@ public class ServingBell : MonoBehaviour
     void Start()
     {
         bellAudioSource = GetComponent<AudioSource>();
+
         winAudioSource = GetComponent<AudioSource>();
+
         loseAudioSource = GetComponent<AudioSource>();
     }
 
