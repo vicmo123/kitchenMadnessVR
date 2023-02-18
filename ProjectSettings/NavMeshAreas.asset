@@ -15,8 +15,8 @@ NavMeshProjectSettings:
     cost: 1
   - name: Dino
     cost: 1
-  - name: 
-    cost: 1
+  - name: RatHard
+    cost: 3.5
   - name: 
     cost: 1
   - name: 

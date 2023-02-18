@@ -564,7 +564,7 @@ MonoBehaviour:
   walkSpeed: 1.8
   chaseSpeed: 2.5
   scaredSpeed: 2.8
-  walkRadius: 0.7
+  walkRadius: 1
   sightLenght: 1
   sightRadius: 1
   isScared: 0
