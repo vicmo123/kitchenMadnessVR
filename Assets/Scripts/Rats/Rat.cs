@@ -52,16 +52,16 @@ public class Rat : MonoBehaviour
     {
         ratStateMachine.UpdateStateMachine();
         float currentSpeed = agent.velocity.magnitude;
-        currentSpeed = Mathf.Clamp(currentSpeed, 0, chaseSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed * 2.0f, 0, chaseSpeed);
         animCtrl.SetFloat("Speed", currentSpeed / chaseSpeed);
     }
 
     public Vector3 GenerateRandomNavMeshPos()
     {
         Vector3 finalPosition = Vector3.zero;
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * walkRadius;
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere.normalized * walkRadius;
         randomDirection += transform.position;
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius, 1))
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius + transform.position.y, areaMask))
         {
             finalPosition = hit.position;
         }
