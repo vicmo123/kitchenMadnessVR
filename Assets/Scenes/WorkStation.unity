@@ -656,6 +656,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 224391995, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Extents.x
+      value: 0.425
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Extents.x
+      value: 0.615
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 4984587804068325784, guid: 25291abe5d4acba43acc7d8da9b912f0,
         type: 3}
       propertyPath: m_Name
@@ -2714,6 +2726,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6937739632089545584, guid: 7995079c1d6a2444d96a96e0013bec6c,
+        type: 3}
+      propertyPath: velocity
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6937739632089545586, guid: 7995079c1d6a2444d96a96e0013bec6c,
         type: 3}
       propertyPath: m_RootOrder
