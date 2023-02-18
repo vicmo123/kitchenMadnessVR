@@ -906,7 +906,7 @@ PrefabInstance:
     - target: {fileID: 5707420673230010677, guid: 942ea99bd59b25f4cbb95ffcca95d9de,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5707420673230010677, guid: 942ea99bd59b25f4cbb95ffcca95d9de,
         type: 3}
@@ -1102,6 +1102,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f11558096387fe64e950520887818483, type: 3}
+--- !u!114 &771690608 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3878611720268224441, guid: 25291abe5d4acba43acc7d8da9b912f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 817155944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b5b93517839a94caa8f42b072f9b48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &807184384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1300,6 +1312,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+--- !u!114 &824979036 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6937739632089545584, guid: 7995079c1d6a2444d96a96e0013bec6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4677252512222064443}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20bb6959c56d522438fd7285ff348aee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &835640216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,7 +1348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 835640216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.474, y: 0.5, z: -14.23}
+  m_LocalPosition: {x: 0.02, y: 0.5, z: -5.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1926,9 +1950,9 @@ GameObject:
   - component: {fileID: 1601479748}
   - component: {fileID: 1601479749}
   - component: {fileID: 1601479751}
-  - component: {fileID: 1601479750}
   - component: {fileID: 1601479752}
   - component: {fileID: 1601479753}
+  - component: {fileID: 1601479754}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1964,25 +1988,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rats: {fileID: 1601479751}
-  boardManager: {fileID: 1601479750}
-  startGameUi: {fileID: 0}
-  ingredientSpawner: {fileID: 0}
+  boardManager: {fileID: 1601479754}
+  startGameUi: {fileID: 824979036}
+  ingredientSpawner: {fileID: 771690608}
   dinoManager: {fileID: 1601479753}
   timeBeforeRoundStarts: 3
   maxNumberOfStars: 5
---- !u!114 &1601479750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601479744}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 386ece23d78fd0e4d8da2e74b3df4e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boardUI: {fileID: 0}
 --- !u!114 &1601479751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2049,6 +2060,19 @@ MonoBehaviour:
     type: 3}
   ServiceZone: {fileID: 835640217}
   spawnRadius: 30
+--- !u!114 &1601479754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601479744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386ece23d78fd0e4d8da2e74b3df4e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardUI: {fileID: 4869123170935746811, guid: 2efa24aaa850b684a94c979fd9611ce4, type: 3}
 --- !u!1 &1724548157
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,22 +2798,22 @@ PrefabInstance:
     - target: {fileID: 6937739632089545585, guid: 7995079c1d6a2444d96a96e0013bec6c,
         type: 3}
       propertyPath: m_Size.x
-      value: 2.02
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 6937739632089545585, guid: 7995079c1d6a2444d96a96e0013bec6c,
         type: 3}
       propertyPath: m_Size.y
-      value: 1.09
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: 6937739632089545585, guid: 7995079c1d6a2444d96a96e0013bec6c,
         type: 3}
       propertyPath: m_Center.x
-      value: 0.01
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6937739632089545585, guid: 7995079c1d6a2444d96a96e0013bec6c,
         type: 3}
       propertyPath: m_Center.y
-      value: 2.08
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 6937739632089545586, guid: 7995079c1d6a2444d96a96e0013bec6c,
         type: 3}
