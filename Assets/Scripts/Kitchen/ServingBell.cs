@@ -15,7 +15,7 @@ public class ServingBell : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("VRHANDS"))
         {
-            SoundManager.BellDing.Invoke();
+            SoundManager.BellDing?.Invoke();
            
         }
     }

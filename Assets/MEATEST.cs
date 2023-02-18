@@ -12,7 +12,7 @@ public class MEATEST : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 9999))
         {
             meatCOne.Cut(hit);
-            meatCOne.EndCut();
+            meatCOne.StopCut();
         }
 
 

@@ -67,7 +67,6 @@ public class BoardManager : MonoBehaviour
                     Debug.Log("Order in the active list : " + item.GetId());
                 }
             }
-
             boardUI.AddOrderToDisplay(order);
         }
     }

@@ -14,31 +14,32 @@ public class Rat : MonoBehaviour
     [Range(0, 100)] public float chaseSpeed;
     //Max speed
     [Range(0, 100)] public float scaredSpeed;
-    [Range(1, 500)] public float walkRadius;
+    [Range(0, 100)] public float walkRadius;
     [Range(1, 20)] public float sightLenght;
     [Range(1, 20)] public float sightRadius;
     [HideInInspector] public bool isScared = false;
     [HideInInspector] public bool objectPickedUp = false;
     [HideInInspector] public bool isBored = false;
     [HideInInspector] public int layerMask;
+    [HideInInspector] public int areaMask;
     [HideInInspector] public RatsManager ratManager { get; set; } = null;
     #endregion
 
     private RatStateMachine ratStateMachine;
-    [HideInInspector]public Animator animCtrl { get; private set; }
+    [HideInInspector] public Animator animCtrl { get; private set; }
 
     private void Awake()
     {
         ratStateMachine = new RatStateMachine(this, 10.0f);
         layerMask = LayerMask.GetMask("Food");
+        animCtrl = gameObject.GetComponentInChildren<Animator>();
 
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
+            areaMask = agent.areaMask;
             agent.speed = walkSpeed;
             agent.SetDestination(GenerateRandomNavMeshPos());
-
-            animCtrl = gameObject.GetComponentInChildren<Animator>();
         }
     }
 
@@ -58,9 +59,9 @@ public class Rat : MonoBehaviour
     public Vector3 GenerateRandomNavMeshPos()
     {
         Vector3 finalPosition = Vector3.zero;
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * walkRadius;
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere.normalized * walkRadius;
         randomDirection += transform.position;
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius, 1))
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius + transform.position.y, areaMask))
         {
             finalPosition = hit.position;
         }
@@ -69,14 +70,11 @@ public class Rat : MonoBehaviour
 
     public bool CheckIfDestinationReached()
     {
-        if (!agent.pathPending)
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
             {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;

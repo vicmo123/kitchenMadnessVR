@@ -17,7 +17,7 @@ public class RatStateMachine
     }
 
     #region StateMachine
-    public static string CurrentState;
+    public string CurrentState;
     
 
     //States
@@ -75,6 +75,8 @@ public class RatStateMachine
         stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
         stateMachine.AddTransition(Scared, Exit, _ => true);
 
+        OnExitEnter += () => { rat.agent.SetDestination(rat.FindClosestExit()); Debug.Log(rat.agent.destination); };
+
         stateMachine.SetStartState(Walk);
         stateMachine.Init();
 
@@ -87,6 +89,7 @@ public class RatStateMachine
     {
         timer.UpdateTimer();
         stateMachine.OnLogic();
+        Debug.Log(CurrentState);
     }
 
     //OnLogic
@@ -111,7 +114,6 @@ public class RatStateMachine
     private void OnScaredLogic()
     {
         CurrentState = Scared;
-        rat.agent.SetDestination(rat.FindClosestExit());
         rat.agent.speed = rat.scaredSpeed;
     }
 
@@ -162,7 +164,7 @@ public class RatStateMachine
 
     private bool IsHit()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Z))
             return true;
         else
             return false;
