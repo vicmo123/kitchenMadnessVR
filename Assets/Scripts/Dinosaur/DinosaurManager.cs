@@ -13,6 +13,8 @@ public class DinosaurManager : MonoBehaviour
     public float spawnRadius;
     public bool roundActive { get; set; } = false;
 
+    public GameObject player;
+
     private void Awake()
     {
         timer = new CountDownTimer(duration, true);
@@ -43,6 +45,7 @@ public class DinosaurManager : MonoBehaviour
         dino.EntryPoint = GetPosInsideUnitCircle();
         dino.WaitForFoodPoint = ServiceZone.position;
         dino.ExitPoint = dino.WaitForFoodPoint + GetPosInsideUnitCircle();
+        dino.player = player;
     }
 
     private Vector3 GetPosInsideUnitCircle()
