@@ -23,28 +23,33 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        GenerateOrder();
+       // GenerateOrder();
     }
 
     public void Update()
     {
         //activeOrders.Where(x => x == null).ToList();
-
-
-        for (int i = 0; i < activeOrders.Count; i++)
+        if (roundActive)
         {
-            if (activeOrders[i] != null)
+
+            for (int i = 0; i < activeOrders.Count; i++)
             {
-                activeOrders[i].UpdateOrder();
+                if (activeOrders[i] != null)
+                {
+                    activeOrders[i].UpdateOrder();
+                }
+            }
+
+            //Only one order left on the board, and almost done
+            if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+            {
+                GenerateOrder();
             }
         }
-
-        //Only one order left on the board, and almost done
-        if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+        else
         {
-            GenerateOrder();
-        }
 
+        }
         //if (ElapsedTime % 90 == 0)
         //{
         //    GenerateOrder();
@@ -198,5 +203,11 @@ public class BoardManager : MonoBehaviour
             activeOrders.Remove(activeOrders[indexRecipeToRemove]);
         }
         return result;
+    }
+
+    private void EndOfRound()
+    {
+        boardUI.EndOfRound();
+        activeOrders.Clear();
     }
 }

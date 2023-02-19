@@ -55,4 +55,8 @@ public class BoardUI : MonoBehaviour
         newOrder.SetIngredientVisible(order.GetRecipe());
         ordersUI.Add(newOrder);        
     }
+    public void EndOfRound()
+    {
+        ordersUI.Clear();
+    }
 }
