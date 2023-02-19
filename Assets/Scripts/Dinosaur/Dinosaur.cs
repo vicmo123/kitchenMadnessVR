@@ -21,7 +21,7 @@ public class Dinosaur : MonoBehaviour
     public bool isAngry { get; private set; } = false;
     public GameObject SmokeParticleEffect;
 
-    private float rotationSpeed = 0.1f;
+    private float rotationSpeed = 0.07f;
     #endregion
 
     private DinosaurStateMachine stateMachine;
@@ -45,6 +45,11 @@ public class Dinosaur : MonoBehaviour
     {
         stateMachine.UpdateStateMachine();
         timer.UpdateTimer();
+
+        if(stateMachine.CurrentState != DinosaurStateMachine.Exit)
+        {
+            FaceTarget(player.transform.position);
+        }
     }
 
     private void SetStateMachineActions()
@@ -115,7 +120,6 @@ public class Dinosaur : MonoBehaviour
     private void OnWaitForOrderLogic()
     {
         stateMachine.CurrentState = DinosaurStateMachine.WaitForOrder;
-        FaceTarget(player.transform.position);
     }
 
     private void OnAngryLogic()

@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
             boardManager.roundActive = false;
         };
 
-        SoundManager.MainTheme.Invoke();
+        SoundManager.MainTheme?.Invoke();
     }
    
     private void Update()
