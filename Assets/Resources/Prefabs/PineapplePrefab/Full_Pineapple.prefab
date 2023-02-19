@@ -72,8 +72,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472bd2005c87ddd48bb8035c5cf3700f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastCutPlane: 0
   ingredientName: Pineapple
+  ingredientType: 8
   colliderWidthModifier: 2
 --- !u!114 &7696941076730140688
 MonoBehaviour:

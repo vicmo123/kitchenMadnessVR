@@ -35,7 +35,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     [HideInInspector]public ArrayList cutPlanes;
     Dictionary<CuttingPlane, BoxCollider> triggers;
     public string ingredientName = "Ingredient";
-    
+    public Taco.Ingredients ingredientType;
     //used to divide the width of the collider
     public float colliderWidthModifier = 4;
     
@@ -159,13 +159,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     {
         CopyComponentsToObject(leftParent);
         CopyComponentsToObject(rightParent);
-
-        Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
-        Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
-        leftTopping.ready = true;
-        rightTopping.ready = true;
-        leftTopping.ingredientType = Taco.Ingredients.Onion;
-        rightTopping.ingredientType = Taco.Ingredients.Onion;
+        
 
         CuttableIngredient leftCuttable = leftParent.GetComponent<CuttableIngredient>();
         CuttableIngredient rightCuttable = rightParent.GetComponent<CuttableIngredient>();
@@ -186,6 +180,10 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         {
             leftCuttable.enabled = false;
             leftCuttable.enabled = false;
+            Toppingable leftTopping = leftParent.AddComponent<Toppingable>();
+            Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
+            leftTopping.ready = true;
+            rightTopping.ready = true;
         }
     }
 
