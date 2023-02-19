@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    private bool DEBUG_MODE = false;
+    private bool DEBUG_MODE = true;
 
     private const float FIRST_STAGE_GAME = 60;
     private const float SECOND_STAGE_GAME = 90;
@@ -23,7 +23,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-       // GenerateOrder();
+        // GenerateOrder();
     }
 
     public void Update()
@@ -48,7 +48,7 @@ public class BoardManager : MonoBehaviour
         }
         else
         {
-
+            EndOfRound();
         }
         //if (ElapsedTime % 90 == 0)
         //{
@@ -143,7 +143,8 @@ public class BoardManager : MonoBehaviour
     {
         LoseOneStar();
 
-        Debug.Log("Done With Order");
+        if (DEBUG_MODE)
+            Debug.Log("Done With Order");
 
         for (int i = 0; i < activeOrders.Count; i++)
         {
@@ -181,8 +182,7 @@ public class BoardManager : MonoBehaviour
 
     public void LoseOneStar()
     {
-        //TODO
-        Debug.Log("Lose one star, oh no!");
+        boardUI.RemoveOneStar();
     }
 
     public bool isTacoGoodToServe(IngredientEnum taco)

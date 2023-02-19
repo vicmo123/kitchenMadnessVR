@@ -17,11 +17,21 @@ public class BoardUI : MonoBehaviour
     private Transform orderSlot;
 
     private List<OrderUI> ordersUI = new List<OrderUI>();
+    private List<Transform> stars = new List<Transform>();
 
+    private void Start()
+    {
+        int nbChild = starContainer.childCount;
+        for (int i = 0; i < nbChild; i++)
+        {
+            Transform star = starContainer.GetChild(i);
+            stars.Add(star);
+        }
+    }
 
     public void AddOrderToDisplay(Order order)
     {
-         CreateOrderUI(order);
+        CreateOrderUI(order);
     }
 
     public void RemoveOrder(int id)
@@ -53,7 +63,20 @@ public class BoardUI : MonoBehaviour
         newOrder.SetOrder(order);
         //newOrder.UpdateTimerUI();
         newOrder.SetIngredientVisible(order.GetRecipe());
-        ordersUI.Add(newOrder);        
+        ordersUI.Add(newOrder);
+    }
+    public void RemoveOneStar()
+    {
+        if (stars.Count > 1)
+        {
+            Transform starToDestroy = stars[stars.Count - 1];
+            stars.RemoveAt((stars.Count) - 1);
+            GameObject.Destroy(starToDestroy.gameObject);
+        }
+        else if (stars.Count == 1)
+        {
+            //End Of Game!!!!!
+        }
     }
     public void EndOfRound()
     {
