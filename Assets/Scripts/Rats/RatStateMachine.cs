@@ -70,7 +70,7 @@ public class RatStateMachine
 
         stateMachine.AddTransition(Walk, TargetSpotted, _ => IsFoodItemFound());
         stateMachine.AddTransition(TargetSpotted, Exit, _ => IsObjectPickedUp());
-        stateMachine.AddTransitionFromAny(new Transition("", Hit, t => IsHit()));
+        stateMachine.AddTransitionFromAny(new Transition("", Hit, t => rat.isHit));
         stateMachine.AddTransitionFromAny(new Transition("", Exit, t => (rat.isBored == true && rat.objectPickedUp == false)));
         stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
         stateMachine.AddTransition(Scared, Exit, _ => true);
@@ -120,8 +120,7 @@ public class RatStateMachine
     private void OnHitLogic()
     {
         CurrentState = Hit;
-        rat.isScared = true;
-        rat.animCtrl.SetBool("IsHit", rat.isScared);
+        rat.animCtrl.SetBool("IsHit", true);
     }
 
     private void OnTargetSpottedLogic()
@@ -138,7 +137,7 @@ public class RatStateMachine
 
     private bool IsHitFinished()
     {
-        return rat.isScared;
+        return rat.isHit;
     }
 
     private bool IsFoodItemFound()
@@ -160,14 +159,6 @@ public class RatStateMachine
             }
         }
         return false;
-    }
-
-    private bool IsHit()
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-            return true;
-        else
-            return false;
     }
 
     private void TimeIsUp()

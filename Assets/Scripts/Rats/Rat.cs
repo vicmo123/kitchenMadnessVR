@@ -17,16 +17,18 @@ public class Rat : MonoBehaviour
     [Range(0, 100)] public float walkRadius;
     [Range(1, 20)] public float sightLenght;
     [Range(1, 20)] public float sightRadius;
-    [HideInInspector] public bool isScared = false;
+    [HideInInspector] public bool isHit = false;
     [HideInInspector] public bool objectPickedUp = false;
     [HideInInspector] public bool isBored = false;
     [HideInInspector] public int layerMask;
     [HideInInspector] public int areaMask;
+    public bool isGrabbed { get; set; }
     [HideInInspector] public RatsManager ratManager { get; set; } = null;
     #endregion
 
     private RatStateMachine ratStateMachine;
     [HideInInspector] public Animator animCtrl { get; private set; }
+
 
     private void Awake()
     {
@@ -54,6 +56,8 @@ public class Rat : MonoBehaviour
         float currentSpeed = agent.velocity.magnitude;
         currentSpeed = Mathf.Clamp(currentSpeed * 2.0f, 0, chaseSpeed);
         animCtrl.SetFloat("Speed", currentSpeed / chaseSpeed);
+
+        SeeIfGrabbedByPlayer();
     }
 
     public Vector3 GenerateRandomNavMeshPos()
@@ -80,13 +84,20 @@ public class Rat : MonoBehaviour
         return false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Food"))
+        if (other.gameObject.CompareTag("Food"))
         {
             agent.SetDestination(FindClosestExit());
             objectPickedUp = true;
             animCtrl.SetBool("IsItemPickedUp", objectPickedUp);
+        }
+
+        if (other.gameObject.CompareTag("Right Hand") || other.gameObject.CompareTag("Left Hand"))
+        {
+            isHit = true;
         }
     }
 
@@ -106,5 +117,17 @@ public class Rat : MonoBehaviour
             }
         }
         return bestExit.position;
+    }
+
+    public void SeeIfGrabbedByPlayer()
+    {
+        if (isGrabbed)
+        {
+            agent.enabled = false;
+        }
+        if (!isGrabbed)
+        {
+            agent.enabled = true;
+        }
     }
 }
