@@ -14,6 +14,8 @@ TagManager:
   - MeatCone
   - Counter
   - Floor
+  - Taco
+  - TestTaco
   layers:
   - Default
   - TransparentFX

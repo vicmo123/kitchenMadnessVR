@@ -31,7 +31,6 @@ public class BoardManager : MonoBehaviour
         //activeOrders.Where(x => x == null).ToList();
         if (roundActive)
         {
-
             for (int i = 0; i < activeOrders.Count; i++)
             {
                 if (activeOrders[i] != null)
@@ -42,6 +41,10 @@ public class BoardManager : MonoBehaviour
 
             //Only one order left on the board, and almost done
             if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+            {
+                GenerateOrder();
+            }
+            else if (activeOrders.Count == 0)
             {
                 GenerateOrder();
             }
@@ -193,6 +196,8 @@ public class BoardManager : MonoBehaviour
         {
             if (activeOrders[i].IsCorrespondingToOrder(taco))
             {
+                if (DEBUG_MODE)
+                    Debug.Log("Order Corresponding with taco!");
                 result = true;
                 indexRecipeToRemove = i;
                 break;
@@ -200,7 +205,9 @@ public class BoardManager : MonoBehaviour
         }
         if (indexRecipeToRemove != -1)
         {
+            Order order = activeOrders[indexRecipeToRemove];
             activeOrders.Remove(activeOrders[indexRecipeToRemove]);
+            boardUI.RemoveOrder(order.GetId());
         }
         return result;
     }

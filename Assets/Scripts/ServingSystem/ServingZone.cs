@@ -7,6 +7,19 @@ public class ServingZone : MonoBehaviour
     public BoardManager boardManager;
     private void OnTriggerEnter(Collider other)
     {
+        if(other.tag == "TestTaco")
+        {
+            if (boardManager.isTacoGoodToServe(other.GetComponent<TestTaco>().GetRecipe()))
+            {
+                SoundManager.GoodJob?.Invoke();
+            }
+            else
+            {
+                SoundManager.LooseStar?.Invoke();
+            }
+
+            GameObject.Destroy(other);
+        }
         if (other.tag == "Taco")
         {
             if (!other.GetComponent<Pickupable>().isGrabbedByPlayer || !other.GetComponent<Pickupable>().isGrabbedByRat)
