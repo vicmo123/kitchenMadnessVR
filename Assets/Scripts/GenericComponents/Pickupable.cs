@@ -43,7 +43,7 @@ public class Pickupable : XRGrabInteractable
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();
-            ratComponent.isGrabbed = false;
+            ratComponent.RatPickedByPlayerEvent.Invoke();
         }
         base.OnSelectExited(args);
     }
@@ -54,7 +54,7 @@ public class Pickupable : XRGrabInteractable
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();
-            ratComponent.isGrabbed = true;
+            ratComponent.RatPickedByPlayerEvent.Invoke();
             isCarrier.DropItem();
         }
     }
@@ -72,8 +72,8 @@ public class Pickupable : XRGrabInteractable
             rb.isKinematic = true;
             //transform.position = carrier.attachPoint.position; HAVE TO WORK ON ATTACH POINT
             gameObject.transform.SetParent(collision.transform);
+            SoundManager.RatLaugh?.Invoke();
         }
-
     }
     //Carrier Drops Item
     public void DropItem()

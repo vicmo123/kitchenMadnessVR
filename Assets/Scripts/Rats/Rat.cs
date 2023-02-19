@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FSM;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 
 public class Rat : MonoBehaviour
@@ -22,7 +23,8 @@ public class Rat : MonoBehaviour
     [HideInInspector] public bool isBored = false;
     [HideInInspector] public int layerMask;
     [HideInInspector] public int areaMask;
-    public bool isGrabbed { get; set; }
+    public UnityEvent RatPickedByPlayerEvent;
+    public bool IsGrabbed { get; set; }
     [HideInInspector] public RatsManager ratManager { get; set; } = null;
     #endregion
 
@@ -43,11 +45,15 @@ public class Rat : MonoBehaviour
             agent.speed = walkSpeed;
             agent.SetDestination(GenerateRandomNavMeshPos());
         }
+
+        RatPickedByPlayerEvent = new UnityEvent();
+        RatPickedByPlayerEvent.AddListener(GrabbedByPlayerLogic);
     }
 
     private void Start()
     {
         ratStateMachine.InitStateMachine();
+        SoundManager.SpawnSqueek?.Invoke();
     }
 
     private void Update()
@@ -56,8 +62,6 @@ public class Rat : MonoBehaviour
         float currentSpeed = agent.velocity.magnitude;
         currentSpeed = Mathf.Clamp(currentSpeed * 2.0f, 0, chaseSpeed);
         animCtrl.SetFloat("Speed", currentSpeed / chaseSpeed);
-
-        SeeIfGrabbedByPlayer();
     }
 
     public Vector3 GenerateRandomNavMeshPos()
@@ -83,8 +87,6 @@ public class Rat : MonoBehaviour
         }
         return false;
     }
-
-    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -119,14 +121,16 @@ public class Rat : MonoBehaviour
         return bestExit.position;
     }
 
-    public void SeeIfGrabbedByPlayer()
+    public void GrabbedByPlayerLogic()
     {
-        if (isGrabbed)
+        if (!IsGrabbed)
         {
+            IsGrabbed = true;
             agent.enabled = false;
         }
-        if (!isGrabbed)
+        if (IsGrabbed)
         {
+            IsGrabbed = false;
             agent.enabled = true;
         }
     }
