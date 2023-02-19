@@ -7,7 +7,7 @@ public class TestTaco : MonoBehaviour
     IngredientEnum[] easyRecipes;
     private void Awake()
     {
-        easyRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Sauce, IngredientEnum.EasyTaco };
+        easyRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Sauce, IngredientEnum.BaseOfTaco };
     }
 
     private void Update()
@@ -20,7 +20,7 @@ public class TestTaco : MonoBehaviour
     }
     public IngredientEnum GetRecipe()
     {
-        IngredientEnum recipe = easyRecipes[Random.Range(0, 2)];
-        return recipe;
+        //IngredientEnum recipe = easyRecipes[Random.Range(0, 2)];
+        return IngredientEnum.BaseOfTaco;
     }
 }

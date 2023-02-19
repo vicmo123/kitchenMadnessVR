@@ -13,6 +13,7 @@ public class BoardManager : MonoBehaviour
     private const int NB_ORDERS_MAX = 5;
 
     public BoardUI boardUI;
+    public StarManager starManager;
 
     private List<Order> activeOrders = new List<Order>();
     private float elapsedTime;
@@ -86,7 +87,7 @@ public class BoardManager : MonoBehaviour
 
         //Recipes stored in arrays according to their difficulty level.
         IngredientEnum[] firstRecipe = new IngredientEnum[] { IngredientEnum.BaseOfTaco | IngredientEnum.Sauce };
-        IngredientEnum[] easyRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Sauce, IngredientEnum.EasyTaco };
+        IngredientEnum[] easyRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Sauce, IngredientEnum.BaseOfTaco };
         IngredientEnum[] mediumRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Cheese, IngredientEnum.EasyTaco | IngredientEnum.Pineapple };
         IngredientEnum[] hardRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Cheese | IngredientEnum.Sauce, IngredientEnum.EasyTaco | IngredientEnum.Pineapple | IngredientEnum.Sauce };
         IngredientEnum[] hardCoreRecipes = new IngredientEnum[] { IngredientEnum.HardCoreTaco };
@@ -186,6 +187,7 @@ public class BoardManager : MonoBehaviour
     public void LoseOneStar()
     {
         boardUI.RemoveOneStar();
+        starManager.Current_nb_stars--;
     }
 
     public bool isTacoGoodToServe(IngredientEnum taco)

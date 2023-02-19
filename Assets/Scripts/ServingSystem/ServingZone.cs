@@ -15,6 +15,7 @@ public class ServingZone : MonoBehaviour
             }
             else
             {
+                boardManager.LoseOneStar();
                 SoundManager.LooseStar?.Invoke();
             }
 
@@ -30,6 +31,7 @@ public class ServingZone : MonoBehaviour
                 }
                 else
                 {
+                    boardManager.LoseOneStar();
                     SoundManager.LooseStar?.Invoke();
 
                 }
