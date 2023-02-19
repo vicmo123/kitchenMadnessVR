@@ -34,13 +34,33 @@ public class BoardUI : MonoBehaviour
         CreateOrderUI(order);
     }
 
-    public void RemoveOrder(int id)
+    public void RemoveOrderAndCrossOrder(int id)
     {
         for (int i = ordersUI.Count - 1; i > -1; i--)
         {
             if (id == ordersUI[i].GetId())
             {
                 OrderUI orderToDelete = ordersUI[i];
+
+                orderToDelete.CrossAppearanceActive();
+
+                ordersUI.Remove(ordersUI[i]);
+                GameObject.Destroy(orderToDelete.gameObject);
+            }
+        }
+    }
+
+    public void RemoveOrderAndCelebrate(int id)
+    {
+        for (int i = ordersUI.Count - 1; i > -1; i--)
+        {
+            if (id == ordersUI[i].GetId())
+            {
+                OrderUI orderToDelete = ordersUI[i];
+
+                //Effect Coroutine Disparaitre COmmande
+                orderToDelete.RemoveWithJoy();              
+
                 ordersUI.Remove(ordersUI[i]);
                 GameObject.Destroy(orderToDelete.gameObject);
             }

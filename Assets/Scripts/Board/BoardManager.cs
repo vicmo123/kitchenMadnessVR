@@ -166,7 +166,7 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        boardUI.RemoveOrder(id);
+        boardUI.RemoveOrderAndCrossOrder(id);
 
         if (DEBUG_MODE)
         {
@@ -209,7 +209,7 @@ public class BoardManager : MonoBehaviour
         {
             Order order = activeOrders[indexRecipeToRemove];
             activeOrders.Remove(activeOrders[indexRecipeToRemove]);
-            boardUI.RemoveOrder(order.GetId());
+            boardUI.RemoveOrderAndCelebrate(order.GetId());
         }
         return result;
     }
