@@ -146,6 +146,7 @@ public class BoardManager : MonoBehaviour
     public void DoneWithOrder(int id)
     {
         LoseOneStar();
+        SoundManager.LooseStar?.Invoke();
 
         if (DEBUG_MODE)
             Debug.Log("Done With Order");
