@@ -15,7 +15,7 @@ public class Burnable : MonoBehaviour
     public float burningTime = 3;
     public float grillingTime = 0;
 
-    public GameObject firePrefab;
+    GameObject firePrefab;
 
     float initialGrillingTime;
     float startDestroying;
@@ -41,6 +41,7 @@ public class Burnable : MonoBehaviour
         }
 
         initialGrillingTime = grillingTime;
+        firePrefab = Resources.Load<GameObject>("Prefabs/Burning/Fire");
     }
 
     public void OnGrill(Burner burner) {

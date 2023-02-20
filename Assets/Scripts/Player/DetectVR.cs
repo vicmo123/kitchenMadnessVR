@@ -9,10 +9,13 @@ public class DetectVR : MonoBehaviour
     public Transform XROrigin;
     //public Transform rightHand;
     //bool hasStarted = false;
-    static public Vector3 startingPosition = new Vector3(0, 1.8f, 0);
+    float heightPC;
+    static public Vector3 startingPosition;
 
     void Start()
     {
+        float heightPC = 1.5f;
+
         var xrSettings = XRGeneralSettings.Instance;
         if (xrSettings == null)
         {
@@ -26,7 +29,9 @@ public class DetectVR : MonoBehaviour
         var xrLoader = xrManager.activeLoader;
         if (xrLoader == null)
         {
-            XROrigin.transform.position = startingPosition;
+            startingPosition = XROrigin.transform.position;
+            startingPosition += new Vector3(0, heightPC, 0);
+            //startingPosition = XROrigin.transform.rotation;
             return;
         }
         gameObject.SetActive(false);
