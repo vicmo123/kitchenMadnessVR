@@ -58,14 +58,13 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         numberOfCuts = 0;
         //Set Layer To Correct Layer
         gameObject.layer = LayerMask.NameToLayer("Food");
+        MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+        CreateTriggerZones(childrenMeshRenderers);
     }
 
     public void Start()
     {
         Debug.Log("Start Called on: " + gameObject.name);
-        MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-
-        CreateTriggerZones(childrenMeshRenderers);
     }
 
     public void Cut(RaycastHit hit)
@@ -164,14 +163,14 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         CuttableIngredient leftCuttable = leftParent.GetComponent<CuttableIngredient>();
         CuttableIngredient rightCuttable = rightParent.GetComponent<CuttableIngredient>();
 
+        leftCuttable.numberOfCuts = numberOfCuts + 1;
+        leftCuttable.cutPlanes = cutPlanes;
+        rightCuttable.numberOfCuts = numberOfCuts + 1;
+        rightCuttable.cutPlanes = cutPlanes;
 
-        if (numberOfCuts < 3)
+        if (leftCuttable.numberOfCuts < 3 && rightCuttable.numberOfCuts < 3)
         {
-            leftCuttable.numberOfCuts = numberOfCuts + 1;
-            leftCuttable.cutPlanes = cutPlanes;
             //leftCuttable.Start();
-            rightCuttable.numberOfCuts = numberOfCuts + 1;
-            rightCuttable.cutPlanes = cutPlanes;
             //rightCuttable.Start();
             leftParent.layer = LayerMask.NameToLayer("Food");
             rightParent.layer = LayerMask.NameToLayer("Food");
@@ -184,6 +183,8 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             Toppingable rightTopping = rightParent.AddComponent<Toppingable>();
             leftTopping.ready = true;
             rightTopping.ready = true;
+            leftTopping.ingredientType = ingredientType;
+            rightTopping.ingredientType = ingredientType;
         }
     }
 
