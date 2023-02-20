@@ -76,7 +76,7 @@ public class RatStateMachine
         stateMachine.AddTransition(Scared, Exit, _ => true);
 
         OnTargetSpottedEnter += () => { SoundManager.FoodSpottedSound?.Invoke(); };
-        OnExitEnter += () => { rat.agent.SetDestination(rat.FindClosestExit()); Debug.Log(rat.agent.destination); };
+        OnExitEnter += () => { rat.agent.SetDestination(rat.FindClosestExit()); };
 
         stateMachine.SetStartState(Walk);
         stateMachine.Init();
@@ -90,7 +90,6 @@ public class RatStateMachine
     {
         timer.UpdateTimer();
         stateMachine.OnLogic();
-        Debug.Log(CurrentState);
     }
 
     //OnLogic

@@ -46,7 +46,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
     private void Awake()
     {
-        Debug.Log("Awake Called on: " + gameObject.name);
+        //Debug.Log("Awake Called on: " + gameObject.name);
         //get and cache requiered components
         wedges = GetComponentsInChildren<Wedge>();
         //Initialize Variables
@@ -62,7 +62,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
     public void Start()
     {
-        Debug.Log("Start Called on: " + gameObject.name);
+        //Debug.Log("Start Called on: " + gameObject.name);
         MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         CreateTriggerZones(childrenMeshRenderers);
     }
@@ -105,7 +105,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
                 if (distance >= cut.minimumCutDistance)
                 {
-                    Debug.Log("HasCut");
+                    //Debug.Log("HasCut");
                     CuttingPlane cutPlane = GetColliderEnum(cut.currentCollider);
                     cutPlanes.Add(cutPlane);
                     ProcessCut(cutPlane);
@@ -297,7 +297,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         //if no plane detected error must be returned
         if (plane.Equals(CuttingPlane.None))
         {
-            Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): No Plane");
+            //Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): No Plane");
             return -1;
         }
 
@@ -316,7 +316,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         else if (Approximate(normal.z, 1, .1f) || Approximate(normal.z, -1, .1f))
             return triggers[plane].size.y / 2;
 
-        Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): Invalid RayCast Normal");
+        //Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): Invalid RayCast Normal");
         return -1;
     }
     //Checks if a number is whithin a certain range of a number

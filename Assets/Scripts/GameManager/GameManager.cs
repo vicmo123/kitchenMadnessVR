@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
             SoundManager.GameOver.Invoke();
             dinoManager.roundActive = false;
             boardManager.roundActive = false;
-            Debug.Log("Bonjour");
         };
 
         stateMachine.SetStartState(StartGame);
@@ -96,7 +95,6 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
-        Debug.Log(CurrentState);
     }
 
     //Condition check for state transitions
