@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IngredientSpawner : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class IngredientSpawner : MonoBehaviour
     [Tooltip("Time in seconds between each spawn of ingredient")] public float spawnCooldown = 3;
 
     public GameObject spawnPoint;
-
+    public UnityEvent spawnEvent;
     private float timeForNextSpawn;
 
     private bool roundStarted;
@@ -23,7 +24,7 @@ public class IngredientSpawner : MonoBehaviour
         int prefabIndex = Random.Range(0, prefab.Count);
         GameObject spawnedObject = GameObject.Instantiate<GameObject>(prefab[prefabIndex]);
         spawnedObject.transform.position = spawnPoint.transform.position;
-
+        spawnEvent?.Invoke();
         return spawnedObject;
     }
 
