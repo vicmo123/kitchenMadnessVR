@@ -40,12 +40,13 @@ public class Pickupable : XRGrabInteractable
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         isGrabbedByPlayer = false;
+        base.OnSelectExited(args);
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();
-            ratComponent.RatPickedByPlayerEvent.Invoke();
+            ratComponent.rb.isKinematic = false;
+            ratComponent.IsGrabbed = true;
         }
-        base.OnSelectExited(args);
     }
     //Player Related Methodes
     void GrabbedByPlayer()
@@ -54,7 +55,7 @@ public class Pickupable : XRGrabInteractable
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();
-            ratComponent.RatPickedByPlayerEvent.Invoke();
+            ratComponent.agent.enabled = false;
             
             isCarrier.DropItem();
         }
