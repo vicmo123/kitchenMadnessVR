@@ -11,6 +11,7 @@ public class BoardManager : MonoBehaviour
     private const float SECOND_STAGE_GAME = 90;
     private const float THIRD_STAGE_GAME = 180;
     private const int NB_ORDERS_MAX = 5;
+    private int currentNbStars = 5;
 
     public BoardUI boardUI;
     public StarManager starManager;
@@ -187,8 +188,9 @@ public class BoardManager : MonoBehaviour
 
     public void LoseOneStar()
     {
-        boardUI.RemoveOneStar();
+        boardUI.RemoveOneStar(currentNbStars);
         starManager.Current_nb_stars--;
+        currentNbStars--;
     }
 
     public bool isTacoGoodToServe(IngredientEnum taco)
@@ -220,4 +222,10 @@ public class BoardManager : MonoBehaviour
         boardUI.EndOfRound();
         activeOrders.Clear();
     }
+
+    public int GetCurrentNbStars()
+    {
+        return currentNbStars;
+    }
+
 }
