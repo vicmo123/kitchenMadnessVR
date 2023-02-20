@@ -101,7 +101,21 @@ public class BoardUI : MonoBehaviour
         }
     }
     public void EndOfRound()
-    {
+    {        
+        foreach (Transform star in stars)
+        {
+            star.gameObject.SetActive(true);
+        }
+
+        if(orderContainer.childCount > 0)
+        {
+            for (int i = orderContainer.childCount -1 ; i >= 0; i--)
+            {
+                Transform child = orderContainer.GetChild(i);
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+
         ordersUI.Clear();
     }
 }
