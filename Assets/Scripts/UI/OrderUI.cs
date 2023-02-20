@@ -89,16 +89,39 @@ public class OrderUI : MonoBehaviour
 
     public void CrossAppearanceActive()
     {
-        orderContainer.gameObject.GetComponent<Image>().color = new Color(255, 35, 50, 199);
-        cross.gameObject.SetActive(true);
+        StartCoroutine(CrossEffect());
     }
 
     public void RemoveWithJoy()
     {
-        orderContainer.gameObject.GetComponent<Image>().color = new Color(34, 229, 41, 199);
-        //Coroutine scale up, then scale down. TODO
-        transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
-        transform.localScale = new Vector3(0, 0, 0);
-        
+        StartCoroutine(GoodJobEffect());
+    }
+
+    IEnumerator GoodJobEffect()
+    {
+        float timeEffet = Time.time + 2;
+        Image img = transform.GetComponent<Image>();        
+        img.color =  new Color(34, 229, 41, 199);
+
+        while (Time.time < timeEffet)
+        {
+            yield return null;
+        }
+        GameObject.Destroy(gameObject);
+    }
+
+    IEnumerator CrossEffect()
+    {
+        cross.gameObject.SetActive(true);
+
+        float timeEffet = Time.time + 2;
+        Image img = transform.GetComponent<Image>();        
+        img.color = new Color(255, 35, 50, 199);
+
+        while (Time.time < timeEffet)
+        {
+            yield return null;
+        }
+        GameObject.Destroy(gameObject);
     }
 }

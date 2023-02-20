@@ -45,7 +45,6 @@ public class BoardUI : MonoBehaviour
                 orderToDelete.CrossAppearanceActive();
 
                 ordersUI.Remove(ordersUI[i]);
-                GameObject.Destroy(orderToDelete.gameObject);
             }
         }
     }
@@ -59,10 +58,11 @@ public class BoardUI : MonoBehaviour
                 OrderUI orderToDelete = ordersUI[i];
 
                 //Effect Coroutine Disparaitre COmmande
-                orderToDelete.RemoveWithJoy();              
+                orderToDelete.RemoveWithJoy(); 
+               
 
                 ordersUI.Remove(ordersUI[i]);
-                GameObject.Destroy(orderToDelete.gameObject);
+                
             }
         }
     }
@@ -85,21 +85,37 @@ public class BoardUI : MonoBehaviour
         newOrder.SetIngredientVisible(order.GetRecipe());
         ordersUI.Add(newOrder);
     }
-    public void RemoveOneStar()
+    public void RemoveOneStar(int currentNbStars)
     {
-        if (stars.Count > 1)
+        if (currentNbStars > 1)
         {
-            Transform starToDestroy = stars[stars.Count - 1];
-            stars.RemoveAt((stars.Count) - 1);
-            GameObject.Destroy(starToDestroy.gameObject);
+            //Transform starToDestroy = stars[stars.Count - 1].gameObject.SetActive(false);
+            stars[currentNbStars - 1].gameObject.SetActive(false);
+            //stars.RemoveAt((stars.Count) - 1);
+            //GameObject.Destroy(starToDestroy.gameObject);
         }
-        else if (stars.Count == 1)
+        else if (currentNbStars == 1)
         {
             //End Of Game!!!!!
+            stars[currentNbStars - 1].gameObject.SetActive(false);
         }
     }
     public void EndOfRound()
-    {
+    {        
+        foreach (Transform star in stars)
+        {
+            star.gameObject.SetActive(true);
+        }
+
+        if(orderContainer.childCount > 0)
+        {
+            for (int i = orderContainer.childCount -1 ; i >= 0; i--)
+            {
+                Transform child = orderContainer.GetChild(i);
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+
         ordersUI.Clear();
     }
 }

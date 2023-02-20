@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2437158838829896825}
   - component: {fileID: 2437158838829896826}
   - component: {fileID: 2437158838829896827}
-  - component: {fileID: 2437158838829896820}
   - component: {fileID: 1288565982574825087}
   - component: {fileID: 2875188432586688170}
-  m_Layer: 0
+  - component: {fileID: 3623193676734114226}
+  m_Layer: 8
   m_Name: Conveyer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,20 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2437158838829896820
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2437158838829896821}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1288565982574825087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c0330085caddc4e99aa54311393512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 0.3
 --- !u!114 &2875188432586688170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,3 +112,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSpeed: 0.5
+--- !u!65 &3623193676734114226
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437158838829896821}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.05, z: 10.000001}
+  m_Center: {x: 0, y: 0, z: 0}

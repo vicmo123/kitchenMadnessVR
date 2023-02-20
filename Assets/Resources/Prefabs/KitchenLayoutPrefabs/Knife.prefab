@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 1256181093605332309}
   - component: {fileID: 1256181093605332310}
   - component: {fileID: 5679564069777157715}
+  - component: {fileID: 3215201860240764613}
   m_Layer: 3
   m_Name: Knife
-  m_TagString: Untagged
+  m_TagString: Tools
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,6 +261,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f76258330922c4ca9528b7227d5de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3215201860240764613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256181093605332311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb09f12a8c24bd4585ee2ac949a1dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawLocationEditor: {fileID: 0}
 --- !u!1 &1256181094330887919
 GameObject:
   m_ObjectHideFlags: 0
