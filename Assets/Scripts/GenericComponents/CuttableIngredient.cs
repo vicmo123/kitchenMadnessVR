@@ -12,14 +12,14 @@ public enum CuttingPlane { None = 0, XY, XZ, YZ}
 
 class CutInfo 
 {
-    //This class stores the information of a cut that is currently being made to the object
+    //This class stores the information of a cut that is currently being made a cuttable
 
     public Vector3 entryPoint; //the point where the cut started
     public Vector3 exitPoint; //the last detected point
     public CuttingState state; //the current state of the cut
     public Vector3 cutPointNormal; //the normal of the current collider
     public float minimumCutDistance; //the distance that we should travel in the object to register a cut
-    public Collider currentCollider; //the collider that initiated the cut
+    public Collider currentCollider; //the collider that first detected the cut
     public CutInfo()
     {
         entryPoint = Vector3.zero; exitPoint = Vector3.zero; state = CuttingState.NotCutting;
@@ -30,39 +30,37 @@ class CutInfo
 [RequireComponent(typeof(Rigidbody))]
 public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 {
+    Burnable burnableComponent;
 
-    private Wedge[] wedges;
-    [HideInInspector]public ArrayList cutPlanes;
-    Dictionary<CuttingPlane, BoxCollider> triggers;
     public string ingredientName = "Ingredient";
     public Taco.Ingredients ingredientType;
+
+    private Wedge[] wedges; //an array containing the wedges of the cuttable
+    Dictionary<CuttingPlane, BoxCollider> triggers; //dictionary that contains the cutting triggers
+    [HideInInspector]public ArrayList cutPlanes; //an array that stores which planes have been cut
+    
     //used to divide the width of the collider
     public float colliderWidthModifier = 4;
     
     private int numberOfCuts;
     CutInfo cut;
 
-    Burnable burnableComponent;
-
     private void Awake()
     {
-        Debug.Log("Awake Called on: " + gameObject.name);
         //get and cache requiered components
         wedges = GetComponentsInChildren<Wedge>();
+
         //Initialize Variables
         cutPlanes = new ArrayList();
         triggers = new Dictionary<CuttingPlane, BoxCollider>();
-        
-
         cut = new CutInfo();
         numberOfCuts = 0;
+
         //Set Layer To Correct Layer
         gameObject.layer = LayerMask.NameToLayer("Food");
     }
-
     public void Start()
     {
-        Debug.Log("Start Called on: " + gameObject.name);
         MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         CreateTriggerZones(childrenMeshRenderers);
     }
@@ -105,18 +103,22 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
                 if (distance >= cut.minimumCutDistance)
                 {
-                    Debug.Log("HasCut");
                     CuttingPlane cutPlane = GetColliderEnum(cut.currentCollider);
                     cutPlanes.Add(cutPlane);
                     ProcessCut(cutPlane);
-                    StopCut();
+                    Destroy(gameObject);
                 }
                 break;
         }
     }
-    //This function prevents detection of cuts in wrong colliders
+    public void StopCut()
+    {
+        cut = new CutInfo();
+    }
+    
     private bool CheckIncorrectCuttingNormal(Vector3 normal, CuttingPlane currentCollider)
     {
+        //This function returns true when the collider is being hit in an invalid direction to prevent an incorrect cut
         switch (currentCollider)
         {
             case CuttingPlane.None:
@@ -131,10 +133,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 return false;
         }
 
-    }
-    public void StopCut()
-    {
-        cut = new CutInfo();
     }
     private void ProcessCut(CuttingPlane colliderPlane)
     {
@@ -153,29 +151,20 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
         AddComponentsToParents(leftParent, rightParent);
     }
-
     private void AddComponentsToParents(GameObject leftParent, GameObject rightParent)
     {
         CopyComponentsToObject(leftParent);
         CopyComponentsToObject(rightParent);
-        
 
         CuttableIngredient leftCuttable = leftParent.GetComponent<CuttableIngredient>();
         CuttableIngredient rightCuttable = rightParent.GetComponent<CuttableIngredient>();
 
-        leftCuttable.numberOfCuts = numberOfCuts + 1;
-        leftCuttable.cutPlanes = cutPlanes;
-        rightCuttable.numberOfCuts = numberOfCuts + 1;
-        rightCuttable.cutPlanes = cutPlanes;
+        InheritCuttableVariables(leftCuttable);
+        InheritCuttableVariables(rightCuttable);
+        leftParent.layer = LayerMask.NameToLayer("Food");
+        rightParent.layer = LayerMask.NameToLayer("Food");
 
-        if (leftCuttable.numberOfCuts < 3 && rightCuttable.numberOfCuts < 3)
-        {
-            //leftCuttable.Start();
-            //rightCuttable.Start();
-            leftParent.layer = LayerMask.NameToLayer("Food");
-            rightParent.layer = LayerMask.NameToLayer("Food");
-        }
-        else
+        if (leftCuttable.numberOfCuts >= 3 && rightCuttable.numberOfCuts >= 3)
         {
             leftCuttable.enabled = false;
             leftCuttable.enabled = false;
@@ -187,10 +176,12 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             rightTopping.ingredientType = ingredientType;
         }
     }
-
-    //Function that creates three trigger zones in each axis of the cuttable game object to detect for cut
     private void CreateTriggerZones(MeshRenderer[] meshRendererArray)
     {
+        //Function that creates trigger zones in each axis of the cuttable game object to detect for cut
+
+
+        //Check if planes have been cut
         var planes = System.Enum.GetValues(typeof(CuttingPlane));
         foreach (CuttingPlane colliderPlane in planes)
             if (colliderPlane != CuttingPlane.None)
@@ -200,16 +191,14 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                     boxCollider = gameObject.AddComponent<BoxCollider>();
                 triggers.Add(colliderPlane, boxCollider);
             }
-        //Check if planes have been cut
 
+        //creates a box around the item to have the exact length width and depth
         Bounds bounds = new Bounds();
         bounds.center = transform.position;
         foreach (MeshRenderer wedgeRenderer in meshRendererArray)
-        {
             bounds.Encapsulate(wedgeRenderer.bounds);
-        }
 
-        //Define collider dimensions and set as triggers
+        //Defines each collider size according to the modifier
         if (triggers[CuttingPlane.XZ])
         {
             triggers[CuttingPlane.XZ].size = new Vector3((bounds.size.x) / transform.localScale.x, bounds.size.y / transform.localScale.y / colliderWidthModifier, (bounds.size.z) / transform.localScale.z);
@@ -228,9 +217,9 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         }
     
     }
-    //This function takes a collider and checks if it's equal to the plane colliders, if it is it returns the appropriate Enum
     private CuttingPlane GetColliderEnum(Collider collider)
     {
+        //This function takes a collider and checks if it's equal one of cutting triggers, if it is it returns the appropriate Enum
         foreach (var key in triggers.Keys)
             if (triggers[key])
                 if (triggers[key].Equals(collider))
@@ -238,22 +227,11 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         
         return CuttingPlane.None;
     }
-    private void SetNewParent(Transform newParent, Transform objectToParent)
-    {
-        objectToParent.SetParent(null, true);
-        objectToParent.SetParent(newParent, true);
-    }
-    private void SetNewParent(Transform newParent, ArrayList objectsToParent)
-    {
-        foreach (GameObject gameObject in objectsToParent)
-            if (gameObject)
-                SetNewParent(newParent, gameObject.transform);
-    }
     private void SeparateHalves(CuttingPlane colliderPlane, ref ArrayList leftHalf, ref ArrayList rightHalf)
     {
+        //Divides wedges into two arrays, one containing the wedges to the left of the cut axis, the other to the right.
         switch (colliderPlane)
         {
-            //Divides wedges into two arrays according to what plane was cut (to the left of the plane is 1, to the right is 0)
             case CuttingPlane.XY:
 
                 foreach (Wedge wedge in wedges)
@@ -283,18 +261,11 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 break;
         }
     }
-
-    private void AddNonNullToArray(ArrayList leftHalf, GameObject wedge)
-    {
-        if (wedge)
-            leftHalf.Add(wedge);
-    }
-
-    //Returns the minimum distance a cutter object should travel to register a cut
     private float GetMinimumCutDistance(CuttingPlane plane, Vector3 normal)
     {
+        //Returns the minimum distance a cutter object should travel to register a cut
 
-        //if no plane detected error must be returned
+        //if no plane is detected error must be returned
         if (plane.Equals(CuttingPlane.None))
         {
             Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): No Plane");
@@ -319,18 +290,9 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): Invalid RayCast Normal");
         return -1;
     }
-    //Checks if a number is whithin a certain range of a number
-    private bool Approximate(float value, float compare, float range)
-    {
-        return value >= compare - range && value <= compare + range;
-    }
-
-    private bool Approximate(Vector3 value, Vector3 compare, float range)
-    {
-        return Approximate(value.x, compare.x, range) && Approximate(value.y, compare.y, range) && Approximate(value.z, compare.z, range);
-    }
     public void CopyComponentsToObject(GameObject toCopyTo)
     {
+        //uses reflection to find all components in the current object and copies them to the target object
         try
         {
             Component[] allComp = gameObject.GetComponents<Component>();
@@ -353,9 +315,9 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             Debug.LogError("CopyComponentsFailed");
         }
     }
-    
     private Vector3 GetGameObjectMiddlePoint(ArrayList array)
     {
+        //returns the worldspace middle point of an array of objects
         Vector3 centerPosition = new();
         int numberOfWedges = 0;
         foreach (GameObject gameObject in array)
@@ -366,5 +328,37 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             }
         return centerPosition / numberOfWedges;
     }
-
+    private bool Approximate(float value, float compare, float range)
+    {
+        //Checks if a number is whithin a certain range of a number
+        return value >= compare - range && value <= compare + range;
+    }
+    private bool Approximate(Vector3 value, Vector3 compare, float range)
+    {
+        return Approximate(value.x, compare.x, range) && Approximate(value.y, compare.y, range) && Approximate(value.z, compare.z, range);
+    }
+    private void AddNonNullToArray(ArrayList leftHalf, GameObject wedge)
+    {
+        if (wedge)
+            leftHalf.Add(wedge);
+    }
+    private void SetNewParent(Transform newParent, Transform objectToParent)
+    {
+        objectToParent.SetParent(null, true);
+        objectToParent.SetParent(newParent, true);
+    }
+    private void SetNewParent(Transform newParent, ArrayList objectsToParent)
+    {
+        foreach (GameObject gameObject in objectsToParent)
+            if (gameObject)
+                SetNewParent(newParent, gameObject.transform);
+    }
+    private void InheritCuttableVariables(CuttableIngredient cuttable)
+    {
+        cuttable.numberOfCuts = numberOfCuts + 1;
+        cuttable.cutPlanes = cutPlanes;
+        cuttable.ingredientType = ingredientType;
+        cuttable.colliderWidthModifier= colliderWidthModifier;
+        cuttable.ingredientName = ingredientName;
+    }
 }
