@@ -178,13 +178,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             rightTopping.ingredientType = ingredientType;
         }
     }
-    private void InheritCuttableVariables(CuttableIngredient cuttable)
-    {
-        cuttable.numberOfCuts = numberOfCuts + 1;
-        cuttable.cutPlanes = cutPlanes;
-        cuttable.ingredientType = ingredientType;
-        cuttable.colliderWidthModifier= colliderWidthModifier;
-    }
     private void CreateTriggerZones(MeshRenderer[] meshRendererArray)
     {
         //Function that creates trigger zones in each axis of the cuttable game object to detect for cut
@@ -361,5 +354,13 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         foreach (GameObject gameObject in objectsToParent)
             if (gameObject)
                 SetNewParent(newParent, gameObject.transform);
+    }
+    private void InheritCuttableVariables(CuttableIngredient cuttable)
+    {
+        cuttable.numberOfCuts = numberOfCuts + 1;
+        cuttable.cutPlanes = cutPlanes;
+        cuttable.ingredientType = ingredientType;
+        cuttable.colliderWidthModifier= colliderWidthModifier;
+        cuttable.ingredientName = ingredientName;
     }
 }
