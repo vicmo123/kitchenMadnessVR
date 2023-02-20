@@ -45,7 +45,6 @@ public class BoardUI : MonoBehaviour
                 orderToDelete.CrossAppearanceActive();
 
                 ordersUI.Remove(ordersUI[i]);
-                GameObject.Destroy(orderToDelete.gameObject);
             }
         }
     }
@@ -59,10 +58,11 @@ public class BoardUI : MonoBehaviour
                 OrderUI orderToDelete = ordersUI[i];
 
                 //Effect Coroutine Disparaitre COmmande
-                orderToDelete.RemoveWithJoy();              
+                orderToDelete.RemoveWithJoy(); 
+               
 
                 ordersUI.Remove(ordersUI[i]);
-                GameObject.Destroy(orderToDelete.gameObject);
+                
             }
         }
     }
