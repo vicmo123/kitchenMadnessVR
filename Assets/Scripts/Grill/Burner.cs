@@ -26,7 +26,7 @@ public class Burner : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider other) {
-        Burnable burnable = other.gameObject.GetComponent<Burnable>();
+        Burnable burnable = other.gameObject.GetComponentInParent<Burnable>();
         if (burnable != null) {
             burnable.OnGrill(this);
         }

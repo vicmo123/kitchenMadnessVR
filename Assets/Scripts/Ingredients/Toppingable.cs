@@ -19,7 +19,7 @@ public class Toppingable : MonoBehaviour
         p = this.GetComponent<Pickupable>();
         rb = this.GetComponent<Rigidbody>();
         ci = this.GetComponent<CuttableIngredient>();
-        mesh = this.GetComponentInChildren<Mesh>();
+        //mesh = this.GetComponentInChildren<Mesh>();
     }
 
     public void ReceivedInIngredientReceiver() {
