@@ -777,6 +777,23 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.447
       objectReference: {fileID: 0}
+    - target: {fileID: 7840143194395732644, guid: 25291abe5d4acba43acc7d8da9b912f0,
+        type: 3}
+      propertyPath: prefab.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7840143194395732644, guid: 25291abe5d4acba43acc7d8da9b912f0,
+        type: 3}
+      propertyPath: prefab.Array.data[0]
+      value: 
+      objectReference: {fileID: 4935668597468439439, guid: 942ea99bd59b25f4cbb95ffcca95d9de,
+        type: 3}
+    - target: {fileID: 7840143194395732644, guid: 25291abe5d4acba43acc7d8da9b912f0,
+        type: 3}
+      propertyPath: prefab.Array.data[3]
+      value: 
+      objectReference: {fileID: 1376152445110950274, guid: 8f0dae66ef724244ea57da7e36a612d4,
+        type: 3}
     - target: {fileID: 8842477420553064723, guid: 25291abe5d4acba43acc7d8da9b912f0,
         type: 3}
       propertyPath: m_Center.y
