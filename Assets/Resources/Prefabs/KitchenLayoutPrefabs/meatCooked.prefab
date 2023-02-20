@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7794430134993677765}
   - component: {fileID: 4034318626957921142}
   - component: {fileID: 4165046870021171451}
+  - component: {fileID: 3727125839598896754}
   m_Layer: 0
   m_Name: meatCooked
   m_TagString: Untagged
@@ -272,6 +273,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.4784942, y: 0.0645, z: 0.5753732}
   m_Center: {x: 0, y: 0.03225, z: 0}
+--- !u!114 &3727125839598896754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584241333054697135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602eda310ba323540b8c0d0845117876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1174817059715838592
 PrefabInstance:
   m_ObjectHideFlags: 0
