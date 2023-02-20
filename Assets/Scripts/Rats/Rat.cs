@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using FSM;
 using UnityEngine.AI;
-using UnityEngine.Events;
 
 
 public class Rat : MonoBehaviour
@@ -23,8 +22,8 @@ public class Rat : MonoBehaviour
     [HideInInspector] public bool isBored = false;
     [HideInInspector] public int layerMask;
     [HideInInspector] public int areaMask;
-    public UnityEvent RatPickedByPlayerEvent;
     public bool IsGrabbed { get; set; }
+    public Rigidbody rb;
     [HideInInspector] public RatsManager ratManager { get; set; } = null;
     #endregion
 
@@ -45,9 +44,6 @@ public class Rat : MonoBehaviour
             agent.speed = walkSpeed;
             agent.SetDestination(GenerateRandomNavMeshPos());
         }
-
-        RatPickedByPlayerEvent = new UnityEvent();
-        RatPickedByPlayerEvent.AddListener(GrabbedByPlayerLogic);
     }
 
     private void Start()
@@ -88,18 +84,29 @@ public class Rat : MonoBehaviour
         return false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Food"))
+        if (collision.gameObject.CompareTag("Food"))
         {
             agent.SetDestination(FindClosestExit());
             objectPickedUp = true;
             animCtrl.SetBool("IsItemPickedUp", objectPickedUp);
         }
 
-        if (other.gameObject.CompareTag("Right Hand") || other.gameObject.CompareTag("Left Hand"))
+        if (collision.gameObject.CompareTag("Right Hand") || collision.gameObject.CompareTag("Left Hand"))
         {
             isHit = true;
+        }
+
+        if (IsGrabbed)
+        {
+            Debug.Log("Grabbed");
+            if (collision.gameObject.CompareTag("Counter") || collision.gameObject.CompareTag("Floor"))
+            {
+                rb.isKinematic = true;
+                agent.enabled = true;
+                IsGrabbed = false;
+            }
         }
     }
 
@@ -119,23 +126,5 @@ public class Rat : MonoBehaviour
             }
         }
         return bestExit.position;
-    }
-
-    public void GrabbedByPlayerLogic()
-    {
-        if (!IsGrabbed)
-        {
-            IsGrabbed = true;
-            agent.enabled = false;
-            agent.updatePosition = false;
-        }
-        if (IsGrabbed)
-        {
-            agent.Warp(transform.position);
-
-            IsGrabbed = false;
-            agent.enabled = true;
-            agent.updatePosition = true;
-        }
     }
 }
