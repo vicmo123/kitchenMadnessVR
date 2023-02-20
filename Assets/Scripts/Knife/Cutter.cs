@@ -21,7 +21,9 @@ public class Cutter : MonoBehaviour
             if(ic!=null)
             {
                 ic.Cut(hit);
+               
             }
+
            
         }
 
