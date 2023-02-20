@@ -42,8 +42,8 @@ public class BoardUI : MonoBehaviour
             if (id == ordersUI[i].GetId())
             {
                 OrderUI orderToDelete = ordersUI[i];
-
-                orderToDelete.CrossAppearanceActive();
+                
+                StartCoroutine(orderToDelete.CrossEffect());
 
                 ordersUI.Remove(ordersUI[i]);
             }
@@ -57,10 +57,8 @@ public class BoardUI : MonoBehaviour
             if (id == ordersUI[i].GetId())
             {
                 OrderUI orderToDelete = ordersUI[i];
-
-                //Effect Coroutine Disparaitre COmmande
-                orderToDelete.RemoveWithJoy(); 
-               
+                
+                StartCoroutine(orderToDelete.GoodJobEffect());
 
                 ordersUI.Remove(ordersUI[i]);
                 
@@ -76,8 +74,7 @@ public class BoardUI : MonoBehaviour
         }
 
         foreach (Transform star in stars)
-        {
-           
+        {           
             star.Rotate(0, starSpeedRotation * Time.deltaTime, 0);
         }
     }

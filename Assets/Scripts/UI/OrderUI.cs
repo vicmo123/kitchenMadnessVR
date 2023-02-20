@@ -47,7 +47,7 @@ public class OrderUI : MonoBehaviour
         timerImg = timer.GetComponent<Image>();
         timerImg.color = Color.green;
 
-        bakcgroundImg = ingredientContainer.gameObject.GetComponent<Image>();
+        bakcgroundImg = ingredientContainer.GetComponent<Image>();
     }
 
     public void SetIngredientVisible(IngredientEnum recipe)
@@ -90,40 +90,55 @@ public class OrderUI : MonoBehaviour
         return this.order.GetId();
     }
 
-    public void CrossAppearanceActive()
-    {
-        StartCoroutine(CrossEffect());
-    }
 
-    public void RemoveWithJoy()
+    public IEnumerator GoodJobEffect()
     {
-        StartCoroutine(GoodJobEffect());
-    }
-
-    IEnumerator GoodJobEffect()
-    {
-        float timeEffet = Time.time + 2;
-        Image img = transform.GetComponent<Image>();        
-        img.color =  new Color(34, 229, 41, 199);
+        float startTime = Time.time;
+        float timeEffet = Time.time + 3;
+        Image img = transform.GetComponent<Image>();
+        img.color = new Color(.13f, .89f, .16f, .78f);
 
         while (Time.time < timeEffet)
         {
+            StartCoroutine(ScaleUp(2, startTime));
+            StartCoroutine(ScaleDown(1, startTime + 2));
             yield return null;
         }
         GameObject.Destroy(gameObject);
     }
 
-    IEnumerator CrossEffect()
+    public IEnumerator CrossEffect()
     {
         cross.gameObject.SetActive(true);
-
-        float timeEffet = Time.time + 2;
-        bakcgroundImg.color = new Color(255, 35, 50, 199);
+        float startTime = Time.time;
+        float timeEffet = Time.time + 3;
+        bakcgroundImg.color = new Color(1, .13f, .19f, .78f);
 
         while (Time.time < timeEffet)
         {
+            StartCoroutine(ScaleUp(2, startTime));
+            StartCoroutine(ScaleDown(1, startTime + 2));
             yield return null;
         }
         GameObject.Destroy(gameObject);
+    }
+
+    IEnumerator ScaleDown(float timeEffet, float startTime)
+    {
+        SoundManager.MoveOrder.Invoke();
+        while (transform.localScale != Vector3.zero)
+        {
+            transform.localScale = Vector3.Lerp(new Vector3(1.3f, 1.3f, 1.3f), Vector3.zero, Time.time - startTime / timeEffet );
+            yield return null;
+        }
+    }
+
+    IEnumerator ScaleUp(float timeEffet, float startTime)
+    {
+        while (transform.localScale != Vector3.zero)
+        {
+            transform.localScale = Vector3.Lerp( Vector3.one, new Vector3(1.25f, 1.25f, 1.25f), Time.time - startTime / timeEffet);
+            yield return null;
+        }
     }
 }
