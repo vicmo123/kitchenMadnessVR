@@ -111,15 +111,31 @@ public class OrderUI : MonoBehaviour
     {
         cross.gameObject.SetActive(true);
         float startTime = Time.time;
-        float timeEffet = Time.time + 3;
         bakcgroundImg.color = new Color(1, .13f, .19f, .78f);
 
-        while (Time.time < timeEffet)
+        //StartCoroutine(ScaleUp(1, startTime));
+        //yield return new WaitForSeconds(1);
+        //while (Time.time < timeEffet)
+        //{            
+        //    StartCoroutine(ScaleDown(1, startTime + 1));
+        //    yield return null;
+        //}
+
+        Vector3 scaleMax = new Vector3(1.2f, 1.2f, 1.2f);
+
+        while (transform.localScale != scaleMax)
         {
-            StartCoroutine(ScaleUp(2, startTime));
-            StartCoroutine(ScaleDown(1, startTime + 2));
+            transform.localScale = Vector3.Lerp(Vector3.one, scaleMax, (Time.time - startTime) / 2.0f);
             yield return null;
         }
+
+        SoundManager.MoveOrder.Invoke();
+        while (transform.localScale != Vector3.zero)
+        {
+            transform.localScale = Vector3.Lerp(new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, (Time.time - startTime));
+            yield return null;
+        }
+
         GameObject.Destroy(gameObject);
     }
 
@@ -128,16 +144,18 @@ public class OrderUI : MonoBehaviour
         SoundManager.MoveOrder.Invoke();
         while (transform.localScale != Vector3.zero)
         {
-            transform.localScale = Vector3.Lerp(new Vector3(1.3f, 1.3f, 1.3f), Vector3.zero, Time.time - startTime / timeEffet );
+            transform.localScale = Vector3.Lerp(new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, (Time.time - startTime) / timeEffet );
             yield return null;
         }
     }
 
     IEnumerator ScaleUp(float timeEffet, float startTime)
     {
-        while (transform.localScale != Vector3.zero)
+        Vector3 scaleMax = new Vector3(1.2f, 1.2f, 1.2f);
+
+        while (transform.localScale != scaleMax )
         {
-            transform.localScale = Vector3.Lerp( Vector3.one, new Vector3(1.25f, 1.25f, 1.25f), Time.time - startTime / timeEffet);
+            transform.localScale = Vector3.Lerp(transform.localScale, scaleMax, (Time.time - startTime) / timeEffet);
             yield return null;
         }
     }
