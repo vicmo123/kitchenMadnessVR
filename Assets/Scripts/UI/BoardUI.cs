@@ -107,10 +107,15 @@ public class BoardUI : MonoBehaviour
             star.gameObject.SetActive(true);
         }
 
-        foreach (OrderUI orderUI in ordersUI)
+        if(orderContainer.childCount > 0)
         {
-            GameObject.Destroy(orderUI);
+            for (int i = orderContainer.childCount -1 ; i >= 0; i--)
+            {
+                Transform child = orderContainer.GetChild(i);
+                GameObject.Destroy(child.gameObject);
+            }
         }
+
         ordersUI.Clear();
     }
 }
