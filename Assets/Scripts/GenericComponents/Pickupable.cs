@@ -66,7 +66,8 @@ public class Pickupable : XRGrabInteractable
     private void OnCollisionEnter(Collision collision)
     {
         Carrier carrier = collision.gameObject.GetComponent<Carrier>();
-        if (carrier && !carrier.holdingItem && !isGrabbedByRat && !isGrabbedByPlayer && gameObject.CompareTag("Food"))
+
+        if (carrier && !carrier.holdingItem && !isGrabbedByRat && !isGrabbedByPlayer && CompareTag("Food"))
         {
             carrier.holdingItem = true;
             isGrabbedByRat = true;
