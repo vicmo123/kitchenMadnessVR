@@ -55,10 +55,6 @@ public class BoardManager : MonoBehaviour
         {
             EndOfRound();
         }
-        //if (ElapsedTime % 90 == 0)
-        //{
-        //    GenerateOrder();
-        //}
     }
 
     public void GenerateOrder()
