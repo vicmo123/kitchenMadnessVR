@@ -47,7 +47,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
     private void Awake()
     {
-        Debug.Log("Awake Called on: " + gameObject.name);
         //get and cache requiered components
         wedges = GetComponentsInChildren<Wedge>();
 
@@ -63,7 +62,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
     public void Start()
     {
-        Debug.Log("Start Called on: " + gameObject.name);
         MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         CreateTriggerZones(childrenMeshRenderers);
     }
@@ -106,7 +104,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
                 if (distance >= cut.minimumCutDistance)
                 {
-                    Debug.Log("HasCut");
                     CuttingPlane cutPlane = GetColliderEnum(cut.currentCollider);
                     cutPlanes.Add(cutPlane);
                     ProcessCut(cutPlane);
@@ -180,13 +177,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             leftTopping.ingredientType = ingredientType;
             rightTopping.ingredientType = ingredientType;
         }
-    }
-    private void InheritCuttableVariables(CuttableIngredient cuttable)
-    {
-        cuttable.numberOfCuts = numberOfCuts + 1;
-        cuttable.cutPlanes = cutPlanes;
-        cuttable.ingredientType = ingredientType;
-        cuttable.colliderWidthModifier= colliderWidthModifier;
     }
     private void CreateTriggerZones(MeshRenderer[] meshRendererArray)
     {
@@ -364,5 +354,13 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         foreach (GameObject gameObject in objectsToParent)
             if (gameObject)
                 SetNewParent(newParent, gameObject.transform);
+    }
+    private void InheritCuttableVariables(CuttableIngredient cuttable)
+    {
+        cuttable.numberOfCuts = numberOfCuts + 1;
+        cuttable.cutPlanes = cutPlanes;
+        cuttable.ingredientType = ingredientType;
+        cuttable.colliderWidthModifier= colliderWidthModifier;
+        cuttable.ingredientName = ingredientName;
     }
 }
