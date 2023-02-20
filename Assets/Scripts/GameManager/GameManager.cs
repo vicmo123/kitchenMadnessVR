@@ -179,6 +179,7 @@ public class GameManager : MonoBehaviour
     private void OnUpdateRoundLogic()
     {
         CurrentState = UpdateRound;
+
         //Main game loop
         if (Input.GetKeyDown(KeyCode.M))
         {
