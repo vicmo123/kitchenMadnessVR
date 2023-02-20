@@ -15,6 +15,7 @@ public class BoardUI : MonoBehaviour
     public Image star_Prefab;
     public GameObject orderUI_Prefab;
     private Transform orderSlot;
+    private float starSpeedRotation = 100;
 
     private List<OrderUI> ordersUI = new List<OrderUI>();
     private List<Transform> stars = new List<Transform>();
@@ -72,6 +73,12 @@ public class BoardUI : MonoBehaviour
         foreach (OrderUI orderUI in ordersUI)
         {
             orderUI.UpdateTimerUI();
+        }
+
+        foreach (Transform star in stars)
+        {
+           
+            star.Rotate(0, starSpeedRotation * Time.deltaTime, 0);
         }
     }
 
