@@ -330,7 +330,7 @@ PrefabInstance:
     - target: {fileID: 5557275653283844741, guid: 749c0f2b70cc8af49a1f76df09ec7766,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.12
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 5557275653283844741, guid: 749c0f2b70cc8af49a1f76df09ec7766,
         type: 3}
@@ -475,14 +475,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2074811178, guid: 942ea99bd59b25f4cbb95ffcca95d9de, type: 3}
-      propertyPath: grillingTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2074811178, guid: 942ea99bd59b25f4cbb95ffcca95d9de, type: 3}
-      propertyPath: destroyingTime
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 4935668597468439439, guid: 942ea99bd59b25f4cbb95ffcca95d9de,
         type: 3}
       propertyPath: m_Name
