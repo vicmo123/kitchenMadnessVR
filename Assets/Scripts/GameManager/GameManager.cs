@@ -75,6 +75,19 @@ public class GameManager : MonoBehaviour
         OnUpdateRoundEnter += () => { ingredientSpawner.RoundStarting(); };
         OnUpdateRoundEnter += () => { rats.StartRound(); };
         OnUpdateRoundExit += () => { rats.EndRound(); };
+        OnUpdateRoundEnter += () =>
+        {
+            dinoManager.roundActive = true;
+            boardManager.roundActive = true;
+            boardManager.GenerateOrder();
+        };
+        OnUpdateRoundExit += () =>
+        {
+            SoundManager.GameOver.Invoke();
+            dinoManager.roundActive = false;
+            boardManager.roundActive = false;
+            Debug.Log("Bonjour");
+        };
 
         stateMachine.SetStartState(StartGame);
         stateMachine.Init();
@@ -83,7 +96,7 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
-        
+        Debug.Log(CurrentState);
     }
 
     //Condition check for state transitions
@@ -123,18 +136,7 @@ public class GameManager : MonoBehaviour
         countDownTimer = new CountDownTimer(3.0f, false);
         timer = new Timer();
 
-        OnUpdateRoundEnter += () => 
-        { 
-            dinoManager.roundActive = true;
-            boardManager.roundActive = true;
-            boardManager.GenerateOrder();
-        };
-        OnUpdateRoundExit += () => 
-        {
-            SoundManager.GameOver.Invoke();
-            dinoManager.roundActive = false;
-            boardManager.roundActive = false;
-        };
+        
 
         SoundManager.MainTheme?.Invoke();
     }
