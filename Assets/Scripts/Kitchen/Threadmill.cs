@@ -8,7 +8,8 @@ public class Threadmill : MonoBehaviour
 
     private void OnTriggerStay(Collider other) {
         float move = speed * Time.deltaTime;
-        other.transform.position += new Vector3(move, 0, 0);
+        Transform otherTransform = other.GetComponentInParent<Transform>();
+        otherTransform.position += new Vector3(move, 0, 0);
         //Debug.Log(move);
     }
 }

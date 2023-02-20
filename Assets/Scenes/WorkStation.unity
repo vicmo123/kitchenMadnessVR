@@ -187,27 +187,27 @@ PrefabInstance:
     - target: {fileID: 7912193047963569393, guid: 891a3ddf57811e94ba88a6bfeede463c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9995229
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7912193047963569393, guid: 891a3ddf57811e94ba88a6bfeede463c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0308863
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7912193047963569393, guid: 891a3ddf57811e94ba88a6bfeede463c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7912193047963569393, guid: 891a3ddf57811e94ba88a6bfeede463c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7912193047963569393, guid: 891a3ddf57811e94ba88a6bfeede463c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -3.54
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7912193047963569393, guid: 891a3ddf57811e94ba88a6bfeede463c,
         type: 3}
@@ -390,17 +390,17 @@ PrefabInstance:
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.8542
+      value: 1.0212
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3713009
+      value: 1.3726
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.5362
+      value: -1.5276
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
@@ -440,7 +440,7 @@ PrefabInstance:
     - target: {fileID: 1256181093605332309, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332311, guid: f11558096387fe64e950520887818483,
         type: 3}
