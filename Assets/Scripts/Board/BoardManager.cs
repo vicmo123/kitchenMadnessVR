@@ -218,6 +218,7 @@ public class BoardManager : MonoBehaviour
     {
         boardUI.EndOfRound();
         activeOrders.Clear();
+        currentNbStars = 5;
     }
 
     public int GetCurrentNbStars()
