@@ -114,6 +114,8 @@ MonoBehaviour:
   prefab:
   - {fileID: 4935668597468439439, guid: 942ea99bd59b25f4cbb95ffcca95d9de, type: 3}
   - {fileID: 206540519483894188, guid: ca019643c55b7234eb39353b1d4046b0, type: 3}
+  - {fileID: 2812393978808649421, guid: 891a3ddf57811e94ba88a6bfeede463c, type: 3}
+  - {fileID: 1376152445110950274, guid: 8f0dae66ef724244ea57da7e36a612d4, type: 3}
   spawnCooldown: 3
   spawnPoint: {fileID: 8358570995634365791}
 --- !u!1 &8358570995634365791
