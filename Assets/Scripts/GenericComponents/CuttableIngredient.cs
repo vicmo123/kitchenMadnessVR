@@ -59,7 +59,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         //Set Layer To Correct Layer
         gameObject.layer = LayerMask.NameToLayer("Food");
     }
-
     public void Start()
     {
         MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
@@ -107,7 +106,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                     CuttingPlane cutPlane = GetColliderEnum(cut.currentCollider);
                     cutPlanes.Add(cutPlane);
                     ProcessCut(cutPlane);
-                    StopCut();
+                    Destroy(gameObject);
                 }
                 break;
         }
@@ -117,7 +116,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         cut = new CutInfo();
     }
     
-
     private bool CheckIncorrectCuttingNormal(Vector3 normal, CuttingPlane currentCollider)
     {
         //This function returns true when the collider is being hit in an invalid direction to prevent an incorrect cut
