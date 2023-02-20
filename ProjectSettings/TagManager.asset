@@ -16,7 +16,7 @@ TagManager:
   - Floor
   - Taco
   - TestTaco
-  - meatBase
+  - Tools
   layers:
   - Default
   - TransparentFX

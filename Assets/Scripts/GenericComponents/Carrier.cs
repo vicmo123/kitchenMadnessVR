@@ -18,11 +18,18 @@ public class Carrier : MonoBehaviour
         {
             holdingItem = false;
             Pickupable[] pickupables = gameObject.GetComponentsInChildren<Pickupable>();
-            
+            GameObject model = gameObject.transform.GetChild(0).gameObject;
+
+            transform.DetachChildren();
+
             int i = 0;
             foreach(Pickupable P in pickupables) //To Skip Parent, NEED TO FIND A BETTER WAY
             {
-                if (i != 0)
+                if (i == 0)
+                {
+                    model.transform.SetParent(transform);
+                }
+                else
                 {
                     P.DropItem();
                 }
