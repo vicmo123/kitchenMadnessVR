@@ -8,6 +8,7 @@ public class Toppingable : MonoBehaviour
     public Taco.Ingredients ingredientType;
     Pickupable p;
     Rigidbody rb;
+    CuttableIngredient ci;
     [HideInInspector] public Mesh mesh;
 
     public bool ready = false;
@@ -17,7 +18,8 @@ public class Toppingable : MonoBehaviour
     {
         p = this.GetComponent<Pickupable>();
         rb = this.GetComponent<Rigidbody>();
-        mesh = this.GetComponent<Mesh>();
+        ci = this.GetComponent<CuttableIngredient>();
+        mesh = this.GetComponentInChildren<Mesh>();
     }
 
     public void ReceivedInIngredientReceiver() {
@@ -26,6 +28,7 @@ public class Toppingable : MonoBehaviour
 
     public void RemoveRigidbody() {
         Destroy(p);
+        Destroy(ci);
         Destroy(rb);
     }
 }
