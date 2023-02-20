@@ -53,7 +53,7 @@ public class Taco : MonoBehaviour
     public void AddIngredient(Toppingable ingredient) {
         this.gameObject.tag = "Taco";
         ingredientList.Add(ingredient.ingredientType);
-        SetRotation(ingredient);
+        //SetRotation(ingredient);
         PlaceIngredients();
     }
 
@@ -83,13 +83,13 @@ public class Taco : MonoBehaviour
 
             if (mixedToppingables == 2) {
                 tempIngredients[0].transform.position = new Vector3(pivot2_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].mesh.bounds.extents.y, pivot2_1.transform.position.z);
-                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].GetComponent<Mesh>().bounds.extents.y , pivot2_2.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].mesh.bounds.extents.y , pivot2_2.transform.position.z);
             }
 
             if (mixedToppingables == 3) {
-                tempIngredients[0].transform.position = new Vector3(pivot3_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].GetComponent<Mesh>().bounds.extents.y, pivot3_1.transform.position.z);
-                tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].GetComponent<Mesh>().bounds.extents.y, pivot3_2.transform.position.z);
-                tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y + tempIngredients[2].GetComponent<Mesh>().bounds.extents.y, pivot3_3.transform.position.z);
+                tempIngredients[0].transform.position = new Vector3(pivot3_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].mesh.bounds.extents.y, pivot3_1.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].mesh.bounds.extents.y, pivot3_2.transform.position.z);
+                tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y + tempIngredients[2].mesh.bounds.extents.y, pivot3_3.transform.position.z);
             }
 
             // INCLUDE SAUCE
