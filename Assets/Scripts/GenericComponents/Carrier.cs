@@ -22,7 +22,7 @@ public class Carrier : MonoBehaviour
             int i = 0;
             foreach(Pickupable P in pickupables) //To Skip Parent, NEED TO FIND A BETTER WAY
             {
-                if(i != 0)
+                if (i != 0)
                 {
                     P.DropItem();
                 }

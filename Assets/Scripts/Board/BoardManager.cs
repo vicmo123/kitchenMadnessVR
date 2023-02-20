@@ -5,61 +5,78 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    private const float FIRST_STAGE_GAME = 20;
-    private const float SECOND_STAGE_GAME = 30;
-    private const float THIRD_STAGE_GAME = 40;
+    private bool DEBUG_MODE = true;
+
+    private const float FIRST_STAGE_GAME = 60;
+    private const float SECOND_STAGE_GAME = 90;
+    private const float THIRD_STAGE_GAME = 180;
+    private const int NB_ORDERS_MAX = 5;
 
     public BoardUI boardUI;
+    public StarManager starManager;
 
     private List<Order> activeOrders = new List<Order>();
-    private List<Order> iInactiveOrders = new List<Order>();
-    const int NB_ORDERS_MAX = 5;
     private float elapsedTime;
     public float ElapsedTime { get => elapsedTime; set => elapsedTime = value; }
     int currentDifficultyIndex = 0;
 
-    Action RemoveOrder;
-    Action BoardEmpty;
+    public bool roundActive { get; set; } = false;
 
     private void Start()
     {
-        GenerateOrder();
+        // GenerateOrder();
     }
 
     public void Update()
     {
-       activeOrders.Where(x => x == null).ToList();
-
-       
-        for (int i = 0; i < activeOrders.Count; i++)
+        //activeOrders.Where(x => x == null).ToList();
+        if (roundActive)
         {
-            if (activeOrders[i] != null)
+            for (int i = 0; i < activeOrders.Count; i++)
             {
-                activeOrders[i].UpdateOrder();
+                if (activeOrders[i] != null)
+                {
+                    activeOrders[i].UpdateOrder();
+                }
+            }
+
+            //Only one order left on the board, and almost done
+            if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+            {
+                GenerateOrder();
+            }
+            else if (activeOrders.Count == 0)
+            {
+                GenerateOrder();
             }
         }
-
-        //Only one order left on the board, and almost done
-        if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+        else
         {
-            GenerateOrder();
+            EndOfRound();
         }
+        //if (ElapsedTime % 90 == 0)
+        //{
+        //    GenerateOrder();
+        //}
     }
 
     public void GenerateOrder()
     {
         if (activeOrders.Count < NB_ORDERS_MAX)
         {
-            Order order = new Order(this);
-            order.IsActive = true;
-            order.SetRecipe((int)GenerateToppings());
-            order.SetOrderTimer();
-            order.SetId();
-
+            Order order = new Order(this, GenerateToppings());
             activeOrders.Add(order);
+            if (DEBUG_MODE)
+                Debug.Log("Generate order id : " + order.GetId());
 
-            Debug.Log("Generate order id : " + order.GetId());
-            UpdateUI();
+            if (DEBUG_MODE)
+            {
+                foreach (Order item in activeOrders)
+                {
+                    Debug.Log("Order in the active list : " + item.GetId());
+                }
+            }
+            boardUI.AddOrderToDisplay(order);
         }
     }
 
@@ -70,7 +87,7 @@ public class BoardManager : MonoBehaviour
 
         //Recipes stored in arrays according to their difficulty level.
         IngredientEnum[] firstRecipe = new IngredientEnum[] { IngredientEnum.BaseOfTaco | IngredientEnum.Sauce };
-        IngredientEnum[] easyRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Sauce, IngredientEnum.EasyTaco };
+        IngredientEnum[] easyRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Sauce, IngredientEnum.BaseOfTaco };
         IngredientEnum[] mediumRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Cheese, IngredientEnum.EasyTaco | IngredientEnum.Pineapple };
         IngredientEnum[] hardRecipes = new IngredientEnum[] { IngredientEnum.EasyTaco | IngredientEnum.Cheese | IngredientEnum.Sauce, IngredientEnum.EasyTaco | IngredientEnum.Pineapple | IngredientEnum.Sauce };
         IngredientEnum[] hardCoreRecipes = new IngredientEnum[] { IngredientEnum.HardCoreTaco };
@@ -93,19 +110,30 @@ public class BoardManager : MonoBehaviour
         switch (stage)
         {
             case FIRST_STAGE_GAME:
-                Debug.Log("First Stage Game");
-                ingredients = posssibleRecipes[0][0];
-                ingredients = posssibleRecipes[1][0];
+                if (DEBUG_MODE)
+                    Debug.Log("First Stage Game");
+
+                if (Time.time % 2 == 0)
+                    ingredients = posssibleRecipes[0][0];
+                else
+                    ingredients = posssibleRecipes[1][UnityEngine.Random.Range(0, 2)];
                 break;
             case SECOND_STAGE_GAME:
-                Debug.Log("Second Stage Game");
+                if (DEBUG_MODE)
+                    Debug.Log("Second Stage Game");
+
                 ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
                 break;
             case THIRD_STAGE_GAME:
-                Debug.Log("Third Stage Game");
-                ingredients = posssibleRecipes[2][0];
-                ingredients = posssibleRecipes[3][0];
-                ingredients = posssibleRecipes[4][0];
+                if (DEBUG_MODE)
+                    Debug.Log("Third Stage Game");
+
+                if (Time.time % 2 == 0)
+                    ingredients = posssibleRecipes[2][UnityEngine.Random.Range(0, 2)];
+                else if (Time.time % 3 == 0)
+                    ingredients = posssibleRecipes[4][0];
+                else
+                    ingredients = posssibleRecipes[3][UnityEngine.Random.Range(0, 2)];
                 break;
             default:
                 Debug.Log("Generate Toppings, problems");
@@ -118,7 +146,10 @@ public class BoardManager : MonoBehaviour
     public void DoneWithOrder(int id)
     {
         LoseOneStar();
-        Debug.Log("Done With Order");
+        SoundManager.LooseStar?.Invoke();
+
+        if (DEBUG_MODE)
+            Debug.Log("Done With Order");
 
         for (int i = 0; i < activeOrders.Count; i++)
         {
@@ -128,39 +159,65 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        for (int i = activeOrders.Count -1; i > -1; i--)
+        for (int i = activeOrders.Count - 1; i > -1; i--)
         {
-            if(activeOrders[i].IsActive == false)
+            if (activeOrders[i].IsActive == false)
             {
                 activeOrders.Remove(activeOrders[i]);
             }
         }
-        //activeOrders.Where(x => x.IsActive == false).ToList();
 
-        UpdateUI();
-    }
+        boardUI.RemoveOrderAndCrossOrder(id);
 
-    int TacoToInt(params IngredientEnum[] recipe)
-    {
-        IngredientEnum taco = IngredientEnum.Tortilla | IngredientEnum.Meat;
-
-        foreach (IngredientEnum ingredient in recipe)
+        if (DEBUG_MODE)
         {
-            taco = taco | ingredient;
+            if (activeOrders.Count == 0)
+            {
+                Debug.Log("List of active orders is empty.");
+            }
+            else
+            {
+                foreach (Order item in activeOrders)
+                {
+                    Debug.Log("Order in the active list : " + item.GetId());
+                }
+            }
         }
-
-        return (int)taco;
-    }
-
-    void UpdateUI()
-    {
-        if (activeOrders != null)
-            boardUI.UpdateOrdersToDisplay(activeOrders);
     }
 
     public void LoseOneStar()
     {
-        //TODO
-        Debug.Log("Lose one star, oh no!");
+        boardUI.RemoveOneStar();
+        starManager.Current_nb_stars--;
+    }
+
+    public bool isTacoGoodToServe(IngredientEnum taco)
+    {
+        bool result = false;
+        int indexRecipeToRemove = -1;
+        for (int i = 0; i < activeOrders.Count; i++)
+        {
+            if (activeOrders[i].IsCorrespondingToOrder(taco))
+            {
+                if (DEBUG_MODE)
+                    Debug.Log("Order Corresponding with taco!");
+                result = true;
+                indexRecipeToRemove = i;
+                break;
+            }
+        }
+        if (indexRecipeToRemove != -1)
+        {
+            Order order = activeOrders[indexRecipeToRemove];
+            activeOrders.Remove(activeOrders[indexRecipeToRemove]);
+            boardUI.RemoveOrderAndCelebrate(order.GetId());
+        }
+        return result;
+    }
+
+    private void EndOfRound()
+    {
+        boardUI.EndOfRound();
+        activeOrders.Clear();
     }
 }

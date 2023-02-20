@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class Taco : MonoBehaviour
 {
+    #region Pivots
+
     // Pivots to get height depending on ingredients quantity
     public GameObject pivotLayer1;
     public GameObject pivotLayer2;
@@ -18,6 +20,8 @@ public class Taco : MonoBehaviour
     public GameObject pivot3_1;
     public GameObject pivot3_2;
     public GameObject pivot3_3;
+
+    #endregion
 
     public enum Ingredients
     {
@@ -36,7 +40,6 @@ public class Taco : MonoBehaviour
     IngredientReceiver ingredientReceiver;
     List<Ingredients> ingredientList;
 
-    // Start is called before the first frame update
     void Start() {
         ingredientReceiver = this.GetComponent<IngredientReceiver>();
         ingredientReceiver.receiverDelegate += AddIngredient;
@@ -47,17 +50,10 @@ public class Taco : MonoBehaviour
         ingredientList = new List<Ingredients>();
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     public void AddIngredient(Toppingable ingredient) {
-        if (ingredientList.Contains(Ingredients.Meat))
-            ingredient.gameObject.transform.SetParent(pivotLayer2.transform);
-        else
-            ingredient.gameObject.transform.SetParent(pivotLayer1.transform);
+        this.gameObject.tag = "Taco";
         ingredientList.Add(ingredient.ingredientType);
+        SetRotation(ingredient);
         PlaceIngredients();
     }
 
@@ -82,23 +78,22 @@ public class Taco : MonoBehaviour
             List<Toppingable> tempIngredients = GetMixedToppingables();
 
             if (mixedToppingables == 1) {
-                tempIngredients[0].transform.localPosition = new Vector3(0, 0, 0);
+                tempIngredients[0].transform.localPosition = new Vector3(0, tempIngredients[0].GetComponent<Mesh>().bounds.extents.y, 0);
             }
 
             if (mixedToppingables == 2) {
-                tempIngredients[0].transform.position = new Vector3(pivot2_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y, pivot2_1.transform.position.z);
-                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y, pivot2_2.transform.position.z);
+                tempIngredients[0].transform.position = new Vector3(pivot2_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].mesh.bounds.extents.y, pivot2_1.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].GetComponent<Mesh>().bounds.extents.y , pivot2_2.transform.position.z);
             }
 
             if (mixedToppingables == 3) {
-                tempIngredients[0].transform.position = new Vector3(pivot3_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y, pivot3_1.transform.position.z);
-                tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y, pivot3_2.transform.position.z);
-                tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y, pivot3_3.transform.position.z);
+                tempIngredients[0].transform.position = new Vector3(pivot3_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].GetComponent<Mesh>().bounds.extents.y, pivot3_1.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].GetComponent<Mesh>().bounds.extents.y, pivot3_2.transform.position.z);
+                tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y + tempIngredients[2].GetComponent<Mesh>().bounds.extents.y, pivot3_3.transform.position.z);
             }
 
             // INCLUDE SAUCE
         }
-
     }
 
     private List<Toppingable> GetMixedToppingables() {
@@ -107,32 +102,62 @@ public class Taco : MonoBehaviour
         Toppingable tempIngredient = ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Cheese);
         if (tempIngredient != null) {
             mixedIngredients.Add(tempIngredient);
+            if (ingredientList.Contains(Ingredients.Meat))
+                tempIngredient.gameObject.transform.SetParent(pivotLayer2.transform);
+            else
+                tempIngredient.gameObject.transform.SetParent(pivotLayer1.transform);
         }
         tempIngredient = ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Onion);
         if (tempIngredient != null) {
             mixedIngredients.Add(tempIngredient);
+            if (ingredientList.Contains(Ingredients.Meat))
+                tempIngredient.gameObject.transform.SetParent(pivotLayer2.transform);
+            else
+                tempIngredient.gameObject.transform.SetParent(pivotLayer1.transform);
         }
 
         tempIngredient = ingredientReceiver.GetIngredientOfType(Taco.Ingredients.Pineapple);
         if (tempIngredient != null) {
             mixedIngredients.Add(tempIngredient);
+            if (ingredientList.Contains(Ingredients.Meat))
+                tempIngredient.gameObject.transform.SetParent(pivotLayer2.transform);
+            else
+                tempIngredient.gameObject.transform.SetParent(pivotLayer1.transform);
         }
 
         return mixedIngredients;
     }
 
-    public Ingredients SendTaco() {
-        Ingredients taco = Ingredients.None;
-        for (int i = 1; i < Enum.GetNames(typeof(Ingredients)).Length; i++) {
-            if (ingredientList.Contains((Ingredients)i)) {
-                if (i == 1) {
-                    taco = (Ingredients)i;
-                }
-                else {
-                    taco = taco | (Ingredients)i;
-                }
-            }
-        }
+    private void SetRotation(Toppingable ingredient) {
+        Dictionary<string, float> ingRotations = new Dictionary<string, float>();
+
+        //cheese
+        ingRotations.Add("polySurface1", 0);
+        ingRotations.Add("polySurface2", 0);
+        //pineapple
+        ingRotations.Add("polySurface13", 0);
+        ingRotations.Add("polySurface14", 180);
+        //onion
+        ingRotations.Add("polySurface6", 180);
+        ingRotations.Add("polySurface4", 0);
+
+        ingredient.transform.Rotate(ingRotations[ingredient.mesh.name], 0, 0);
+
+    }
+
+    public IngredientEnum SendTaco() {
+        IngredientEnum taco = IngredientEnum.Tortilla;
+
+        if (ingredientList.Contains(Ingredients.Meat))
+            taco = taco | IngredientEnum.Meat;
+        if (ingredientList.Contains(Ingredients.Cheese))
+            taco = taco | IngredientEnum.Cheese;
+        if (ingredientList.Contains(Ingredients.Onion))
+            taco = taco | IngredientEnum.Onion;
+        if (ingredientList.Contains(Ingredients.Pineapple))
+            taco = taco | IngredientEnum.Pineapple;
+        if (ingredientList.Contains(Ingredients.Sauce))
+            taco = taco | IngredientEnum.Sauce;
 
         return taco;
     }

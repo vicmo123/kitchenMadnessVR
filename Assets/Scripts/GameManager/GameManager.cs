@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
+        
     }
 
     //Condition check for state transitions
@@ -115,18 +116,28 @@ public class GameManager : MonoBehaviour
         currentNumberOfStars = maxNumberOfStars;
         InitStateMachine();
     }
-
-    // Start is called before the first frame update
-    void Start()
+    
+    private void Start()
     {
         startGameUi.StartButtonClickedEvent.AddListener(ActivateRound);
         countDownTimer = new CountDownTimer(3.0f, false);
         timer = new Timer();
 
-        OnUpdateRoundEnter += () => { dinoManager.roundActive = true; };
-        OnUpdateRoundExit += () => { dinoManager.roundActive = false; };
-    }
+        OnUpdateRoundEnter += () => 
+        { 
+            dinoManager.roundActive = true;
+            boardManager.roundActive = true;
+            boardManager.GenerateOrder();
+        };
+        OnUpdateRoundExit += () => 
+        {
+            SoundManager.GameOver.Invoke();
+            dinoManager.roundActive = false;
+            boardManager.roundActive = false;
+        };
 
+        SoundManager.MainTheme?.Invoke();
+    }
    
     private void Update()
     {
@@ -169,7 +180,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = UpdateRound;
         //Main game loop
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             currentNumberOfStars--;
         }
@@ -203,14 +214,5 @@ public class GameManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
-    }
-
-    public static IEnumerator WaitForFrames(int frameCount)
-    {
-        while (frameCount > 0)
-        {
-            frameCount--;
-            yield return null;
-        }
     }
 }
