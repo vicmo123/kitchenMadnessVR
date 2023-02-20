@@ -526,6 +526,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Knife
       objectReference: {fileID: 0}
+    - target: {fileID: 5679564069777157715, guid: f11558096387fe64e950520887818483,
+        type: 3}
+      propertyPath: meatCone
+      value: 
+      objectReference: {fileID: 1260462482}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f11558096387fe64e950520887818483, type: 3}
 --- !u!114 &771690608 stripped
@@ -606,11 +611,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MeatCone
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181526509010677609, guid: 99d17c7c2fb0f15428cf56463ae99733,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.076
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99d17c7c2fb0f15428cf56463ae99733, type: 3}
@@ -940,6 +940,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1348343851}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1260462482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2382830650798006598, guid: 99d17c7c2fb0f15428cf56463ae99733,
+    type: 3}
+  m_PrefabInstance: {fileID: 810226975}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82654bf7bbc96e54194d49523add5456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1321570575
 GameObject:
   m_ObjectHideFlags: 0
