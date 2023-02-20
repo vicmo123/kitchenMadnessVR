@@ -58,14 +58,13 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         numberOfCuts = 0;
         //Set Layer To Correct Layer
         gameObject.layer = LayerMask.NameToLayer("Food");
+        MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+        CreateTriggerZones(childrenMeshRenderers);
     }
 
     public void Start()
     {
         Debug.Log("Start Called on: " + gameObject.name);
-        MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-
-        CreateTriggerZones(childrenMeshRenderers);
     }
 
     public void Cut(RaycastHit hit)
