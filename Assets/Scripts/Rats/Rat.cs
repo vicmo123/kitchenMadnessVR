@@ -127,11 +127,15 @@ public class Rat : MonoBehaviour
         {
             IsGrabbed = true;
             agent.enabled = false;
+            agent.updatePosition = false;
         }
         if (IsGrabbed)
         {
+            agent.Warp(transform.position);
+
             IsGrabbed = false;
             agent.enabled = true;
+            agent.updatePosition = true;
         }
     }
 }

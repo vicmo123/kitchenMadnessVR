@@ -562,9 +562,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  walkSpeed: 1.5
-  chaseSpeed: 2
-  scaredSpeed: 0.8
+  walkSpeed: 0.8
+  chaseSpeed: 1.2
+  scaredSpeed: 1.5
   walkRadius: 1.2
   sightLenght: 1
   sightRadius: 1
@@ -573,6 +573,9 @@ MonoBehaviour:
   isBored: 0
   layerMask: 0
   areaMask: 0
+  RatPickedByPlayerEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &3544922460525757592
 Rigidbody:
   m_ObjectHideFlags: 0
