@@ -159,7 +159,7 @@ public class Taco : MonoBehaviour
         if (ingredientList.Contains(Ingredients.Sauce))
             taco = taco | IngredientEnum.Sauce;
 
-        return taco;
+        return taco | IngredientEnum.Meat | IngredientEnum.Sauce;
     }
 
     public void SetReady() {
