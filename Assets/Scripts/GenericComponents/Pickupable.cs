@@ -55,6 +55,7 @@ public class Pickupable : XRGrabInteractable
         {
             Rat ratComponent = GetComponent<Rat>();
             ratComponent.RatPickedByPlayerEvent.Invoke();
+            
             isCarrier.DropItem();
         }
     }
@@ -78,7 +79,7 @@ public class Pickupable : XRGrabInteractable
     //Carrier Drops Item
     public void DropItem()
     {
-        gameObject.transform.SetParent(null);
+        gameObject.transform.parent = null;
         rb.isKinematic = false;
         isGrabbedByRat = false;
     }

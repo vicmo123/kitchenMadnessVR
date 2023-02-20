@@ -72,7 +72,7 @@ public class RatStateMachine
         stateMachine.AddTransition(TargetSpotted, Exit, _ => IsObjectPickedUp());
         stateMachine.AddTransitionFromAny(new Transition("", Hit, t => rat.isHit));
         stateMachine.AddTransitionFromAny(new Transition("", Exit, t => (rat.isBored == true && rat.objectPickedUp == false)));
-        stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
+        stateMachine.AddTransition(Hit, Scared, _ => true);
         stateMachine.AddTransition(Scared, Exit, _ => true);
 
         OnTargetSpottedEnter += () => { SoundManager.FoodSpottedSound?.Invoke(); };
@@ -134,11 +134,6 @@ public class RatStateMachine
     private bool IsObjectPickedUp()
     {
         return rat.objectPickedUp;
-    }
-
-    private bool IsHitFinished()
-    {
-        return rat.isHit;
     }
 
     private bool IsFoodItemFound()
