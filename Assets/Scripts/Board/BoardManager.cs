@@ -7,9 +7,9 @@ public class BoardManager : MonoBehaviour
 {
     private bool DEBUG_MODE = true;
 
-    private const float FIRST_STAGE_GAME = 60;
-    private const float SECOND_STAGE_GAME = 90;
-    private const float THIRD_STAGE_GAME = 180;
+    private const float FIRST_STAGE_GAME = 1;
+    private const float SECOND_STAGE_GAME = 2;
+    private const float THIRD_STAGE_GAME = 180000;
     private const int NB_ORDERS_MAX = 5;
     private int currentNbStars = 5;
 
@@ -119,7 +119,8 @@ public class BoardManager : MonoBehaviour
                 if (DEBUG_MODE)
                     Debug.Log("Second Stage Game");
 
-                ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
+                //ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
+                ingredients = posssibleRecipes[3][UnityEngine.Random.Range(0, 2)];
                 break;
             case THIRD_STAGE_GAME:
                 if (DEBUG_MODE)
