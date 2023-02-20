@@ -92,7 +92,7 @@ public class Taco : MonoBehaviour
                 tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y + tempIngredients[2].mesh.bounds.extents.y, pivot3_3.transform.position.z);
             }
 
-            // INCLUDE SAUCE
+            Saucing();
         }
     }
 
@@ -128,7 +128,11 @@ public class Taco : MonoBehaviour
         return mixedIngredients;
     }
 
-    private void SetRotation(Toppingable ingredient) {
+    private void Saucing() {
+
+    }
+
+    private void SetRotation(Toppingable ingredient) { // NOT WORKING FOR THE MOMENT
         Dictionary<string, float> ingRotations = new Dictionary<string, float>();
 
         //cheese
