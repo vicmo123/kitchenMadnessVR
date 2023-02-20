@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FSM;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 
 public class Rat : MonoBehaviour
@@ -17,16 +18,19 @@ public class Rat : MonoBehaviour
     [Range(0, 100)] public float walkRadius;
     [Range(1, 20)] public float sightLenght;
     [Range(1, 20)] public float sightRadius;
-    [HideInInspector] public bool isScared = false;
+    [HideInInspector] public bool isHit = false;
     [HideInInspector] public bool objectPickedUp = false;
     [HideInInspector] public bool isBored = false;
     [HideInInspector] public int layerMask;
     [HideInInspector] public int areaMask;
+    public UnityEvent RatPickedByPlayerEvent;
+    public bool IsGrabbed { get; set; }
     [HideInInspector] public RatsManager ratManager { get; set; } = null;
     #endregion
 
     private RatStateMachine ratStateMachine;
     [HideInInspector] public Animator animCtrl { get; private set; }
+
 
     private void Awake()
     {
@@ -41,11 +45,15 @@ public class Rat : MonoBehaviour
             agent.speed = walkSpeed;
             agent.SetDestination(GenerateRandomNavMeshPos());
         }
+
+        RatPickedByPlayerEvent = new UnityEvent();
+        RatPickedByPlayerEvent.AddListener(GrabbedByPlayerLogic);
     }
 
     private void Start()
     {
         ratStateMachine.InitStateMachine();
+        SoundManager.SpawnSqueek?.Invoke();
     }
 
     private void Update()
@@ -80,13 +88,18 @@ public class Rat : MonoBehaviour
         return false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Food"))
+        if (other.gameObject.CompareTag("Food"))
         {
             agent.SetDestination(FindClosestExit());
             objectPickedUp = true;
             animCtrl.SetBool("IsItemPickedUp", objectPickedUp);
+        }
+
+        if (other.gameObject.CompareTag("Right Hand") || other.gameObject.CompareTag("Left Hand"))
+        {
+            isHit = true;
         }
     }
 
@@ -106,5 +119,23 @@ public class Rat : MonoBehaviour
             }
         }
         return bestExit.position;
+    }
+
+    public void GrabbedByPlayerLogic()
+    {
+        if (!IsGrabbed)
+        {
+            IsGrabbed = true;
+            agent.enabled = false;
+            agent.updatePosition = false;
+        }
+        if (IsGrabbed)
+        {
+            agent.Warp(transform.position);
+
+            IsGrabbed = false;
+            agent.enabled = true;
+            agent.updatePosition = true;
+        }
     }
 }
