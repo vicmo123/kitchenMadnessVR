@@ -69,12 +69,25 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransition(StartRound, UpdateRound, _ => true);
         stateMachine.AddTransition(RestartRound, SetupRound, _ => true);
         stateMachine.AddTransitionFromAny(new Transition("", EndGame, t => (IsEndGameRequested())));
-        stateMachine.AddTransitionFromAny(new Transition("", RestartRound, t => (currentNumberOfStars <= 0)));
+        stateMachine.AddTransitionFromAny(new Transition("", RestartRound, t => (boardManager.GetCurrentNbStars() <= 0)));
 
         OnUpdateRoundEnter += () => { timer.Reset(); };
         OnUpdateRoundEnter += () => { ingredientSpawner.RoundStarting(); };
         OnUpdateRoundEnter += () => { rats.StartRound(); };
         OnUpdateRoundExit += () => { rats.EndRound(); };
+        OnUpdateRoundEnter += () =>
+        {
+            dinoManager.roundActive = true;
+            boardManager.roundActive = true;
+            boardManager.GenerateOrder();
+        };
+        OnUpdateRoundExit += () =>
+        {
+            SoundManager.GameOver.Invoke();
+            dinoManager.roundActive = false;
+            boardManager.roundActive = false;
+            Debug.Log("Bonjour");
+        };
 
         stateMachine.SetStartState(StartGame);
         stateMachine.Init();
@@ -83,6 +96,7 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
+        Debug.Log(CurrentState);
     }
 
     //Condition check for state transitions
@@ -122,20 +136,9 @@ public class GameManager : MonoBehaviour
         countDownTimer = new CountDownTimer(3.0f, false);
         timer = new Timer();
 
-        OnUpdateRoundEnter += () => 
-        { 
-            dinoManager.roundActive = true;
-            boardManager.roundActive = true;
-            boardManager.GenerateOrder();
-        };
-        OnUpdateRoundExit += () => 
-        {
-            SoundManager.GameOver.Invoke();
-            dinoManager.roundActive = false;
-            boardManager.roundActive = false;
-        };
+        
 
-        SoundManager.MainTheme.Invoke();
+        SoundManager.MainTheme?.Invoke();
     }
    
     private void Update()
@@ -178,14 +181,16 @@ public class GameManager : MonoBehaviour
     private void OnUpdateRoundLogic()
     {
         CurrentState = UpdateRound;
+
         //Main game loop
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             currentNumberOfStars--;
         }
 
         boardManager.ElapsedTime = timer.Elapsed;
         rats.timeElapsedRound = timer.Elapsed;
+       
     }
 
     private void OnRestartRoundLogic()

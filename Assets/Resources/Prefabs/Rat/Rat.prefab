@@ -524,6 +524,8 @@ GameObject:
   - component: {fileID: 4998736279119154389}
   - component: {fileID: 8328067443794719257}
   - component: {fileID: 1836981366970506851}
+  - component: {fileID: 8041729621556844457}
+  - component: {fileID: 235878348740422839}
   m_Layer: 0
   m_Name: Rat
   m_TagString: Untagged
@@ -540,8 +542,8 @@ Transform:
   m_GameObject: {fileID: 2405367424021123448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8735608376402527806}
   m_Father: {fileID: 0}
@@ -559,18 +561,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499344133a0a9b3419388611162b793a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 3544922460525757592}
   agent: {fileID: 0}
-  walkSpeed: 3.5
-  chaseSpeed: 10
-  scaredSpeed: 15
-  walkRadius: 10
-  sightLenght: 10
+  walkSpeed: 0.8
+  chaseSpeed: 1.2
+  scaredSpeed: 1.5
+  walkRadius: 1.2
+  sightLenght: 1
   sightRadius: 1
-  isScared: 0
+  isHit: 0
   objectPickedUp: 0
   isBored: 0
   layerMask: 0
+  areaMask: 0
+  RatPickedByPlayerEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &3544922460525757592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -610,18 +615,18 @@ NavMeshAgent:
   m_GameObject: {fileID: 2405367424021123448}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 250
+  m_StoppingDistance: 0.08
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 0.5
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 47
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1836981366970506851
 MonoBehaviour:
@@ -636,6 +641,154 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdingItem: 0
+--- !u!114 &8041729621556844457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405367424021123448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aca5acf9a25e87f4ca3c289f51a54484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyingTime: 0.5
+  burningTime: 3
+  grillingTime: 0
+  firePrefab: {fileID: 1253142483436318, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+  material1: {fileID: 0}
+  material2: {fileID: 0}
+  rend: {fileID: 0}
+--- !u!114 &235878348740422839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405367424021123448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4ba2340e265fe498c658c2925d9fb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders: []
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_CustomReticle: {fileID: 0}
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_AttachTransform: {fileID: 0}
+  m_UseDynamicAttach: 0
+  m_MatchAttachPosition: 1
+  m_MatchAttachRotation: 1
+  m_SnapToColliderVolume: 1
+  m_AttachEaseInTime: 0.15
+  m_MovementType: 2
+  m_VelocityDamping: 1
+  m_VelocityScale: 1
+  m_AngularVelocityDamping: 1
+  m_AngularVelocityScale: 1
+  m_TrackPosition: 1
+  m_SmoothPosition: 0
+  m_SmoothPositionAmount: 5
+  m_TightenPosition: 0.5
+  m_TrackRotation: 1
+  m_SmoothRotation: 0
+  m_SmoothRotationAmount: 5
+  m_TightenRotation: 0.5
+  m_ThrowOnDetach: 1
+  m_ThrowSmoothingDuration: 0.25
+  m_ThrowSmoothingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_ThrowVelocityScale: 1.5
+  m_ThrowAngularVelocityScale: 1
+  m_ForceGravityOnDetach: 0
+  m_RetainTransformParent: 1
+  m_AttachPointCompatibilityMode: 0
+  m_StartingSingleGrabTransformers: []
+  m_StartingMultipleGrabTransformers: []
+  m_AddDefaultGrabTransformers: 1
+  leftHandTransform: {fileID: 0}
+  rightHandTransform: {fileID: 0}
+  isGrabbedByPlayer: 0
+  isGrabbedByRat: 0
 --- !u!1 &3142213147722782046
 GameObject:
   m_ObjectHideFlags: 0

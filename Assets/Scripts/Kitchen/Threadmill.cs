@@ -5,22 +5,26 @@ using UnityEngine;
 public class Threadmill : MonoBehaviour
 {
     public float speed = 1;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    private GameObject lastGO;
+    private Collider lastCollider;
     private void OnTriggerStay(Collider other) {
         float move = speed * Time.deltaTime;
-        other.transform.position += new Vector3(move, 0, 0);
-        Debug.Log(move);
+        if (CheckSameObjectDiferentCollider(other))
+            return;
+        lastCollider = other;
+        lastGO = other.gameObject;
+        other.GetComponentInParent<Transform>().position += new Vector3(move, 0, 0);
+        //Debug.Log(move);
+    }
+
+    private bool CheckSameObjectDiferentCollider(Collider other)
+    {
+        if (!other.gameObject.Equals(lastGO))
+            return false;
+        
+        if (other.Equals(lastCollider))
+            return false;
+        else
+            return true;
     }
 }

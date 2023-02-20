@@ -14,6 +14,9 @@ TagManager:
   - MeatCone
   - Counter
   - Floor
+  - Taco
+  - TestTaco
+  - Tools
   layers:
   - Default
   - TransparentFX
@@ -23,7 +26,7 @@ TagManager:
   - UI
   - Food
   - NoKnifeCollision
-  - 
+  - Threadmill
   - 
   - 
   - 

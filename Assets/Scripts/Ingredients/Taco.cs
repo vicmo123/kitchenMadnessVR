@@ -51,6 +51,7 @@ public class Taco : MonoBehaviour
     }
 
     public void AddIngredient(Toppingable ingredient) {
+        this.gameObject.tag = "Taco";
         ingredientList.Add(ingredient.ingredientType);
         SetRotation(ingredient);
         PlaceIngredients();
@@ -77,23 +78,22 @@ public class Taco : MonoBehaviour
             List<Toppingable> tempIngredients = GetMixedToppingables();
 
             if (mixedToppingables == 1) {
-                tempIngredients[0].transform.localPosition = new Vector3(0, 0, 0);
+                tempIngredients[0].transform.localPosition = new Vector3(0, tempIngredients[0].GetComponent<Mesh>().bounds.extents.y, 0);
             }
 
             if (mixedToppingables == 2) {
-                tempIngredients[0].transform.position = new Vector3(pivot2_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y, pivot2_1.transform.position.z);
-                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y, pivot2_2.transform.position.z);
+                tempIngredients[0].transform.position = new Vector3(pivot2_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].mesh.bounds.extents.y, pivot2_1.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].GetComponent<Mesh>().bounds.extents.y , pivot2_2.transform.position.z);
             }
 
             if (mixedToppingables == 3) {
-                tempIngredients[0].transform.position = new Vector3(pivot3_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y, pivot3_1.transform.position.z);
-                tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y, pivot3_2.transform.position.z);
-                tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y, pivot3_3.transform.position.z);
+                tempIngredients[0].transform.position = new Vector3(pivot3_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].GetComponent<Mesh>().bounds.extents.y, pivot3_1.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].GetComponent<Mesh>().bounds.extents.y, pivot3_2.transform.position.z);
+                tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y + tempIngredients[2].GetComponent<Mesh>().bounds.extents.y, pivot3_3.transform.position.z);
             }
 
             // INCLUDE SAUCE
         }
-
     }
 
     private List<Toppingable> GetMixedToppingables() {
@@ -129,6 +129,19 @@ public class Taco : MonoBehaviour
     }
 
     private void SetRotation(Toppingable ingredient) {
+        Dictionary<string, float> ingRotations = new Dictionary<string, float>();
+
+        //cheese
+        ingRotations.Add("polySurface1", 0);
+        ingRotations.Add("polySurface2", 0);
+        //pineapple
+        ingRotations.Add("polySurface13", 0);
+        ingRotations.Add("polySurface14", 180);
+        //onion
+        ingRotations.Add("polySurface6", 180);
+        ingRotations.Add("polySurface4", 0);
+
+        ingredient.transform.Rotate(ingRotations[ingredient.mesh.name], 0, 0);
 
     }
 
@@ -146,7 +159,7 @@ public class Taco : MonoBehaviour
         if (ingredientList.Contains(Ingredients.Sauce))
             taco = taco | IngredientEnum.Sauce;
 
-        return taco;
+        return taco | IngredientEnum.Meat | IngredientEnum.Sauce;
     }
 
     public void SetReady() {

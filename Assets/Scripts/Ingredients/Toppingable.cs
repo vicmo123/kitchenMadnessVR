@@ -8,6 +8,7 @@ public class Toppingable : MonoBehaviour
     public Taco.Ingredients ingredientType;
     Pickupable p;
     Rigidbody rb;
+    [HideInInspector] public Mesh mesh;
 
     public bool ready = false;
 
@@ -16,6 +17,7 @@ public class Toppingable : MonoBehaviour
     {
         p = this.GetComponent<Pickupable>();
         rb = this.GetComponent<Rigidbody>();
+        mesh = this.GetComponent<Mesh>();
     }
 
     public void ReceivedInIngredientReceiver() {

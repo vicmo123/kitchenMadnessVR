@@ -5,5 +5,6 @@ using UnityEngine;
 public interface InterFace_Cutter 
 {
      void Cut(RaycastHit hit);
+     void StopCut();
  
 }
