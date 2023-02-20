@@ -573,9 +573,7 @@ MonoBehaviour:
   isBored: 0
   layerMask: 0
   areaMask: 0
-  RatPickedByPlayerEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  rb: {fileID: 3544922460525757592}
 --- !u!54 &3544922460525757592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -656,7 +654,6 @@ MonoBehaviour:
   destroyingTime: 0.5
   burningTime: 3
   grillingTime: 0
-  firePrefab: {fileID: 1253142483436318, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
   material1: {fileID: 0}
   material2: {fileID: 0}
   rend: {fileID: 0}

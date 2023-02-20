@@ -41,13 +41,13 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     
     //used to divide the width of the collider
     public float colliderWidthModifier = 4;
-    public float minimumCutPercentage = 50;
+    
     private int numberOfCuts;
     CutInfo cut;
 
     private void Awake()
     {
-        //Debug.Log("Awake Called on: " + gameObject.name);
+        Debug.Log("Awake Called on: " + gameObject.name);
         //get and cache requiered components
         wedges = GetComponentsInChildren<Wedge>();
 
@@ -62,7 +62,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     }
     public void Start()
     {
-        //Debug.Log("Start Called on: " + gameObject.name);
+        Debug.Log("Start Called on: " + gameObject.name);
         MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         CreateTriggerZones(childrenMeshRenderers);
     }
@@ -105,7 +105,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
                 if (distance >= cut.minimumCutDistance)
                 {
-                    //Debug.Log("HasCut");
+                    Debug.Log("HasCut");
                     CuttingPlane cutPlane = GetColliderEnum(cut.currentCollider);
                     cutPlanes.Add(cutPlane);
                     ProcessCut(cutPlane);
@@ -182,8 +182,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     private void CreateTriggerZones(MeshRenderer[] meshRendererArray)
     {
         //Function that creates trigger zones in each axis of the cuttable game object to detect for cut
-        Quaternion rotation = transform.rotation;
-        transform.rotation = Quaternion.identity;
+
 
         //Check if planes have been cut
         var planes = System.Enum.GetValues(typeof(CuttingPlane));
@@ -217,8 +216,8 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         {
             triggers[CuttingPlane.YZ].size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
             triggers[CuttingPlane.YZ].isTrigger= true;
+
         }
-        transform.rotation = rotation;
     
     }
     private CuttingPlane GetColliderEnum(Collider collider)
@@ -276,21 +275,20 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             return -1;
         }
 
-
         if (Approximate(normal.x, 1, .1f) || Approximate(normal.x, -1, .1f))
-            return triggers[plane].size.y * (minimumCutPercentage / 100);
+            return triggers[plane].size.y / 2;
         else if (Approximate(normal.y, 1, .1f) || Approximate(normal.y, -1, .1f))
-            return triggers[plane].size.x * (minimumCutPercentage / 100);
+            return triggers[plane].size.x / 2;
         
         if (Approximate(normal.x,1,.1f) || Approximate(normal.x, -1, .1f))
-            return triggers[plane].size.z * (minimumCutPercentage / 100);
+            return triggers[plane].size.z / 2;
         else if (Approximate(normal.z,1,.1f) || Approximate(normal.z,-1, .1f))
-            return triggers[plane].size.x * (minimumCutPercentage / 100);
+            return triggers[plane].size.x / 2;
         
         if (Approximate(normal.y, 1, .1f) || Approximate(normal.y, -1, .1f))
-            return triggers[plane].size.z * (minimumCutPercentage / 100);
+            return triggers[plane].size.z / 2;
         else if (Approximate(normal.z, 1, .1f) || Approximate(normal.z, -1, .1f))
-            return triggers[plane].size.y * (minimumCutPercentage / 100);
+            return triggers[plane].size.y / 2;
 
         //Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): Invalid RayCast Normal");
         return -1;
@@ -342,10 +340,10 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     {
         return Approximate(value.x, compare.x, range) && Approximate(value.y, compare.y, range) && Approximate(value.z, compare.z, range);
     }
-    private void AddNonNullToArray(ArrayList array, GameObject wedge)
+    private void AddNonNullToArray(ArrayList leftHalf, GameObject wedge)
     {
         if (wedge)
-            array.Add(wedge);
+            leftHalf.Add(wedge);
     }
     private void SetNewParent(Transform newParent, Transform objectToParent)
     {
