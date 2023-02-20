@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     private void UpdateStateMachine()
     {
         stateMachine.OnLogic();
+        
     }
 
     //Condition check for state transitions
@@ -135,7 +136,7 @@ public class GameManager : MonoBehaviour
             boardManager.roundActive = false;
         };
 
-        SoundManager.MainTheme.Invoke();
+        SoundManager.MainTheme?.Invoke();
     }
    
     private void Update()
@@ -179,7 +180,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = UpdateRound;
         //Main game loop
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             currentNumberOfStars--;
         }

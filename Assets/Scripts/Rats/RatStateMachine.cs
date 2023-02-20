@@ -17,7 +17,7 @@ public class RatStateMachine
     }
 
     #region StateMachine
-    public static string CurrentState;
+    public string CurrentState;
     
 
     //States
@@ -70,10 +70,13 @@ public class RatStateMachine
 
         stateMachine.AddTransition(Walk, TargetSpotted, _ => IsFoodItemFound());
         stateMachine.AddTransition(TargetSpotted, Exit, _ => IsObjectPickedUp());
-        stateMachine.AddTransitionFromAny(new Transition("", Hit, t => IsHit()));
+        stateMachine.AddTransitionFromAny(new Transition("", Hit, t => rat.isHit));
         stateMachine.AddTransitionFromAny(new Transition("", Exit, t => (rat.isBored == true && rat.objectPickedUp == false)));
-        stateMachine.AddTransition(Hit, Scared, _ => IsHitFinished());
+        stateMachine.AddTransition(Hit, Scared, _ => true);
         stateMachine.AddTransition(Scared, Exit, _ => true);
+
+        OnTargetSpottedEnter += () => { SoundManager.FoodSpottedSound?.Invoke(); };
+        OnExitEnter += () => { rat.agent.SetDestination(rat.FindClosestExit()); Debug.Log(rat.agent.destination); };
 
         stateMachine.SetStartState(Walk);
         stateMachine.Init();
@@ -87,6 +90,7 @@ public class RatStateMachine
     {
         timer.UpdateTimer();
         stateMachine.OnLogic();
+        Debug.Log(CurrentState);
     }
 
     //OnLogic
@@ -111,15 +115,13 @@ public class RatStateMachine
     private void OnScaredLogic()
     {
         CurrentState = Scared;
-        rat.agent.SetDestination(rat.FindClosestExit());
         rat.agent.speed = rat.scaredSpeed;
     }
 
     private void OnHitLogic()
     {
         CurrentState = Hit;
-        rat.isScared = true;
-        rat.animCtrl.SetBool("IsHit", rat.isScared);
+        rat.animCtrl.SetBool("IsHit", true);
     }
 
     private void OnTargetSpottedLogic()
@@ -132,11 +134,6 @@ public class RatStateMachine
     private bool IsObjectPickedUp()
     {
         return rat.objectPickedUp;
-    }
-
-    private bool IsHitFinished()
-    {
-        return rat.isScared;
     }
 
     private bool IsFoodItemFound()
@@ -158,14 +155,6 @@ public class RatStateMachine
             }
         }
         return false;
-    }
-
-    private bool IsHit()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-            return true;
-        else
-            return false;
     }
 
     private void TimeIsUp()

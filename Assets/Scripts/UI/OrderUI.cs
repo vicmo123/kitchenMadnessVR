@@ -13,6 +13,7 @@ public class OrderUI : MonoBehaviour
 
     private List<Transform> ingredients = new List<Transform>();
     private RectTransform timer;
+    private Transform cross;
     private Image timerImg;
     private Transform ingredientContainer;
     private Order order;
@@ -38,8 +39,11 @@ public class OrderUI : MonoBehaviour
             ingredients.Add(image);
         }
 
+        cross = transform.GetChild(2);
+        cross.gameObject.SetActive(false);
+
         timer = transform.GetChild(1).GetComponent<RectTransform>();
-        timerImg  = timer.GetComponent<Image>();
+        timerImg = timer.GetComponent<Image>();
         timerImg.color = Color.green;
     }
 
@@ -61,15 +65,17 @@ public class OrderUI : MonoBehaviour
         if (order.PourcentageLeft > .5)
         {
             timerImg.color = Color.green;
-        }else if (order.PourcentageLeft >.2)
+        }
+        else if (order.PourcentageLeft > .2)
         {
             timerImg.color = Color.yellow;
-        }else if (order.PourcentageLeft <= .20)
+        }
+        else if (order.PourcentageLeft <= .20)
         {
             timerImg.color = Color.red;
         }
     }
-    
+
 
     public void SetOrder(Order order)
     {
@@ -79,5 +85,20 @@ public class OrderUI : MonoBehaviour
     public int GetId()
     {
         return this.order.GetId();
+    }
+
+    public void CrossAppearanceActive()
+    {
+        orderContainer.gameObject.GetComponent<Image>().color = new Color(255, 35, 50, 199);
+        cross.gameObject.SetActive(true);
+    }
+
+    public void RemoveWithJoy()
+    {
+        orderContainer.gameObject.GetComponent<Image>().color = new Color(34, 229, 41, 199);
+        //Coroutine scale up, then scale down. TODO
+        transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+        transform.localScale = new Vector3(0, 0, 0);
+        
     }
 }

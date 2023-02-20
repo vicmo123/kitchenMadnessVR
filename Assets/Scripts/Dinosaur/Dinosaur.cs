@@ -8,6 +8,7 @@ public class Dinosaur : MonoBehaviour
     public Vector3 EntryPoint { get; set; }
     public Vector3 WaitForFoodPoint { get; set; }
     public Vector3 ExitPoint { get; set; }
+    public GameObject player { get; set; }
 
     #region AiData
     [HideInInspector] public NavMeshAgent agent;
@@ -19,6 +20,8 @@ public class Dinosaur : MonoBehaviour
     private float hungryFactor = 1.0f;
     public bool isAngry { get; private set; } = false;
     public GameObject SmokeParticleEffect;
+
+    private float rotationSpeed = 0.07f;
     #endregion
 
     private DinosaurStateMachine stateMachine;
@@ -42,6 +45,11 @@ public class Dinosaur : MonoBehaviour
     {
         stateMachine.UpdateStateMachine();
         timer.UpdateTimer();
+
+        if(stateMachine.CurrentState != DinosaurStateMachine.Exit)
+        {
+            FaceTarget(player.transform.position);
+        }
     }
 
     private void SetStateMachineActions()
@@ -112,17 +120,11 @@ public class Dinosaur : MonoBehaviour
     private void OnWaitForOrderLogic()
     {
         stateMachine.CurrentState = DinosaurStateMachine.WaitForOrder;
-
-        if (CheckIfDestinationReached())
-        {
-
-        }
     }
 
     private void OnAngryLogic()
     {
         stateMachine.CurrentState = DinosaurStateMachine.Angry;
-
         StartCoroutine(BeAnry());
         agent.speed = angrySpeed;
     }
@@ -172,5 +174,13 @@ public class Dinosaur : MonoBehaviour
         }
 
         GameObject.Destroy(effect.gameObject);
+    }
+
+    private void FaceTarget(Vector3 destination)
+    {
+        Vector3 lookPos = destination - transform.position;
+        lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed);
     }
 }

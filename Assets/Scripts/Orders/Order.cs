@@ -70,7 +70,7 @@ public class Order
     public bool IsCorrespondingToOrder(IngredientEnum ingredients)
     {
         bool corresponding = false;
-        if ((recipe | ingredients) == recipe)
+        if (ingredients == recipe)
         {
             corresponding = true;
         }
