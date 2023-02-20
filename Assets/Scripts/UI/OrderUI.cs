@@ -16,6 +16,7 @@ public class OrderUI : MonoBehaviour
     private Transform cross;
     private Image timerImg;
     private Transform ingredientContainer;
+    private Image bakcgroundImg;
     private Order order;
     Dictionary<IngredientEnum, GameObject> ingredientsToDisplay = new Dictionary<IngredientEnum, GameObject>();
 
@@ -45,6 +46,8 @@ public class OrderUI : MonoBehaviour
         timer = transform.GetChild(1).GetComponent<RectTransform>();
         timerImg = timer.GetComponent<Image>();
         timerImg.color = Color.green;
+
+        bakcgroundImg = ingredientContainer.gameObject.GetComponent<Image>();
     }
 
     public void SetIngredientVisible(IngredientEnum recipe)
@@ -115,8 +118,7 @@ public class OrderUI : MonoBehaviour
         cross.gameObject.SetActive(true);
 
         float timeEffet = Time.time + 2;
-        Image img = transform.GetComponent<Image>();        
-        img.color = new Color(255, 35, 50, 199);
+        bakcgroundImg.color = new Color(255, 35, 50, 199);
 
         while (Time.time < timeEffet)
         {
