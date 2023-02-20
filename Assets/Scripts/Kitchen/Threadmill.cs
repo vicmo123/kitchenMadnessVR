@@ -14,7 +14,6 @@ public class Threadmill : MonoBehaviour
         lastCollider = other;
         lastGO = other.gameObject;
         other.GetComponentInParent<Transform>().position += new Vector3(move, 0, 0);
-        //Debug.Log(move);
     }
 
     private bool CheckSameObjectDiferentCollider(Collider other)

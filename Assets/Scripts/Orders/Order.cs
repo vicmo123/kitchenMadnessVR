@@ -29,10 +29,10 @@ public class Order
 {
     private bool DEBUG_MODE = false;
 
-    const float EASY_RECIPE_TIME = 20.0f;
-    const float MEDIUM_RECIPE_TIME = 25.0f;
-    const float HARD_RECIPE_TIME = 40.0f;
-    const float HARDCORE_RECIPE_TIME = 45.0f;
+    const float EASY_RECIPE_TIME = 180.0f;
+    const float MEDIUM_RECIPE_TIME = 200.0f;
+    const float HARD_RECIPE_TIME = 240.0f;
+    const float HARDCORE_RECIPE_TIME = 280.0f;
     const float ALMOST_OVER_TIME = 20;
     private static int id = 0;
 
