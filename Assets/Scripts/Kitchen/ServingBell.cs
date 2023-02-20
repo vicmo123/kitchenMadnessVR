@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class ServingBell : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-  
+        
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.CompareTag("VRHANDS"))
+        if (other.gameObject.CompareTag("Right Hand") || other.gameObject.CompareTag("Left Hand"))
         {
-            SoundManager.BellDing.Invoke();
-           
+            SoundManager.BellDing?.Invoke();
         }
     }
 }

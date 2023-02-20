@@ -38,7 +38,7 @@ public class IngredientReceiver : MonoBehaviour
             return;
         }
         if (!this.ready | !ingredient.ready) {
-            Debug.Log("this : " + this.ready + " | ingrdient : " + ingredient.ready);
+            //Debug.Log("this : " + this.ready + " | ingrdient : " + ingredient.ready);
             return;
         }
 

@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 974497539400304614}
   - component: {fileID: 7261559553032741769}
   - component: {fileID: 2570504930067595333}
+  - component: {fileID: 6853644473417066145}
   m_Layer: 7
   m_Name: Onion_Object_Bottom
   m_TagString: Untagged
@@ -171,3 +172,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.07263138, y: 0.38234064, z: 0.08808468}
   m_Center: {x: -0.21591778, y: 0.024966268, z: 0.21163194}
+--- !u!114 &6853644473417066145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8153359518264270528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb969f5e2444ff4e8217e3c3fe23676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

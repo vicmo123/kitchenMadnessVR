@@ -12,6 +12,10 @@ TagManager:
   - UI
   - Food
   - MeatCone
+  - Counter
+  - Floor
+  - Taco
+  - TestTaco
   layers:
   - Default
   - TransparentFX
