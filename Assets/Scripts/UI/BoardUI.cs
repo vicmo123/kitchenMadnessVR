@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class BoardUI : MonoBehaviour
 {
@@ -12,9 +13,12 @@ public class BoardUI : MonoBehaviour
     private const int NB_STARS = 5;
     public Transform orderContainer;
     public RectTransform starContainer;
+
+    public TMP_Text inputTextNbTacosServed;
     public Image star_Prefab;
     public GameObject orderUI_Prefab;
     private Transform orderSlot;
+    private Transform msgContainer;
     private float starSpeedRotation = 100;
 
     private List<OrderUI> ordersUI = new List<OrderUI>();
@@ -22,6 +26,10 @@ public class BoardUI : MonoBehaviour
 
     private void Start()
     {
+        //Hiding the end round message
+        msgContainer = transform.GetChild(2);
+       
+
         int nbChild = starContainer.childCount;
         for (int i = 0; i < nbChild; i++)
         {
@@ -42,8 +50,8 @@ public class BoardUI : MonoBehaviour
             if (id == ordersUI[i].GetId())
             {
                 OrderUI orderToDelete = ordersUI[i];
-                
-                StartCoroutine(orderToDelete.CrossEffect());
+
+                orderToDelete.RunCrossEffectCR();
 
                 ordersUI.Remove(ordersUI[i]);
             }
@@ -57,11 +65,11 @@ public class BoardUI : MonoBehaviour
             if (id == ordersUI[i].GetId())
             {
                 OrderUI orderToDelete = ordersUI[i];
-                
-                StartCoroutine(orderToDelete.GoodJobEffect());
+
+                orderToDelete.RunGoodJobEffectCR();
 
                 ordersUI.Remove(ordersUI[i]);
-                
+
             }
         }
     }
@@ -74,7 +82,7 @@ public class BoardUI : MonoBehaviour
         }
 
         foreach (Transform star in stars)
-        {           
+        {
             star.Rotate(0, starSpeedRotation * Time.deltaTime, 0);
         }
     }
@@ -93,10 +101,7 @@ public class BoardUI : MonoBehaviour
     {
         if (currentNbStars > 1)
         {
-            //Transform starToDestroy = stars[stars.Count - 1].gameObject.SetActive(false);
             stars[currentNbStars - 1].gameObject.SetActive(false);
-            //stars.RemoveAt((stars.Count) - 1);
-            //GameObject.Destroy(starToDestroy.gameObject);
         }
         else if (currentNbStars == 1)
         {
@@ -104,22 +109,36 @@ public class BoardUI : MonoBehaviour
             stars[currentNbStars - 1].gameObject.SetActive(false);
         }
     }
-    public void EndOfRound()
-    {        
+    public void EndOfRound(int nbTacosServed)
+    {
         foreach (Transform star in stars)
         {
             star.gameObject.SetActive(true);
         }
 
-        if(orderContainer.childCount > 0)
+        if (orderContainer.childCount > 0)
         {
-            for (int i = orderContainer.childCount -1 ; i >= 0; i--)
+            for (int i = orderContainer.childCount - 1; i >= 0; i--)
             {
                 Transform child = orderContainer.GetChild(i);
                 GameObject.Destroy(child.gameObject);
             }
         }
-
         ordersUI.Clear();
+
+        //Show the message on the board "Game Over, tacos Served = ..."
+        StartCoroutine(ShowEndRoundMessage(nbTacosServed));
     }
+    public void SetVisibleEndRoundMessage(bool visible)
+    {
+        msgContainer.gameObject.SetActive(visible);
+    }
+
+    IEnumerator ShowEndRoundMessage(int nbTacosServed)
+    {        
+        msgContainer.gameObject.SetActive(true);
+        inputTextNbTacosServed.text = nbTacosServed.ToString();
+        yield return new WaitForSeconds(3);
+    }
+
 }

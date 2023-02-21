@@ -89,8 +89,11 @@ public class OrderUI : MonoBehaviour
     {
         return this.order.GetId();
     }
-
-
+    
+    public void RunGoodJobEffectCR()
+    {
+        StartCoroutine(GoodJobEffect());
+    }
     public IEnumerator GoodJobEffect()
     {
         float startTime = Time.time;
@@ -105,6 +108,11 @@ public class OrderUI : MonoBehaviour
             yield return null;
         }
         GameObject.Destroy(gameObject);
+    }
+
+    public void RunCrossEffectCR()
+    {
+        StartCoroutine(CrossEffect());
     }
 
     public IEnumerator CrossEffect()
@@ -123,17 +131,20 @@ public class OrderUI : MonoBehaviour
 
         Vector3 scaleMax = new Vector3(1.2f, 1.2f, 1.2f);
 
-        while (transform.localScale != scaleMax)
+        if (this != null)
         {
-            transform.localScale = Vector3.Lerp(Vector3.one, scaleMax, (Time.time - startTime) / 2.0f);
-            yield return null;
-        }
+            while (transform.localScale != scaleMax)
+            {
+                transform.localScale = Vector3.Lerp(Vector3.one, scaleMax, (Time.time - startTime) / 2.0f);
+                yield return null;
+            }
 
-        SoundManager.MoveOrder.Invoke();
-        while (transform.localScale != Vector3.zero)
-        {
-            transform.localScale = Vector3.Lerp(new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, (Time.time - startTime));
-            yield return null;
+            SoundManager.MoveOrder.Invoke();
+            while (transform.localScale != Vector3.zero)
+            {
+                transform.localScale = Vector3.Lerp(new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, (Time.time - startTime));
+                yield return null;
+            }
         }
 
         GameObject.Destroy(gameObject);

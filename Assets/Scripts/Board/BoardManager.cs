@@ -7,11 +7,14 @@ public class BoardManager : MonoBehaviour
 {
     private bool DEBUG_MODE = false;
 
-    private const float FIRST_STAGE_GAME = 1;
-    private const float SECOND_STAGE_GAME = 2;
-    private const float THIRD_STAGE_GAME = 180000;
+    private const float FIRST_STAGE_GAME = 1; // time spent in the game in seconds
+    private const float SECOND_STAGE_GAME = 360; // time spent in the game in seconds
+    private const float THIRD_STAGE_GAME = 600; // time spent in the game in seconds
     private const int NB_ORDERS_MAX = 5;
     private int currentNbStars = 5;
+    private int nbRounds = 0;
+    private bool newRound = false;
+    private int nbTacosServed = 0;
 
     public BoardUI boardUI;
     public StarManager starManager;
@@ -22,6 +25,8 @@ public class BoardManager : MonoBehaviour
     int currentDifficultyIndex = 0;
 
     public bool roundActive { get; set; } = false;
+    public int NbTacosServed { get => nbTacosServed; set => nbTacosServed = value; }
+    public bool NewRound { get => newRound; set => newRound = value; }
 
     private void Start()
     {
@@ -30,9 +35,11 @@ public class BoardManager : MonoBehaviour
 
     public void Update()
     {
-        //activeOrders.Where(x => x == null).ToList();
         if (roundActive)
         {
+            NewRound = true;
+            boardUI.SetVisibleEndRoundMessage(false);
+
             for (int i = 0; i < activeOrders.Count; i++)
             {
                 if (activeOrders[i] != null)
@@ -118,9 +125,8 @@ public class BoardManager : MonoBehaviour
             case SECOND_STAGE_GAME:
                 if (DEBUG_MODE)
                     Debug.Log("Second Stage Game");
-
-                //ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
-                ingredients = posssibleRecipes[3][UnityEngine.Random.Range(0, 2)];
+                ingredients = posssibleRecipes[UnityEngine.Random.Range(1, 4)][UnityEngine.Random.Range(0, 2)];
+                //ingredients = posssibleRecipes[3][UnityEngine.Random.Range(0, 2)];
                 break;
             case THIRD_STAGE_GAME:
                 if (DEBUG_MODE)
@@ -143,8 +149,6 @@ public class BoardManager : MonoBehaviour
 
     public void DoneWithOrder(int id)
     {
-        LoseOneStar();
-        SoundManager.LooseStar?.Invoke();
 
         if (DEBUG_MODE)
             Debug.Log("Done With Order");
@@ -166,6 +170,9 @@ public class BoardManager : MonoBehaviour
         }
 
         boardUI.RemoveOrderAndCrossOrder(id);
+
+        LoseOneStar();
+        SoundManager.LooseStar?.Invoke();
 
         if (DEBUG_MODE)
         {
@@ -216,14 +223,16 @@ public class BoardManager : MonoBehaviour
 
     private void EndOfRound()
     {
-        boardUI.EndOfRound();
-        activeOrders.Clear();
-        currentNbStars = 5;
+        if (newRound)
+        {
+            boardUI.EndOfRound(nbTacosServed);
+            activeOrders.Clear();
+            currentNbStars = 5;
+        }
     }
 
     public int GetCurrentNbStars()
     {
         return currentNbStars;
     }
-
 }
