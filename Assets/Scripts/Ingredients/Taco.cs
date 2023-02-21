@@ -40,14 +40,24 @@ public class Taco : MonoBehaviour
     IngredientReceiver ingredientReceiver;
     List<Ingredients> ingredientList;
 
+
+    // sauce settings
+
+    public GameObject sauce;
+    float maxSauceSize = 0.01f;
+    float timeToMaxSauce = 5;
+    float currentSauceSize = 0;
+
     void Start() {
         ingredientReceiver = this.GetComponent<IngredientReceiver>();
         ingredientReceiver.receiverDelegate += AddIngredient;
 
         burnable = this.GetComponent<Burnable>();
         burnable.grilledDelegate += SetReady;
-        
+
         ingredientList = new List<Ingredients>();
+
+        sauce.transform.localScale = new Vector3(currentSauceSize, sauce.transform.localScale.y, currentSauceSize);
     }
 
     public void AddIngredient(Toppingable ingredient) {
@@ -83,7 +93,7 @@ public class Taco : MonoBehaviour
 
             if (mixedToppingables == 2) {
                 tempIngredients[0].transform.position = new Vector3(pivot2_1.transform.position.x, tempIngredients[0].transform.parent.transform.position.y + tempIngredients[0].mesh.bounds.extents.y, pivot2_1.transform.position.z);
-                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].mesh.bounds.extents.y , pivot2_2.transform.position.z);
+                tempIngredients[1].transform.position = new Vector3(pivot2_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].mesh.bounds.extents.y, pivot2_2.transform.position.z);
             }
 
             if (mixedToppingables == 3) {
@@ -91,8 +101,6 @@ public class Taco : MonoBehaviour
                 tempIngredients[1].transform.position = new Vector3(pivot3_2.transform.position.x, tempIngredients[1].transform.parent.transform.position.y + tempIngredients[1].mesh.bounds.extents.y, pivot3_2.transform.position.z);
                 tempIngredients[2].transform.position = new Vector3(pivot3_3.transform.position.x, tempIngredients[2].transform.parent.transform.position.y + tempIngredients[2].mesh.bounds.extents.y, pivot3_3.transform.position.z);
             }
-
-            Saucing();
         }
     }
 
@@ -128,8 +136,17 @@ public class Taco : MonoBehaviour
         return mixedIngredients;
     }
 
-    private void Saucing() {
-
+    public void ReceiveSauce() {
+        if (this.ingredientReceiver.ready) {
+            currentSauceSize += (Time.deltaTime / timeToMaxSauce) * maxSauceSize;
+            if (currentSauceSize > maxSauceSize) {
+                currentSauceSize = maxSauceSize;
+            }
+            if (currentSauceSize > maxSauceSize * .1) {
+                ingredientList.Add(Ingredients.Sauce);
+            }
+            sauce.transform.localScale = new Vector3(currentSauceSize, sauce.transform.localScale.y, currentSauceSize);
+        }
     }
 
     private void SetRotation(Toppingable ingredient) { // NOT WORKING FOR THE MOMENT
@@ -163,7 +180,7 @@ public class Taco : MonoBehaviour
         if (ingredientList.Contains(Ingredients.Sauce))
             taco = taco | IngredientEnum.Sauce;
 
-        return taco | IngredientEnum.Meat | IngredientEnum.Sauce;
+        return taco | IngredientEnum.Meat;
     }
 
     public void SetReady() {
