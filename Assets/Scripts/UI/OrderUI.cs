@@ -47,7 +47,7 @@ public class OrderUI : MonoBehaviour
         timerImg = timer.GetComponent<Image>();
         timerImg.color = Color.green;
 
-        bakcgroundImg = ingredientContainer.gameObject.GetComponent<Image>();
+        bakcgroundImg = ingredientContainer.GetComponent<Image>();
     }
 
     public void SetIngredientVisible(IngredientEnum recipe)
@@ -89,41 +89,85 @@ public class OrderUI : MonoBehaviour
     {
         return this.order.GetId();
     }
+    
+    public void RunGoodJobEffectCR()
+    {
+        StartCoroutine(GoodJobEffect());
+    }
+    public IEnumerator GoodJobEffect()
+    {
+        float startTime = Time.time;
+        float timeEffet = Time.time + 3;
+        Image img = transform.GetComponent<Image>();
+        img.color = new Color(.13f, .89f, .16f, .78f);
 
-    public void CrossAppearanceActive()
+        while (Time.time < timeEffet)
+        {
+            StartCoroutine(ScaleUp(2, startTime));
+            StartCoroutine(ScaleDown(1, startTime + 2));
+            yield return null;
+        }
+        GameObject.Destroy(gameObject);
+    }
+
+    public void RunCrossEffectCR()
     {
         StartCoroutine(CrossEffect());
     }
 
-    public void RemoveWithJoy()
-    {
-        StartCoroutine(GoodJobEffect());
-    }
-
-    IEnumerator GoodJobEffect()
-    {
-        float timeEffet = Time.time + 2;
-        Image img = transform.GetComponent<Image>();        
-        img.color =  new Color(34, 229, 41, 199);
-
-        while (Time.time < timeEffet)
-        {
-            yield return null;
-        }
-        GameObject.Destroy(gameObject);
-    }
-
-    IEnumerator CrossEffect()
+    public IEnumerator CrossEffect()
     {
         cross.gameObject.SetActive(true);
+        float startTime = Time.time;
+        bakcgroundImg.color = new Color(1, .13f, .19f, .78f);
 
-        float timeEffet = Time.time + 2;
-        bakcgroundImg.color = new Color(255, 35, 50, 199);
+        //StartCoroutine(ScaleUp(1, startTime));
+        //yield return new WaitForSeconds(1);
+        //while (Time.time < timeEffet)
+        //{            
+        //    StartCoroutine(ScaleDown(1, startTime + 1));
+        //    yield return null;
+        //}
 
-        while (Time.time < timeEffet)
+        Vector3 scaleMax = new Vector3(1.2f, 1.2f, 1.2f);
+
+        if (this != null)
         {
+            while (transform.localScale != scaleMax)
+            {
+                transform.localScale = Vector3.Lerp(Vector3.one, scaleMax, (Time.time - startTime) / 2.0f);
+                yield return null;
+            }
+
+            SoundManager.MoveOrder.Invoke();
+            while (transform.localScale != Vector3.zero)
+            {
+                transform.localScale = Vector3.Lerp(new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, (Time.time - startTime));
+                yield return null;
+            }
+        }
+
+        GameObject.Destroy(gameObject);
+    }
+
+    IEnumerator ScaleDown(float timeEffet, float startTime)
+    {
+        SoundManager.MoveOrder.Invoke();
+        while (transform.localScale != Vector3.zero)
+        {
+            transform.localScale = Vector3.Lerp(new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, (Time.time - startTime) / timeEffet );
             yield return null;
         }
-        GameObject.Destroy(gameObject);
+    }
+
+    IEnumerator ScaleUp(float timeEffet, float startTime)
+    {
+        Vector3 scaleMax = new Vector3(1.2f, 1.2f, 1.2f);
+
+        while (transform.localScale != scaleMax )
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, scaleMax, (Time.time - startTime) / timeEffet);
+            yield return null;
+        }
     }
 }
