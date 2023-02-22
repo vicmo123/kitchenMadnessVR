@@ -850,6 +850,14 @@ PrefabInstance:
       propertyPath: m_Extents.z
       value: 0.85
       objectReference: {fileID: 0}
+    - target: {fileID: 1321570576, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2643772
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321570578, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1321570580, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
       propertyPath: boardManager
       value: 
@@ -1778,7 +1786,7 @@ PrefabInstance:
     - target: {fileID: 5546935930223127509, guid: 063553ef8d9e1b343a185cb135b18e81,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.169
+      value: 1.386
       objectReference: {fileID: 0}
     - target: {fileID: 5546935930223127509, guid: 063553ef8d9e1b343a185cb135b18e81,
         type: 3}
