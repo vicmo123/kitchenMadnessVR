@@ -43,6 +43,14 @@ public class Sauce : MonoBehaviour
                     lr.enabled = true;
                     saucePouring(hit);
                 }
+
+                else if (hit.collider.gameObject.CompareTag("Taco")) {
+                    //gameObject.SetActive(true);
+                    hit.collider.gameObject.GetComponent<Taco>().ReceiveSauce();
+                    lr.enabled = true;
+                    saucePouring(hit);
+                }
+
                 else
                 {
 
