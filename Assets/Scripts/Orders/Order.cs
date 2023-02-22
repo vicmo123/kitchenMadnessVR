@@ -19,10 +19,6 @@ public enum IngredientEnum
     BaseOfTaco = Tortilla | Meat,
     EasyTaco = Tortilla | Meat | Sauce,
     HardCoreTaco = Tortilla | Meat | Onion | Pineapple | Cheese | Sauce,
-
-    EasyIngredient = Sauce,
-    MediumIngredient = Onion,
-    HardIngredients = Pineapple | Cheese
 }
 #endregion
 public class Order
