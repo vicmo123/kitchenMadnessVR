@@ -81,9 +81,9 @@ public class Pickupable : XRGrabInteractable
     //Carrier Drops Item
     public void DropItem()
     {
-        gameObject.transform.parent = null;
         rb.isKinematic = false;
         isGrabbedByRat = false;
+        gameObject.transform.parent = null;
     }
     #endregion
 }
