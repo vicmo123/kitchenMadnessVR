@@ -74,12 +74,16 @@ public class Rat : MonoBehaviour
 
     public bool CheckIfDestinationReached()
     {
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (agent.enabled)
         {
-            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
-                return true;
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }
