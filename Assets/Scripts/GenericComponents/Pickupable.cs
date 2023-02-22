@@ -70,12 +70,15 @@ public class Pickupable : XRGrabInteractable
 
         if (carrier && !carrier.holdingItem && !isGrabbedByRat && !isGrabbedByPlayer && CompareTag("Food"))
         {
-            carrier.holdingItem = true;
-            isGrabbedByRat = true;
-            rb.isKinematic = true;
-            //transform.position = carrier.attachPoint.position; HAVE TO WORK ON ATTACH POINT
-            gameObject.transform.SetParent(collision.transform);
-            SoundManager.RatLaugh?.Invoke();
+            if(carrier.GetComponent<Rat>().agent.enabled == true)
+            {
+                carrier.holdingItem = true;
+                isGrabbedByRat = true;
+                rb.isKinematic = true;
+                //transform.position = carrier.attachPoint.position; HAVE TO WORK ON ATTACH POINT
+                gameObject.transform.SetParent(collision.transform);
+                SoundManager.RatLaugh?.Invoke();
+            }
         }
     }
     //Carrier Drops Item
