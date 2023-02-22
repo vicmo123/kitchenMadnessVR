@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 5714189280518625983}
   m_Layer: 7
   m_Name: Onion_Object_Top
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
