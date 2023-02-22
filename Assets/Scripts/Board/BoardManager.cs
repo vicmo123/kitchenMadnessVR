@@ -13,6 +13,7 @@ public class BoardManager : MonoBehaviour
     private const int NB_ORDERS_MAX = 5;
     private int currentNbStars = 5;
     private int nbRounds = 0;
+    private float lastOrderStampTime = 0;
     private bool newRound = false;
     private int nbTacosServed = 0;
 
@@ -49,7 +50,7 @@ public class BoardManager : MonoBehaviour
         mediumRecipes[0] = IngredientEnum.BaseOfTaco | IngredientEnum.Onion;
         mediumRecipes[1] = IngredientEnum.EasyTaco | IngredientEnum.Onion;
 
-        hardRecipes[0] = IngredientEnum.BaseOfTaco | IngredientEnum.Onion | IngredientEnum.Cheese ;
+        hardRecipes[0] = IngredientEnum.BaseOfTaco | IngredientEnum.Onion | IngredientEnum.Cheese;
         hardRecipes[1] = IngredientEnum.BaseOfTaco | IngredientEnum.Onion | IngredientEnum.Pineapple;
         hardRecipes[2] = IngredientEnum.BaseOfTaco | IngredientEnum.Cheese | IngredientEnum.Pineapple;
 
@@ -70,20 +71,26 @@ public class BoardManager : MonoBehaviour
             NewRound = true;
             boardUI.SetVisibleEndRoundMessage(false);
 
-            for (int i = 0; i < activeOrders.Count; i++)
+            if (activeOrders.Count > 0)
             {
-                if (activeOrders[i] != null)
+                for (int i = 0; i < activeOrders.Count; i++)
                 {
-                    activeOrders[i].UpdateOrder();
+                    if (activeOrders[i] != null)
+                    {
+                        activeOrders[i].UpdateOrder();
+                    }
+                }
+                if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
+                {
+                    GenerateOrder();
+                }
+                else if (activeOrders.Count < NB_ORDERS_MAX && (Time.time - lastOrderStampTime >= 60))
+                {
+                    GenerateOrder();
+
                 }
             }
-
-            //Only one order left on the board, and almost done
-            if (activeOrders.Count == 1 && activeOrders[0].IsAlmostOver())
-            {
-                GenerateOrder();
-            }
-            else if (activeOrders.Count == 0)
+            else
             {
                 GenerateOrder();
             }
@@ -111,6 +118,7 @@ public class BoardManager : MonoBehaviour
                 }
             }
             boardUI.AddOrderToDisplay(order);
+            lastOrderStampTime = Time.time;
         }
     }
 
@@ -124,7 +132,7 @@ public class BoardManager : MonoBehaviour
 
         //Checking which stage of the game we are in 
         //(stages are basically tracking the time spent in the game. The longer we stay in, the harder it gets, time is reset on each round)
-        if (currentDifficultyIndex + 1 < timeStages.Length && Time.time >= timeStages[currentDifficultyIndex+1])
+        if (currentDifficultyIndex + 1 < timeStages.Length && Time.time >= timeStages[currentDifficultyIndex + 1])
         {
             currentDifficultyIndex++;
         }
@@ -137,8 +145,8 @@ public class BoardManager : MonoBehaviour
                     Debug.Log("First Stage Game");
                 //Random between arrays of difficulty, and what they contain (recipes).
                 int index = UnityEngine.Random.Range(0, 2);
-                ingredients = posssibleRecipes[index][posssibleRecipes[index].GetRandomElement<IngredientEnum>()];                
-                 
+                ingredients = posssibleRecipes[index][posssibleRecipes[index].GetRandomElement<IngredientEnum>()];
+
                 break;
 
             case SECOND_STAGE_GAME:
