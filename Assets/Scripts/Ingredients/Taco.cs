@@ -61,7 +61,6 @@ public class Taco : MonoBehaviour
     }
 
     public void AddIngredient(Toppingable ingredient) {
-        this.gameObject.tag = "Taco";
         ingredientList.Add(ingredient.ingredientType);
         //SetRotation(ingredient);
         PlaceIngredients();
@@ -185,5 +184,6 @@ public class Taco : MonoBehaviour
 
     public void SetReady() {
         this.ingredientReceiver.ready = true;
+        this.gameObject.tag = "Taco";
     }
 }
