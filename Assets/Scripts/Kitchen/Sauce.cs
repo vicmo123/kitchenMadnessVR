@@ -4,49 +4,43 @@ using UnityEngine;
 
 public class Sauce : MonoBehaviour
 {
-    
-     public LineRenderer lr;
-     
-    private void Start()
-    {
-      
+
+    public GameObject sauce;
+
+    private void Start() {
+
         //lr = gameObject.GetComponent<LineRenderer>();
-     //  gameObject.SetActive(true);
+        //  gameObject.SetActive(true);
     }
-    void Update()
-    {
+    void Update() {
         pourSauce();
     }
 
 
-    public void pourSauce()
-    {
+    public void pourSauce() {
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.up, out hit, 5))
-        {
+        if (Physics.Raycast(transform.position, transform.up, out hit, 5)) {
 
 
-            if (hit.collider != null)
-            {
-                if (hit.collider.gameObject.CompareTag("Counter"))
-                {
-                    // gameObject.SetActive(true);
-                    lr.enabled = true;
+            if (hit.collider != null) {
+                if (hit.collider.gameObject.CompareTag("Counter")) {
                     saucePouring(hit);
                 }
 
 
-                else if (hit.collider.gameObject.CompareTag("Floor"))
-                {
-                    //gameObject.SetActive(true);
-                    lr.enabled = true;
+                else if (hit.collider.gameObject.CompareTag("Floor")) {
                     saucePouring(hit);
                 }
-                else
-                {
 
-                    lr.enabled = false;
+                else if (hit.collider.gameObject.CompareTag("Taco")) {
+                    saucePouring(hit);
+                    hit.collider.gameObject.GetComponent<Taco>().ReceiveSauce();
+                }
+
+                else {
+
+                    sauce.gameObject.active = false;
                     //GameObject.Destroy(lr);
 
                 }
@@ -57,16 +51,13 @@ public class Sauce : MonoBehaviour
     }
 
 
-        public void saucePouring(RaycastHit hit)
-        {
-            lr.startColor = Color.red;
-            lr.endColor = Color.red;
-            lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, hit.point);
-            lr.startWidth = 0.09f;
-            lr.endWidth = 0.2f;
-        }
-    
-    
+    public void saucePouring(RaycastHit hit) {
+        sauce.gameObject.active = true;
+        float height = Vector3.Distance(hit.point, transform.position);
+        sauce.transform.localScale = new Vector3(sauce.transform.localScale.x, height, sauce.transform.localScale.z);
+        sauce.transform.localPosition = new Vector3(0, height / 2, 0);
+    }
+
+
 }
 

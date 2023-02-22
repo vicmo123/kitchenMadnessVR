@@ -90,7 +90,7 @@ public class Rat : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Food"))
+        if (collision.gameObject.CompareTag("Food") && agent.enabled == true)
         {
             agent.SetDestination(FindClosestExit());
             objectPickedUp = true;

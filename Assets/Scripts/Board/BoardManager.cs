@@ -8,7 +8,7 @@ public class BoardManager : MonoBehaviour
     private bool DEBUG_MODE = false;
 
     private const float FIRST_STAGE_GAME = 1; // time spent in the game in seconds
-    private const float SECOND_STAGE_GAME = 360; // time spent in the game in seconds
+    private const float SECOND_STAGE_GAME = 300; // time spent in the game in seconds
     private const float THIRD_STAGE_GAME = 600; // time spent in the game in seconds
     private const int NB_ORDERS_MAX = 5;
     private int currentNbStars = 5;
@@ -84,7 +84,7 @@ public class BoardManager : MonoBehaviour
                 {
                     GenerateOrder();
                 }
-                else if (activeOrders.Count < NB_ORDERS_MAX && (Time.time - lastOrderStampTime >= 60))
+                else if (activeOrders.Count < NB_ORDERS_MAX && (elapsedTime - lastOrderStampTime >= 60))
                 {
                     GenerateOrder();
 
@@ -96,7 +96,7 @@ public class BoardManager : MonoBehaviour
             }
         }
         else
-        {
+        {            
             EndOfRound();
         }
     }
@@ -110,15 +110,8 @@ public class BoardManager : MonoBehaviour
             if (DEBUG_MODE)
                 Debug.Log("Generate order id : " + order.GetId());
 
-            if (DEBUG_MODE)
-            {
-                foreach (Order item in activeOrders)
-                {
-                    Debug.Log("Order in the active list : " + item.GetId());
-                }
-            }
             boardUI.AddOrderToDisplay(order);
-            lastOrderStampTime = Time.time;
+            lastOrderStampTime = elapsedTime;
         }
     }
 
@@ -132,10 +125,12 @@ public class BoardManager : MonoBehaviour
 
         //Checking which stage of the game we are in 
         //(stages are basically tracking the time spent in the game. The longer we stay in, the harder it gets, time is reset on each round)
-        if (currentDifficultyIndex + 1 < timeStages.Length && Time.time >= timeStages[currentDifficultyIndex + 1])
+        if (currentDifficultyIndex + 1 < timeStages.Length && elapsedTime >= timeStages[currentDifficultyIndex + 1])
         {
             currentDifficultyIndex++;
         }
+        if (DEBUG_MODE)
+            Debug.Log("ElapsedTime : " + elapsedTime);
 
         float stage = timeStages[currentDifficultyIndex];
         switch (stage)
@@ -198,22 +193,7 @@ public class BoardManager : MonoBehaviour
         boardUI.RemoveOrderAndCrossOrder(id);
 
         LoseOneStar();
-        SoundManager.LooseStar?.Invoke();
-
-        if (DEBUG_MODE)
-        {
-            if (activeOrders.Count == 0)
-            {
-                Debug.Log("List of active orders is empty.");
-            }
-            else
-            {
-                foreach (Order item in activeOrders)
-                {
-                    Debug.Log("Order in the active list : " + item.GetId());
-                }
-            }
-        }
+        SoundManager.LooseStar?.Invoke();       
     }
 
     public void LoseOneStar()
@@ -251,10 +231,16 @@ public class BoardManager : MonoBehaviour
     {
         if (newRound)
         {
+            if (DEBUG_MODE)
+            {
+                Debug.Log("END OF ROUND!!!!!!!!!!!!!!!");
+            }
             boardUI.EndOfRound(nbTacosServed);
             activeOrders.Clear();
             currentNbStars = 5;
             currentDifficultyIndex = 0;
+            lastOrderStampTime = 0;
+            elapsedTime = 0;
         }
     }
 

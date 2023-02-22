@@ -17,6 +17,8 @@ TagManager:
   - Taco
   - TestTaco
   - Tools
+  - meatBase
+  - Bound
   layers:
   - Default
   - TransparentFX
