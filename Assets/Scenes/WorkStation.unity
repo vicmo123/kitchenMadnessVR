@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42361653, g: 0.46478763, b: 0.5805496, a: 1}
+  m_IndirectSpecularColor: {r: 0.4236169, g: 0.4647882, b: 0.58055073, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -734,6 +734,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Knife
       objectReference: {fileID: 0}
+    - target: {fileID: 3215201860240764613, guid: f11558096387fe64e950520887818483,
+        type: 3}
+      propertyPath: spawLocationEditor
+      value: 
+      objectReference: {fileID: 1564970189}
     - target: {fileID: 5679564069777157715, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: meatCone
@@ -1149,6 +1154,8 @@ GameObject:
   - component: {fileID: 871553919}
   - component: {fileID: 871553918}
   - component: {fileID: 871553917}
+  - component: {fileID: 871553921}
+  - component: {fileID: 871553922}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1235,6 +1242,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &871553921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871553916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5debb0dcdf21d6844a235aa5c4c41ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &871553922
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871553916}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.065, z: 10}
+  m_Center: {x: 0, y: -0.06, z: 0}
 --- !u!114 &1138566894 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6365076760470810531, guid: c06c2177aa4181544bb8e567a356fe21,
@@ -1453,6 +1485,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10.000001, y: 2.220446e-16, z: 9.999999}
   m_Center: {x: 0.00000023841858, y: 0.000000059604645, z: 0}
+--- !u!4 &1564970189 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1663598303562286829, guid: 25291abe5d4acba43acc7d8da9b912f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 817155944}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1601479744
 GameObject:
   m_ObjectHideFlags: 0
