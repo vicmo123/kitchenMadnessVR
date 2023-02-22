@@ -28,6 +28,7 @@ public class ServingZone : MonoBehaviour
                 if (boardManager.isTacoGoodToServe(other.GetComponent<Taco>().SendTaco()))
                 {
                     SoundManager.GoodJob?.Invoke();
+                    boardManager.NbTacosServed++;
                 }
                 else
                 {

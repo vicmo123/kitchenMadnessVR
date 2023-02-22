@@ -24,21 +24,18 @@ public class RatStateMachine
     public const string Walk = "Walk";
     public const string TargetSpotted = "TargetSpotted";
     public const string Hit = "Hit";
-    public const string Scared = "Scared";
     public const string Exit = "Exit";
 
     //OnEnter
     public Action OnWalkEnter = () => { };
     public Action OnTargetSpottedEnter = () => { };
     public Action OnHitEnter = () => { };
-    public Action OnScaredEnter = () => { };
     public Action OnExitEnter = () => { };
 
     //OnExit
     public Action OnWalkExit = () => { };
     public Action OnTargetSpottedExit = () => { };
     public Action OnHitExit = () => { };
-    public Action OnScaredExit = () => { };
     public Action OnExitExit = () => { };
 
     public StateMachine stateMachine;
@@ -59,10 +56,6 @@ public class RatStateMachine
             onEnter: _ => OnHitEnter.Invoke(),
             onLogic: _ => OnHitLogic(),
             onExit: _ => OnHitExit.Invoke()));
-        stateMachine.AddState(Scared, new State(
-            onEnter: _ => OnScaredEnter.Invoke(),
-            onLogic: _ => OnScaredLogic(),
-            onExit: _ => OnScaredExit.Invoke()));
         stateMachine.AddState(Exit, new State(
             onEnter: _ => OnExitEnter.Invoke(),
             onLogic: _ => OnExitLogic(),
@@ -72,8 +65,7 @@ public class RatStateMachine
         stateMachine.AddTransition(TargetSpotted, Exit, _ => IsObjectPickedUp());
         stateMachine.AddTransitionFromAny(new Transition("", Hit, t => rat.isHit));
         stateMachine.AddTransitionFromAny(new Transition("", Exit, t => (rat.isBored == true && rat.objectPickedUp == false)));
-        stateMachine.AddTransition(Hit, Scared, _ => true);
-        stateMachine.AddTransition(Scared, Exit, _ => true);
+        stateMachine.AddTransition(Hit, Exit, _ => true);
 
         OnTargetSpottedEnter += () => { SoundManager.FoodSpottedSound?.Invoke(); };
         OnExitEnter += () => { rat.agent.SetDestination(rat.FindClosestExit()); };
@@ -88,8 +80,11 @@ public class RatStateMachine
 
     public void UpdateStateMachine()
     {
-        timer.UpdateTimer();
-        stateMachine.OnLogic();
+        if (rat.agent.enabled == true)
+        {
+            timer.UpdateTimer();
+            stateMachine.OnLogic();
+        }
     }
 
     //OnLogic
@@ -111,15 +106,10 @@ public class RatStateMachine
         }
     }
 
-    private void OnScaredLogic()
-    {
-        CurrentState = Scared;
-        rat.agent.speed = rat.scaredSpeed;
-    }
-
     private void OnHitLogic()
     {
         CurrentState = Hit;
+        rat.agent.speed = rat.scaredSpeed;
         rat.animCtrl.SetBool("IsHit", true);
     }
 

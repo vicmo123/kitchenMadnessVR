@@ -59,6 +59,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
         //Set Layer To Correct Layer
         gameObject.layer = LayerMask.NameToLayer("Food");
+        gameObject.tag = "Food";
     }
     public void Start()
     {
