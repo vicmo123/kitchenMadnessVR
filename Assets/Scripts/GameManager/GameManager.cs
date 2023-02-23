@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour
         
 
         SoundManager.MainTheme?.Invoke();
+        isRoundActive = true;
     }
    
     private void Update()
