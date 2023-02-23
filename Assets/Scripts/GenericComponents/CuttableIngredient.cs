@@ -31,7 +31,8 @@ class CutInfo
 public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 {
     Burnable burnableComponent;
-
+    private Timer timer;
+    public float timeBetweenCuts = 1;
     public string ingredientName = "Ingredient";
     public Taco.Ingredients ingredientType;
 
@@ -56,6 +57,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         triggers = new Dictionary<CuttingPlane, BoxCollider>();
         cut = new CutInfo();
         numberOfCuts = 0;
+        timer = new Timer();
 
         //Set Layer To Correct Layer
         gameObject.layer = LayerMask.NameToLayer("Food");
@@ -67,9 +69,14 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         CreateTriggerZones(childrenMeshRenderers);
     }
-
+    private void Update()
+    {
+        timer.UpdateTimer();
+    }
     public void Cut(RaycastHit hit)
     {
+        if (timer < timeBetweenCuts)
+            return;
         //transform the point of collision from worldspace to localspace
         Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
         switch (cut.state)
