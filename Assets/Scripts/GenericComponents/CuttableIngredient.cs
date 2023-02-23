@@ -79,7 +79,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             return;
         //transform the point of collision from worldspace to localspace
         Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
-        Vector3 normal = transform.InverseTransformVector(hit.normal);
         switch (cut.state)
         {
             case CuttingState.NotCutting:
@@ -88,15 +87,15 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             case CuttingState.StartCut:
                 //Check if cutting in correct plane
                 CuttingPlane plane = GetColliderEnum(hit.collider);
-                if (CheckIncorrectCuttingNormal(normal, plane))
+                if (CheckIncorrectCuttingNormal(hit.normal, plane))
                     return;
 
                 //get collision info from the raycast
                 cut.entryPoint = hitPoint;
                 cut.exitPoint = hitPoint;
-                cut.cutPointNormal = normal;
+                cut.cutPointNormal = hit.normal;
                 cut.currentCollider = hit.collider;
-                cut.minimumCutDistance = GetMinimumCutDistance(plane, normal);
+                cut.minimumCutDistance = GetMinimumCutDistance(plane, hit.normal);
 
                 //start the cut
                 cut.state = CuttingState.IsCutting;
@@ -104,7 +103,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
             case CuttingState.IsCutting:
                 // detect if the face of the object we are cutting change, or if we exited the current collider and hit another
-                if (CheckIncorrectCuttingNormal(normal, GetColliderEnum(hit.collider)))
+                if (CheckIncorrectCuttingNormal(hit.normal, GetColliderEnum(hit.collider)))
                 {
                     cut.state = CuttingState.StartCut;
                     break;
