@@ -32,23 +32,24 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 {
     Burnable burnableComponent;
     private Timer timer;
-    public float timeBetweenCuts = 1;
+
     public string ingredientName = "Ingredient";
     public Taco.Ingredients ingredientType;
+    public float percentageToCut = 50;
+    public float timeBetweenCuts = 1;
+    //used to divide the width of the collider
+    public float colliderWidthModifier = 4;
 
     private Wedge[] wedges; //an array containing the wedges of the cuttable
     Dictionary<CuttingPlane, BoxCollider> triggers; //dictionary that contains the cutting triggers
     [HideInInspector]public ArrayList cutPlanes; //an array that stores which planes have been cut
     
-    //used to divide the width of the collider
-    public float colliderWidthModifier = 4;
     
     private int numberOfCuts;
     CutInfo cut;
 
     private void Awake()
     {
-        Debug.Log("Awake Called on: " + gameObject.name);
         //get and cache requiered components
         wedges = GetComponentsInChildren<Wedge>();
 
@@ -65,7 +66,6 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     }
     public void Start()
     {
-        Debug.Log("Start Called on: " + gameObject.name);
         MeshRenderer[] childrenMeshRenderers = GetComponentsInChildren<MeshRenderer>();
         CreateTriggerZones(childrenMeshRenderers);
     }
@@ -79,6 +79,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             return;
         //transform the point of collision from worldspace to localspace
         Vector3 hitPoint = transform.InverseTransformPoint(hit.point);
+        Vector3 normal = transform.InverseTransformVector(hit.normal);
         switch (cut.state)
         {
             case CuttingState.NotCutting:
@@ -87,15 +88,15 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             case CuttingState.StartCut:
                 //Check if cutting in correct plane
                 CuttingPlane plane = GetColliderEnum(hit.collider);
-                if (CheckIncorrectCuttingNormal(hit.normal, plane))
+                if (CheckIncorrectCuttingNormal(normal, plane))
                     return;
 
                 //get collision info from the raycast
                 cut.entryPoint = hitPoint;
                 cut.exitPoint = hitPoint;
-                cut.cutPointNormal = hit.normal;
+                cut.cutPointNormal = normal;
                 cut.currentCollider = hit.collider;
-                cut.minimumCutDistance = GetMinimumCutDistance(plane, hit.normal);
+                cut.minimumCutDistance = GetMinimumCutDistance(plane, normal);
 
                 //start the cut
                 cut.state = CuttingState.IsCutting;
@@ -103,7 +104,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
 
             case CuttingState.IsCutting:
                 // detect if the face of the object we are cutting change, or if we exited the current collider and hit another
-                if (CheckIncorrectCuttingNormal(hit.normal, GetColliderEnum(hit.collider)))
+                if (CheckIncorrectCuttingNormal(normal, GetColliderEnum(hit.collider)))
                 {
                     cut.state = CuttingState.StartCut;
                     break;
@@ -113,10 +114,10 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 float distance = Vector3.Distance(cut.entryPoint, cut.exitPoint);
                 if (distance >= cut.minimumCutDistance)
                 {
-                    Debug.Log("HasCut");
                     CuttingPlane cutPlane = GetColliderEnum(cut.currentCollider);
                     cutPlanes.Add(cutPlane);
                     ProcessCut(cutPlane);
+                    SoundManager.Chopping?.Invoke();
                     Destroy(gameObject);
                 }
                 break;
@@ -157,6 +158,8 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         SeparateHalves(colliderPlane, ref leftHalf, ref rightHalf);
         leftParent.transform.position = GetGameObjectMiddlePoint(leftHalf);
         rightParent.transform.position = GetGameObjectMiddlePoint(rightHalf);
+        leftParent.transform.rotation = transform.rotation;
+        rightParent.transform.rotation = transform.rotation;
         SetNewParent(leftParent.transform, leftHalf);
         SetNewParent(rightParent.transform, rightHalf);
 
@@ -189,9 +192,8 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     }
     private void CreateTriggerZones(MeshRenderer[] meshRendererArray)
     {
-        //Function that creates trigger zones in each axis of the cuttable game object to detect for cut
-
-
+        Quaternion rotation = transform.rotation;
+        transform.rotation = Quaternion.identity;
         //Check if planes have been cut
         var planes = System.Enum.GetValues(typeof(CuttingPlane));
         foreach (CuttingPlane colliderPlane in planes)
@@ -226,7 +228,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             triggers[CuttingPlane.YZ].isTrigger= true;
 
         }
-    
+        transform.rotation = rotation;
     }
     private CuttingPlane GetColliderEnum(Collider collider)
     {
@@ -276,29 +278,36 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     {
         //Returns the minimum distance a cutter object should travel to register a cut
 
-        //if no plane is detected error must be returned
-        if (plane.Equals(CuttingPlane.None))
+
+        switch (plane)
         {
-            //Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): No Plane");
-            return -1;
+            case CuttingPlane.None:
+                //if no plane is detected error must be returned
+                Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): No Plane");
+                return -1;
+            case CuttingPlane.XY:
+                if (Approximate(normal.x, Vector3.right.x, .1f) || Approximate(normal.x, Vector3.left.x, .1f))
+                    return triggers[plane].size.y * (percentageToCut / 100);
+                else if (Approximate(normal.y, Vector3.up.y, .1f) || Approximate(normal.y, Vector3.down.y, .1f))
+                    return triggers[plane].size. x* (percentageToCut / 100);
+                return 100;
+            case CuttingPlane.XZ:
+                if (Approximate(normal.x, Vector3.right.x, .1f) || Approximate(normal.x, Vector3.left.x, .1f))
+                    return triggers[plane].size.z * (percentageToCut / 100);
+                else if (Approximate(normal.z, Vector3.forward.z, .1f) || Approximate(normal.z, Vector3.back.z, .1f))
+                    return triggers[plane].size.x * (percentageToCut / 100);
+                return 100;
+            case CuttingPlane.YZ:
+                if (Approximate(normal.z, Vector3.forward.z, .1f) || Approximate(normal.z, Vector3.back.z, .1f))
+                    return triggers[plane].size.y * (percentageToCut / 100);
+                else if (Approximate(normal.y, Vector3.up.y, .1f) || Approximate(normal.y, Vector3.down.y, .1f))
+                    return triggers[plane].size.z * (percentageToCut / 100);
+                return 100;
+            default:
+                break;
         }
 
-        if (Approximate(normal.x, 1, .1f) || Approximate(normal.x, -1, .1f))
-            return triggers[plane].size.y / 2;
-        else if (Approximate(normal.y, 1, .1f) || Approximate(normal.y, -1, .1f))
-            return triggers[plane].size.x / 2;
-        
-        if (Approximate(normal.x,1,.1f) || Approximate(normal.x, -1, .1f))
-            return triggers[plane].size.z / 2;
-        else if (Approximate(normal.z,1,.1f) || Approximate(normal.z,-1, .1f))
-            return triggers[plane].size.x / 2;
-        
-        if (Approximate(normal.y, 1, .1f) || Approximate(normal.y, -1, .1f))
-            return triggers[plane].size.z / 2;
-        else if (Approximate(normal.z, 1, .1f) || Approximate(normal.z, -1, .1f))
-            return triggers[plane].size.y / 2;
-
-        //Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): Invalid RayCast Normal");
+        Debug.Log("Error in (" + nameof(CuttableIngredient) + "." + nameof(GetMinimumCutDistance) + "): Invalid RayCast Normal");
         return -1;
     }
     public void CopyComponentsToObject(GameObject toCopyTo)
