@@ -35,4 +35,9 @@ public class Cutter : MonoBehaviour
             currentlyCutting = null;
         }
     }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        SoundManager.ToolDropped?.Invoke();
+    }
 }

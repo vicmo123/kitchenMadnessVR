@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
     public static Action BellDing;
     public static Action Chopping;
     public static Action Grilling;
-    public static Action Sclicing;
+    public static Action Slicing;
     public static Action FoodDroped;
     public static Action ToolDropped;
     public static Action TreadmillSound;
@@ -89,7 +89,7 @@ public class SoundManager : MonoBehaviour
         BellDing += () => { PlaySound(BellDingSource); };
         Chopping += () => { PlaySound(ChoppingSource); };
         Grilling += () => { PlaySound(GrillingSource); };
-        Sclicing += () => { PlaySound(SclicingSource); };
+        Slicing += () => { PlaySound(SclicingSource); };
         FoodDroped += () => { PlaySound(FoodDropedSource); };
         ToolDropped += () => { PlaySound(ToolDroppedSource); };
         TreadmillSound += () => { PlaySound(TreadmillSoundSource); };
@@ -113,7 +113,7 @@ public class SoundManager : MonoBehaviour
         BellDing = null;
         Chopping = null;
         Grilling = null;
-        Sclicing = null;
+        Slicing = null;
         FoodDroped = null;
         ToolDropped = null;
         TreadmillSound = null;
