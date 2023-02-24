@@ -57,6 +57,7 @@ public class Burnable : MonoBehaviour
             burningTime -= burner.grillingMultiplier * Time.deltaTime;
             if (burningTime <= 0) {
                 Burnt();
+                burner.grillingObjects.Remove(this.gameObject);
             }
         }
     }
@@ -73,7 +74,7 @@ public class Burnable : MonoBehaviour
         Instantiate(firePrefab, this.gameObject.transform.position, firePrefab.transform.rotation);
 
 
-        //SoundManager.CatchFire?.Invoke();
+        SoundManager.CatchFire?.Invoke();
         state = State.Destroying;
         startDestroying = Time.time;
 
