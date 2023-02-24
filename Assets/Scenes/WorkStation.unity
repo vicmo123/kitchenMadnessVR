@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42361653, g: 0.46478763, b: 0.5805496, a: 1}
+  m_IndirectSpecularColor: {r: 0.4236169, g: 0.4647882, b: 0.58055073, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -567,6 +567,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 291152393, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Center.x
+      value: -0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 291152393, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Extents.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Center.x
+      value: 1.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
+      propertyPath: m_Extents.x
+      value: 1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1321570580, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
       propertyPath: boardManager
       value: 
@@ -630,6 +646,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269005830813169239, guid: 25291abe5d4acba43acc7d8da9b912f0,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269005830813169239, guid: 25291abe5d4acba43acc7d8da9b912f0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.207
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
@@ -1185,7 +1211,7 @@ MonoBehaviour:
   DinoPrefab: {fileID: 7907179060993962223, guid: 675912258f91fe84da370618f6f99bb8,
     type: 3}
   ServiceZone: {fileID: 835640217}
-  spawnRadius: 30
+  spawnRadius: 50
   player: {fileID: 1173469247}
 --- !u!114 &1601479754
 MonoBehaviour:
@@ -1468,6 +1494,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoundSetter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7055104641125359010, guid: 4b409839e5a6848488ff65e6c4d32879,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b409839e5a6848488ff65e6c4d32879, type: 3}

@@ -418,7 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyingTime: 1
   burningTime: 5
-  grillingTime: 10
+  grillingTime: 6
   material1: {fileID: 2100000, guid: 7a39bb2b132283a4cbec0235d8a4aaea, type: 2}
   material2: {fileID: 2100000, guid: 371bb48cfe125e1439ac65a8e9e3774a, type: 2}
   rend: {fileID: 2019955281649024231}
