@@ -10,6 +10,7 @@ public class ConveyerTextureMovement : MonoBehaviour
     void Start()
     {
         rend = GetComponent<Renderer>();
+        SoundManager.TreadmillSound?.Invoke();
     }
 
     // Update is called once per frame

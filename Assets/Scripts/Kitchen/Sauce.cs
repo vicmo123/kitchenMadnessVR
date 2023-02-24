@@ -7,12 +7,10 @@ public class Sauce : MonoBehaviour
 
     public GameObject sauce;
 
-    private void Start() {
 
-        //lr = gameObject.GetComponent<LineRenderer>();
-        //  gameObject.SetActive(true);
-    }
-    void Update() {
+
+    void FixedUpdate()
+    {
         pourSauce();
     }
 
@@ -20,7 +18,7 @@ public class Sauce : MonoBehaviour
     public void pourSauce() {
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.up, out hit, 5)) {
+        if (Physics.Raycast(transform.position, transform.up, out hit, 100)) {
 
 
             if (hit.collider != null) {
@@ -40,8 +38,8 @@ public class Sauce : MonoBehaviour
 
                 else {
 
-                    sauce.gameObject.active = false;
-                    //GameObject.Destroy(lr);
+                    sauce.gameObject.SetActive(false);
+
 
                 }
 
@@ -49,13 +47,15 @@ public class Sauce : MonoBehaviour
 
         }
     }
-
+    
 
     public void saucePouring(RaycastHit hit) {
-        sauce.gameObject.active = true;
-        float height = Vector3.Distance(hit.point, transform.position);
-        sauce.transform.localScale = new Vector3(sauce.transform.localScale.x, height, sauce.transform.localScale.z);
-        sauce.transform.localPosition = new Vector3(0, height / 2, 0);
+        SoundManager.SauceSquirt?.Invoke();
+        sauce.gameObject.SetActive(true);
+        Vector3 midPoint = (transform.position + hit.point) / 2f;
+        float yScale = ((hit.distance) / transform.parent.localScale.y) / 2;
+        sauce.transform.localScale = new Vector3(sauce.transform.localScale.x, yScale, sauce.transform.localScale.z);
+        sauce.transform.position = midPoint;
     }
 
 
