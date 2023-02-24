@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5907550462315630439}
   - component: {fileID: 5723189199901093877}
   - component: {fileID: 5797097438969057493}
+  - component: {fileID: 3128744030822290635}
   m_Layer: 0
   m_Name: Full_Onion
   m_TagString: Food
@@ -74,6 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientName: Onion
   ingredientType: 4
+  percentageToCut: 40
+  timeBetweenCuts: 1
   colliderWidthModifier: 2.04
 --- !u!114 &5907550462315630439
 MonoBehaviour:
@@ -232,6 +235,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 602eda310ba323540b8c0d0845117876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3128744030822290635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206540519483894188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19771fc2f14d04b4a8945931d09532ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1592244328201696752

@@ -71,21 +71,21 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransitionFromAny(new Transition("", EndGame, t => (IsEndGameRequested())));
         stateMachine.AddTransitionFromAny(new Transition("", RestartRound, t => (boardManager.GetCurrentNbStars() <= 0)));
 
-        OnUpdateRoundEnter += () => { timer.Reset(); };
-        OnUpdateRoundEnter += () => { ingredientSpawner.RoundStarting(); };
-        OnUpdateRoundEnter += () => { rats.StartRound(); };
-        OnUpdateRoundExit += () => { rats.EndRound(); };
-        OnUpdateRoundEnter += () =>
-        {
+        OnUpdateRoundEnter += () => {
+            timer.Reset();
+            ingredientSpawner.RoundStarting();
+            rats.StartRound();
             dinoManager.roundActive = true;
             boardManager.roundActive = true;
             boardManager.GenerateOrder();
         };
         OnUpdateRoundExit += () =>
         {
+            rats.EndRound();
             SoundManager.GameOver.Invoke();
             dinoManager.roundActive = false;
             boardManager.roundActive = false;
+            ingredientSpawner.RoundEnding();
         };
 
         stateMachine.SetStartState(StartGame);
@@ -133,8 +133,6 @@ public class GameManager : MonoBehaviour
         startGameUi.StartButtonClickedEvent.AddListener(ActivateRound);
         countDownTimer = new CountDownTimer(3.0f, false);
         timer = new Timer();
-
-        
 
         SoundManager.MainTheme?.Invoke();
     }
@@ -188,7 +186,6 @@ public class GameManager : MonoBehaviour
 
         boardManager.ElapsedTime = timer.Elapsed;
         rats.timeElapsedRound = timer.Elapsed;
-       
     }
 
     private void OnRestartRoundLogic()
@@ -198,6 +195,7 @@ public class GameManager : MonoBehaviour
         isRoundActive = false;
         startGameUi.gameObject.SetActive(true);
         startGameUi.ResetUi();
+        ClearAllIngredientsFromScene();
 
         //The player will have the option to start a new game with input
         //If option to continue is chosen, will proceed to restart round
@@ -216,5 +214,16 @@ public class GameManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+    private void ClearAllIngredientsFromScene()
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("Food");
+        if (objects.Length > 0)
+        {
+            for (int i = objects.Length - 1; i >= 0; i--)
+            {
+                GameObject.Destroy(objects[i]);
+            }
+        }
     }
 }

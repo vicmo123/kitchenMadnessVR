@@ -21,6 +21,7 @@ public class CuttableMeatCone : MonoBehaviour, InterFace_Cutter
         {
             Instantiate(meat, hit.point, Quaternion.identity);
             hasBeenTouched = true;
+            SoundManager.Slicing?.Invoke();
         }
     }
 

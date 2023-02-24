@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42361653, g: 0.46478763, b: 0.5805496, a: 1}
+  m_IndirectSpecularColor: {r: 0.4236169, g: 0.4647882, b: 0.58055073, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -467,17 +467,17 @@ PrefabInstance:
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.031
+      value: 1.032
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.398
+      value: 1.268
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.316
+      value: -1.409
       objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332305, guid: f11558096387fe64e950520887818483,
         type: 3}
@@ -514,11 +514,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -362.189
       objectReference: {fileID: 0}
-    - target: {fileID: 1256181093605332309, guid: f11558096387fe64e950520887818483,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332311, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_Name
@@ -529,11 +524,6 @@ PrefabInstance:
       propertyPath: spawLocationEditor
       value: 
       objectReference: {fileID: 1564970189}
-    - target: {fileID: 5679564069777157715, guid: f11558096387fe64e950520887818483,
-        type: 3}
-      propertyPath: meatCone
-      value: 
-      objectReference: {fileID: 803929662}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f11558096387fe64e950520887818483, type: 3}
 --- !u!114 &749856824 stripped
@@ -546,18 +536,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &803929662 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2382830650798006598, guid: ce43b52d6ef6db04ea0a527ae5a62c91,
-    type: 3}
-  m_PrefabInstance: {fileID: 1398267363}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82654bf7bbc96e54194d49523add5456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &817155944
@@ -1185,7 +1163,7 @@ MonoBehaviour:
   DinoPrefab: {fileID: 7907179060993962223, guid: 675912258f91fe84da370618f6f99bb8,
     type: 3}
   ServiceZone: {fileID: 835640217}
-  spawnRadius: 30
+  spawnRadius: 50
   player: {fileID: 1173469247}
 --- !u!114 &1601479754
 MonoBehaviour:
@@ -1473,6 +1451,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoundSetter
       objectReference: {fileID: 0}
+    - target: {fileID: 7055104641125359010, guid: 4b409839e5a6848488ff65e6c4d32879,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b409839e5a6848488ff65e6c4d32879, type: 3}
 --- !u!114 &2196110436424766202 stripped
@@ -1558,6 +1541,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI_Board_Orders
+      objectReference: {fileID: 0}
+    - target: {fileID: 79595416996330189, guid: bf452436d539b90459b37685552e3077,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 79595416996330191, guid: bf452436d539b90459b37685552e3077,
         type: 3}

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6494560068385406152}
   - component: {fileID: 8534848948002458939}
   - component: {fileID: 6268112188916003138}
+  - component: {fileID: 7909991699313126302}
   m_Layer: 6
   m_Name: Full_Cheese
   m_TagString: Food
@@ -74,6 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientName: Cheese
   ingredientType: 16
+  percentageToCut: 40
+  timeBetweenCuts: 1
   colliderWidthModifier: 2
 --- !u!114 &6494560068385406152
 MonoBehaviour:
@@ -219,7 +222,6 @@ MonoBehaviour:
   destroyingTime: 0.5
   burningTime: 3
   grillingTime: 0
-  firePrefab: {fileID: 0}
   material1: {fileID: 0}
   material2: {fileID: 0}
   rend: {fileID: 0}
@@ -233,6 +235,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 602eda310ba323540b8c0d0845117876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7909991699313126302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376152445110950274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19771fc2f14d04b4a8945931d09532ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1662745884041765421
