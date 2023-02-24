@@ -60,4 +60,9 @@ public class IngredientSpawner : MonoBehaviour
         roundStarted = true;
         timeForNextSpawn = Time.time + spawnCooldown;
     }
+
+    public void RoundEnding()
+    {
+        roundStarted = false;
+    }
 }

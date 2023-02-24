@@ -514,11 +514,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -362.189
       objectReference: {fileID: 0}
-    - target: {fileID: 1256181093605332309, guid: f11558096387fe64e950520887818483,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1256181093605332311, guid: f11558096387fe64e950520887818483,
         type: 3}
       propertyPath: m_Name
@@ -529,11 +524,6 @@ PrefabInstance:
       propertyPath: spawLocationEditor
       value: 
       objectReference: {fileID: 1564970189}
-    - target: {fileID: 5679564069777157715, guid: f11558096387fe64e950520887818483,
-        type: 3}
-      propertyPath: meatCone
-      value: 
-      objectReference: {fileID: 803929662}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f11558096387fe64e950520887818483, type: 3}
 --- !u!114 &749856824 stripped
@@ -548,18 +538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &803929662 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2382830650798006598, guid: ce43b52d6ef6db04ea0a527ae5a62c91,
-    type: 3}
-  m_PrefabInstance: {fileID: 1398267363}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82654bf7bbc96e54194d49523add5456, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &817155944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -567,50 +545,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 224391995, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Carve
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224391995, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.x
-      value: 0.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 224391995, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.z
-      value: 0.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 291152393, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Carve
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 291152393, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.x
-      value: 0.925
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105224046, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Carve
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105224046, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.x
-      value: 1.125
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Carve
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.x
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.z
-      value: 0.915
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_CarveOnlyStationary
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1321570580, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
       propertyPath: boardManager
       value: 
@@ -1603,6 +1537,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI_Board_Orders
+      objectReference: {fileID: 0}
+    - target: {fileID: 79595416996330189, guid: bf452436d539b90459b37685552e3077,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 79595416996330191, guid: bf452436d539b90459b37685552e3077,
         type: 3}
