@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -4635668976488069384}
   - component: {fileID: -427511083886008180}
   - component: {fileID: -7690813183556986508}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: meatCooked
   m_TagString: Food
   m_Icon: {fileID: 0}

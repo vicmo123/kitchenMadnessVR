@@ -13,7 +13,8 @@ public class Threadmill : MonoBehaviour
             return;
         lastCollider = other;
         lastGO = other.gameObject;
-        other.GetComponentInParent<Transform>().position += new Vector3(move, 0, 0);
+        if (other.attachedRigidbody != null)
+                other.attachedRigidbody.transform.position += new Vector3(move, 0, 0);
     }
 
     private bool CheckSameObjectDiferentCollider(Collider other)

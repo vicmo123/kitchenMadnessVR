@@ -36,7 +36,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     public string ingredientName = "Ingredient";
     public Taco.Ingredients ingredientType;
     public float percentageToCut = 40;
-    public float timeBetweenCuts = 1;
+    private float timeBetweenCuts = .5f;
     //used to divide the width of the collider
     public float colliderWidthModifier = 4;
 
