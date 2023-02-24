@@ -27,7 +27,7 @@ public class Cutter : MonoBehaviour
         }
         else
         {
-            //meatCone.StopCut();
+            meatCone.StopCut();
         }
     }
 

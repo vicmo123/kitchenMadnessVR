@@ -672,7 +672,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679246529209754556}
-  m_Material: {fileID: 13400000, guid: 4760f6da81dca834bb82549a41c04328, type: 2}
+  m_Material: {fileID: 13400000, guid: 97fd91d9b992c4d4d80bf69fff44f635, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1531,7 +1531,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2863745868889938074}
-  m_Material: {fileID: 13400000, guid: 172100d2dc507c84186a64df4495cd9b, type: 2}
+  m_Material: {fileID: 13400000, guid: 3fa2c200b2d7a604889c2edac5fd1e3b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -1795,7 +1795,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3202113909317698515}
-  m_Material: {fileID: 13400000, guid: 172100d2dc507c84186a64df4495cd9b, type: 2}
+  m_Material: {fileID: 13400000, guid: 3fa2c200b2d7a604889c2edac5fd1e3b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -3177,7 +3177,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6544998120446800827}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 3fa2c200b2d7a604889c2edac5fd1e3b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
@@ -3690,7 +3690,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7453769650357603051}
-  m_Material: {fileID: 13400000, guid: 172100d2dc507c84186a64df4495cd9b, type: 2}
+  m_Material: {fileID: 13400000, guid: 3fa2c200b2d7a604889c2edac5fd1e3b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -4330,7 +4330,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9194100586831477848}
-  m_Material: {fileID: 13400000, guid: 172100d2dc507c84186a64df4495cd9b, type: 2}
+  m_Material: {fileID: 13400000, guid: 3fa2c200b2d7a604889c2edac5fd1e3b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
