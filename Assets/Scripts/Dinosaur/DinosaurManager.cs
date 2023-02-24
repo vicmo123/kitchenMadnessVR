@@ -50,8 +50,8 @@ public class DinosaurManager : MonoBehaviour
 
     private Vector3 GetPosInsideUnitCircle()
     {
-        float randomRadius = UnityEngine.Random.Range(spawnRadius, spawnRadius + 20.0f);
-        Vector2 insideCicle = (UnityEngine.Random.insideUnitCircle * randomRadius).normalized * randomRadius;
+        float randomRadius = UnityEngine.Random.Range(spawnRadius, spawnRadius);
+        Vector2 insideCicle = (UnityEngine.Random.insideUnitCircle).normalized * randomRadius;
         Vector3 spawnPoint = new Vector3(insideCicle.x, 0.5f, insideCicle.y);
 
         return spawnPoint;
