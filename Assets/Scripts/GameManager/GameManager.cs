@@ -195,6 +195,7 @@ public class GameManager : MonoBehaviour
         isRoundActive = false;
         startGameUi.gameObject.SetActive(true);
         startGameUi.ResetUi();
+        ClearAllIngredientsFromScene();
 
         //The player will have the option to start a new game with input
         //If option to continue is chosen, will proceed to restart round
@@ -213,5 +214,16 @@ public class GameManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+    private void ClearAllIngredientsFromScene()
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("Food");
+        if (objects.Length > 0)
+        {
+            for (int i = objects.Length - 1; i >= 0; i--)
+            {
+                GameObject.Destroy(objects[i]);
+            }
+        }
     }
 }
