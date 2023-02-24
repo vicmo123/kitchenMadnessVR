@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 723878421110811022}
   - component: {fileID: 723878421110811023}
   - component: {fileID: 723878421110811016}
-  - component: {fileID: 723878421110811017}
   m_Layer: 0
   m_Name: OrderTimer
   m_TagString: Untagged
@@ -98,16 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &723878421110811017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 723878421110811018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e80e1c8c6404da428077d9da97199fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  order: {fileID: 8084322872751494659, guid: 5e08ae0571b8635439067c766e6dd947, type: 3}
