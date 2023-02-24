@@ -7,8 +7,6 @@ using UnityEngine.XR.Management;
 public class DetectVR : MonoBehaviour
 {
     public Transform XROrigin;
-    //public Transform rightHand;
-    //bool hasStarted = false;
     float heightPC;
     static public Vector3 startingPosition;
 
@@ -31,18 +29,8 @@ public class DetectVR : MonoBehaviour
         {
             startingPosition = XROrigin.transform.position;
             startingPosition += new Vector3(0, heightPC, 0);
-            //startingPosition = XROrigin.transform.rotation;
             return;
         }
         gameObject.SetActive(false);
-    }
-    private void Update()
-    {
-        //if (!hasStarted)
-        //{
-        //    Debug.Log("Started");
-        //    hasStarted = true;
-        //    rightHand.position = new Vector3(startingPosition.x + .2f, startingPosition.y - .2f, startingPosition.z + .2f);
-        //}
     }
 }

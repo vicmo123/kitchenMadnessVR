@@ -9,7 +9,7 @@ public class Toppingable : MonoBehaviour
     Pickupable p;
     Rigidbody rb;
     CuttableIngredient ci;
-    [HideInInspector] public Mesh mesh;
+    [HideInInspector] public MeshFilter mf;
 
     public bool ready = false;
 
@@ -19,7 +19,7 @@ public class Toppingable : MonoBehaviour
         p = this.GetComponent<Pickupable>();
         rb = this.GetComponent<Rigidbody>();
         ci = this.GetComponent<CuttableIngredient>();
-        //mesh = this.GetComponentInChildren<Mesh>();
+        mf = this.GetComponentInChildren<MeshFilter>();
     }
 
     public void ReceivedInIngredientReceiver() {
@@ -30,5 +30,10 @@ public class Toppingable : MonoBehaviour
         Destroy(p);
         Destroy(ci);
         Destroy(rb);
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (Collider c in colliders) {
+            c.enabled = false;
+        }
     }
 }
