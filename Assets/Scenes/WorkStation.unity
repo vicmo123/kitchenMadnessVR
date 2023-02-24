@@ -567,22 +567,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 291152393, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Center.x
-      value: -0.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 291152393, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.x
-      value: 1.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Center.x
-      value: 1.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135497477, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
-      propertyPath: m_Extents.x
-      value: 1.25
-      objectReference: {fileID: 0}
     - target: {fileID: 1321570580, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
       propertyPath: boardManager
       value: 
@@ -646,16 +630,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8269005830813169239, guid: 25291abe5d4acba43acc7d8da9b912f0,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 8269005830813169239, guid: 25291abe5d4acba43acc7d8da9b912f0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.207
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25291abe5d4acba43acc7d8da9b912f0, type: 3}
@@ -1585,6 +1559,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI_Board_Orders
+      objectReference: {fileID: 0}
+    - target: {fileID: 79595416996330189, guid: bf452436d539b90459b37685552e3077,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 79595416996330191, guid: bf452436d539b90459b37685552e3077,
         type: 3}
