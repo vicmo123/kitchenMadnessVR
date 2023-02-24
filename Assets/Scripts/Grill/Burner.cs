@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class Burner : MonoBehaviour
 {
+    public List<GameObject> grillingObjects;
+
     public float grillingMultiplier = 1;
 
     float initialMultiplier;
-    int quantityGrilling;
     float minimumMultiplier;
     float nerfMultiplier;
 
     private void Start() {
+        grillingObjects = new List<GameObject>();
+
         initialMultiplier = grillingMultiplier;
-        quantityGrilling = 0;
         minimumMultiplier = .3f;
         nerfMultiplier = .2f;
     }
 
     private void Update() {
-        grillingMultiplier = initialMultiplier - (quantityGrilling * nerfMultiplier);
+        grillingMultiplier = initialMultiplier - (grillingObjects.Count * nerfMultiplier);
         if (grillingMultiplier < minimumMultiplier) {
             grillingMultiplier = minimumMultiplier;
         }
@@ -33,10 +35,16 @@ public class Burner : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        quantityGrilling++;
+        GameObject go = other.transform.root.gameObject;
+        if (!grillingObjects.Contains(go)) {
+            grillingObjects.Add(go);
+        }
     }
 
     private void OnTriggerExit(Collider other) {
-        quantityGrilling--;
+        GameObject go = other.transform.root.gameObject;
+        if (grillingObjects.Contains(go)) {
+            grillingObjects.Remove(go);
+        }
     }
 }
