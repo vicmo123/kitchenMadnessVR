@@ -1,101 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &24313643625263195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6729043323367471956}
-  m_Layer: 0
-  m_Name: Pivot2_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6729043323367471956
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 24313643625263195}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.069}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7088272317372876245}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1505339091284302658
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5027529077661212280}
-  m_Layer: 0
-  m_Name: Pivot2_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5027529077661212280
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1505339091284302658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.079}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7088272317372876245}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1688375466255745454
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7420395838680582730}
-  m_Layer: 0
-  m_Name: Pivot3Ingredients
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7420395838680582730
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1688375466255745454}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0017, z: 0}
-  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5993686068310793228}
-  - {fileID: 1651469526292378405}
-  - {fileID: 9138584159346246203}
-  m_Father: {fileID: 5707420673230010677}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2695102729951091130
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5993686068310793228}
   m_Layer: 0
-  m_Name: Pivot3_1
+  m_Name: Pivot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,13 +106,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3231378821423855662}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.08}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0001550579, z: 0.00418}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7420395838680582730}
-  m_RootOrder: 0
+  m_Father: {fileID: 5707420673230010677}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3241370956809161817
 GameObject:
@@ -220,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9138584159346246203}
   m_Layer: 0
-  m_Name: Pivot3_3
+  m_Name: Pivot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,13 +137,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3241370956809161817}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.059, y: 0, z: -0.068}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00263, y: 0.0001550579, z: -0.00334}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7420395838680582730}
-  m_RootOrder: 2
+  m_Father: {fileID: 5707420673230010677}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3756445736828996252
 GameObject:
@@ -251,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4423294294142087693}
   m_Layer: 0
-  m_Name: PivotLayer1
+  m_Name: PivotMeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,10 +188,10 @@ GameObject:
   - component: {fileID: 2364238553719959443}
   - component: {fileID: 5697931731396676574}
   - component: {fileID: 399184314504667075}
-  - component: {fileID: 4238671732032739269}
   - component: {fileID: 6352482926457772325}
   - component: {fileID: 462081788646120671}
   - component: {fileID: 2074811178}
+  - component: {fileID: 8285067073615150658}
   m_Layer: 0
   m_Name: Raw_Tortilla_Prefab
   m_TagString: Food
@@ -309,9 +213,9 @@ Transform:
   m_Children:
   - {fileID: 5670134705837304616}
   - {fileID: 4423294294142087693}
-  - {fileID: 7687981283565890138}
-  - {fileID: 7088272317372876245}
-  - {fileID: 7420395838680582730}
+  - {fileID: 5993686068310793228}
+  - {fileID: 9138584159346246203}
+  - {fileID: 1651469526292378405}
   - {fileID: 6680648993153405162}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -359,26 +263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients: []
   ready: 0
---- !u!114 &4238671732032739269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4935668597468439439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1f9860b7de4c084db557f00fb83a721, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pivotLayer1: {fileID: 3756445736828996252}
-  pivotLayer2: {fileID: 7345953498550214141}
-  pivot2_1: {fileID: 24313643625263195}
-  pivot2_2: {fileID: 1505339091284302658}
-  pivot3_1: {fileID: 3231378821423855662}
-  pivot3_2: {fileID: 5306847867103008278}
-  pivot3_3: {fileID: 3241370956809161817}
-  sauce: {fileID: 8330582537799397805}
 --- !u!114 &6352482926457772325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +422,24 @@ MonoBehaviour:
   material1: {fileID: 2100000, guid: 7a39bb2b132283a4cbec0235d8a4aaea, type: 2}
   material2: {fileID: 2100000, guid: 371bb48cfe125e1439ac65a8e9e3774a, type: 2}
   rend: {fileID: 2019955281649024231}
+--- !u!114 &8285067073615150658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4935668597468439439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f9860b7de4c084db557f00fb83a721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotMeat: {fileID: 4423294294142087693}
+  pivotIngredients:
+  - {fileID: 5993686068310793228}
+  - {fileID: 9138584159346246203}
+  - {fileID: 1651469526292378405}
+  sauce: {fileID: 8330582537799397805}
 --- !u!1 &5306847867103008278
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1651469526292378405}
   m_Layer: 0
-  m_Name: Pivot3_2
+  m_Name: Pivot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,77 +463,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5306847867103008278}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.061, y: 0, z: -0.067}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7420395838680582730}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7092555002590631510
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7088272317372876245}
-  m_Layer: 0
-  m_Name: Pivot2Ingredients
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7088272317372876245
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7092555002590631510}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0017000001, z: 0}
+  m_LocalPosition: {x: -0.00333, y: 0.0001550579, z: -0.0035}
   m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6729043323367471956}
-  - {fileID: 5027529077661212280}
-  m_Father: {fileID: 5707420673230010677}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7345953498550214141
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7687981283565890138}
-  m_Layer: 0
-  m_Name: PivotLayer2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7687981283565890138
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7345953498550214141}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.00035605795, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5707420673230010677}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8330582537799397805
 GameObject:
