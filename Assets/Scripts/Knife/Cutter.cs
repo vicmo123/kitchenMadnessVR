@@ -6,7 +6,6 @@ using UnityEngine;
 public class Cutter : MonoBehaviour
 {
     InterFace_Cutter currentlyCutting;
-    public CuttableMeatCone meatCone;
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -16,24 +15,19 @@ public class Cutter : MonoBehaviour
     public void ObjectCutter()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position, -transform.forward, Color.red);
         if (Physics.Raycast(transform.position, -(transform.forward), out hit, .2f, LayerMask.GetMask("Food")))
         {
-           InterFace_Cutter ic = hit.collider.GetComponent<InterFace_Cutter>();
-            if (ic != null)
+            InterFace_Cutter Icut = hit.collider.GetComponent<InterFace_Cutter>();
+            if (currentlyCutting != null && !currentlyCutting.Equals(Icut))
+                currentlyCutting.StopCut();
+            currentlyCutting = Icut;
+
+            if (Icut != null)
             {
-                ic.Cut(hit);
+                Icut.Cut(hit);
             }
         }
-        else
-        {
-            meatCone.StopCut();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.Equals(currentlyCutting)) 
+        else if (currentlyCutting != null)
         {
             currentlyCutting.StopCut();
             currentlyCutting = null;
