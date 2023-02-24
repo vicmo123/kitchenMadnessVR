@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4165046870021171451}
   - component: {fileID: 3727125839598896754}
   - component: {fileID: -4635668976488069384}
+  - component: {fileID: -427511083886008180}
   m_Layer: 0
   m_Name: meatCooked
   m_TagString: Food
@@ -304,6 +305,22 @@ MonoBehaviour:
   material1: {fileID: 0}
   material2: {fileID: 0}
   rend: {fileID: 0}
+--- !u!114 &-427511083886008180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4584241333054697135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f199d5e6812ed4d8352b13f63eae09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInIngredientReceiver: 0
+  ingredientType: 2
+  mesh: {fileID: 0}
+  ready: 1
 --- !u!1001 &1174817059715838592
 PrefabInstance:
   m_ObjectHideFlags: 0

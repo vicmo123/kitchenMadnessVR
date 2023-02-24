@@ -104,12 +104,17 @@ public class Rat : MonoBehaviour
 
         if (IsGrabbed)
         {
-            Debug.Log("Grabbed");
-            if (collision.gameObject.CompareTag("Counter") || collision.gameObject.CompareTag("Floor"))
+            if (collision.gameObject.CompareTag("Floor"))
             {
-                rb.isKinematic = true;
-                agent.enabled = true;
-                IsGrabbed = false;
+                ResetAgent();
+            }
+
+            if(collision.gameObject.CompareTag("Counter"))
+            {
+                if(transform.position.y >= (collision.gameObject.GetComponent<MeshRenderer>().bounds.extents.y * 2.0f))
+                {
+                    ResetAgent();
+                }
             }
         }
     }
@@ -130,5 +135,13 @@ public class Rat : MonoBehaviour
             }
         }
         return bestExit.position;
+    }
+    
+    private void ResetAgent()
+    {
+        rb.isKinematic = true;
+        agent.enabled = true;
+        isHit = true;
+        IsGrabbed = false;
     }
 }
