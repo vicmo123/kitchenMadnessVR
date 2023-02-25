@@ -42,10 +42,12 @@ public class Pickupable : XRGrabInteractable
     {
         isGrabbedByPlayer = false;
 
+        rb.isKinematic = false;
+
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();
-            ratComponent.rb.isKinematic = false;
+            //ratComponent.rb.isKinematic = false;
             ratComponent.IsGrabbed = true;
         }
         base.OnSelectExited(args);
@@ -60,7 +62,7 @@ public class Pickupable : XRGrabInteractable
         if (isGrabbedByRat)
         {
             isGrabbedByRat = false;
-            rb.isKinematic = false;
+            DropItem();
         }
         
         if (isCarrier)
