@@ -193,7 +193,7 @@ public class CuttableIngredient : MonoBehaviour, InterFace_Cutter
         leftParent.layer = LayerMask.NameToLayer("Food");
         rightParent.layer = LayerMask.NameToLayer("Food");
 
-        if (numberOfCuts > 3)
+        if (numberOfCuts >= 3)
         {
             leftCuttable.enabled = false;
             leftCuttable.enabled = false;
