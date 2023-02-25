@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 155760776151308042}
   m_Layer: 0
   m_Name: LeftHandKBottle
-  m_TagString: Untagged
+  m_TagString: Left Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -501,30 +501,4 @@ MonoBehaviour:
   - {fileID: 265032702619122382}
   - {fileID: 265032702619122380}
   - {fileID: 265032702619122378}
-  handAnimator: {fileID: 0}
---- !u!114 &155760775956283867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265032702619477680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22b40096b09f3e144b9f10c0399c8484, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gripAnimationAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Grip Animation
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 92c09a8c-3079-474e-868e-4e980a6629d5
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
   handAnimator: {fileID: 0}

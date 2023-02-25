@@ -14,6 +14,18 @@ public class Pickupable : XRGrabInteractable
 
     private void Start()
     {
+        if (!rightHandTransform || !leftHandTransform)
+        {
+            foreach (Transform t in gameObject.transform)
+            {
+                if (t.gameObject.CompareTag("Right Hand"))
+                    rightHandTransform = t.transform;
+
+                if (t.gameObject.CompareTag("Left Hand"))
+                    leftHandTransform = t.transform;
+            }
+        }
+
         rb = GetComponent<Rigidbody>();
         if (GetComponent<Carrier>())
             isCarrier = GetComponent<Carrier>();
@@ -64,12 +76,12 @@ public class Pickupable : XRGrabInteractable
             isGrabbedByRat = false;
             DropItem();
         }
-        
+
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();
             ratComponent.agent.enabled = false;
-            
+
             isCarrier.DropItem();
         }
     }
@@ -83,7 +95,7 @@ public class Pickupable : XRGrabInteractable
 
         if (carrier && !carrier.holdingItem && !isGrabbedByRat && !isGrabbedByPlayer && CompareTag("Food"))
         {
-            if(carrier.GetComponent<Rat>().agent.enabled == true)
+            if (carrier.GetComponent<Rat>().agent.enabled == true)
             {
                 carrier.holdingItem = true;
                 isGrabbedByRat = true;

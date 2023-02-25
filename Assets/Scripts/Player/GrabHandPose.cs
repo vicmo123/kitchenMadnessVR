@@ -24,6 +24,18 @@ public class GrabHandPose : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!rightHand || !leftHand)
+        {
+            foreach (Transform g in gameObject.transform)
+            {
+                if (g.CompareTag("Right Hand"))
+                    rightHand = g.GetComponentInChildren<HandData>();
+
+                if (g.CompareTag("Left Hand"))
+                    leftHand = g.GetComponentInChildren<HandData>();
+            }
+        }
+
         XRGrabInteractable grabInteractable = GetComponent<XRGrabInteractable>();
 
         poseTransitionDuration = 0.2f;

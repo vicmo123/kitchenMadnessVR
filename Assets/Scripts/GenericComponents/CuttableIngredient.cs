@@ -185,6 +185,8 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         CuttableIngredient leftCuttable = leftParent.GetComponent<CuttableIngredient>();
         CuttableIngredient rightCuttable = rightParent.GetComponent<CuttableIngredient>();
 
+        SetHandPrefabForCutIngredients(ingredientType, numberOfCuts, leftParent, rightParent);
+
         InheritCuttableVariables(leftCuttable);
         InheritCuttableVariables(rightCuttable);
         leftParent.layer = LayerMask.NameToLayer("Food");
@@ -202,6 +204,29 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             rightTopping.ingredientType = ingredientType;
         }
     }
+
+    #region Grab Hand Pose
+    private void SetHandPrefabForCutIngredients(Taco.Ingredients ingredient, int nbOfCut, GameObject leftParent, GameObject rightParent)
+    {
+        switch (ingredient)
+        {
+            //case Taco.Ingredients.Meat:
+            //    break;
+            case Taco.Ingredients.Onion:
+                break;
+            case Taco.Ingredients.Pineapple:
+                if(nbOfCut == 1)
+                {
+                    GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
+                    GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), leftParent.transform);
+                }
+                break;
+            case Taco.Ingredients.Cheese:
+                break;
+        }
+    }
+    #endregion
+
     private void CreateTriggerZones(MeshRenderer[] meshRendererArray)
     {
         Quaternion rotation = transform.rotation;
