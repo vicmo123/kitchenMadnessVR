@@ -964,6 +964,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin
       objectReference: {fileID: 0}
+    - target: {fileID: 1638117933747360619, guid: 72d4ba244125ac74d88202fe51595254,
+        type: 3}
+      propertyPath: m_PositionInput.m_UseReference
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638117933747360619, guid: 72d4ba244125ac74d88202fe51595254,
+        type: 3}
+      propertyPath: m_PositionInput.m_Action.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <OpenXRHmd>/centerEyePosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638117933747360619, guid: 72d4ba244125ac74d88202fe51595254,
+        type: 3}
+      propertyPath: m_RotationInput.m_Action.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <OpenXRHmd>/centerEyeRotation
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d4ba244125ac74d88202fe51595254, type: 3}
 --- !u!1001 &1398267363
