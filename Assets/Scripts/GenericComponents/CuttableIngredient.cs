@@ -6,11 +6,11 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public enum CuttingState { NotCutting, StartCut, IsCutting, ReachedCenter}
-public enum CuttingPlane { None = 0, XY, XZ, YZ}
- 
+public enum CuttingState { NotCutting, StartCut, IsCutting, ReachedCenter }
+public enum CuttingPlane { None = 0, XY, XZ, YZ }
 
-class CutInfo 
+
+class CutInfo
 {
     //This class stores the information of a cut that is currently being made a cuttable
 
@@ -28,7 +28,7 @@ class CutInfo
 }
 
 [RequireComponent(typeof(Rigidbody))]
-public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
+public class CuttableIngredient : MonoBehaviour, InterFace_Cutter
 {
     Burnable burnableComponent;
     private Timer timer;
@@ -43,19 +43,20 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     private Wedge[] wedges; //an array containing the wedges of the cuttable
     Dictionary<CuttingPlane, BoxCollider> triggers; //dictionary that contains the cutting triggers
     private ArrayList cutPlanes;
-    [HideInInspector] public ArrayList CutPlanes 
-    { 
+    [HideInInspector]
+    public ArrayList CutPlanes
+    {
         get
         {
             return cutPlanes;
         }
-        set 
-        { 
+        set
+        {
             cutPlanes = new ArrayList(value);
-        } 
+        }
     } //an array that stores which planes have been cut
-    
-    
+
+
     private int numberOfCuts;
     CutInfo cut;
 
@@ -139,7 +140,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     {
         cut = new CutInfo();
     }
-    
+
     private bool CheckIncorrectCuttingNormal(Vector3 normal, CuttingPlane currentCollider)
     {
         //This function returns true when the collider is being hit in an invalid direction to prevent an incorrect cut
@@ -161,7 +162,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
     private void ProcessCut(CuttingPlane colliderPlane)
     {
         gameObject.SetActive(false);
-        ArrayList leftHalf = new ();
+        ArrayList leftHalf = new();
         ArrayList rightHalf = new();
         GameObject leftParent = new GameObject();
         GameObject rightParent = new GameObject();
@@ -213,15 +214,22 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             //case Taco.Ingredients.Meat:
             //    break;
             case Taco.Ingredients.Onion:
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), rightParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), rightParent.transform);
                 break;
             case Taco.Ingredients.Pineapple:
-                if(nbOfCut == 1)
-                {
-                    GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
-                    GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), leftParent.transform);
-                }
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), rightParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), rightParent.transform);
                 break;
             case Taco.Ingredients.Cheese:
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), rightParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), rightParent.transform);
                 break;
         }
     }
@@ -252,17 +260,17 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         if (triggers[CuttingPlane.XZ])
         {
             triggers[CuttingPlane.XZ].size = new Vector3((bounds.size.x) / transform.localScale.x, bounds.size.y / transform.localScale.y / colliderWidthModifier, (bounds.size.z) / transform.localScale.z);
-            triggers[CuttingPlane.XZ].isTrigger= true;
+            triggers[CuttingPlane.XZ].isTrigger = true;
         }
         if (triggers[CuttingPlane.XY])
         {
             triggers[CuttingPlane.XY].size = new Vector3((bounds.size.x) / transform.localScale.x, (bounds.size.y / transform.localScale.y), (bounds.size.z / transform.localScale.z) / colliderWidthModifier);
-            triggers[CuttingPlane.XY].isTrigger= true;
+            triggers[CuttingPlane.XY].isTrigger = true;
         }
         if (triggers[CuttingPlane.YZ])
         {
-            triggers[CuttingPlane.YZ].size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2)/ transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
-            triggers[CuttingPlane.YZ].isTrigger= true;
+            triggers[CuttingPlane.YZ].size = new Vector3((bounds.extents.x * 2 / transform.localScale.x) / colliderWidthModifier, (bounds.extents.y * 2) / transform.localScale.y, (bounds.extents.z * 2) / transform.localScale.z);
+            triggers[CuttingPlane.YZ].isTrigger = true;
 
         }
         transform.rotation = rotation;
@@ -274,7 +282,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
             if (triggers[key])
                 if (triggers[key].Equals(collider))
                     return key;
-        
+
         return CuttingPlane.None;
     }
     private void SeparateHalves(CuttingPlane colliderPlane, ref ArrayList leftHalf, ref ArrayList rightHalf)
@@ -287,7 +295,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 foreach (Wedge wedge in wedges)
                     if (wedge.front)
                         leftHalf.Add(wedge.gameObject);
-                    else 
+                    else
                         rightHalf.Add(wedge.gameObject);
                 break;
 
@@ -326,7 +334,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
                 if (Approximate(normal.x, Vector3.right.x, .2f) || Approximate(normal.x, Vector3.left.x, .2f))
                     return triggers[plane].size.y * (percentageToCut / 100);
                 else if (Approximate(normal.y, Vector3.up.y, .2f) || Approximate(normal.y, Vector3.down.y, .2f))
-                    return triggers[plane].size. x* (percentageToCut / 100);
+                    return triggers[plane].size.x * (percentageToCut / 100);
                 return 100;
             case CuttingPlane.XZ:
                 if (Approximate(normal.x, Vector3.right.x, .2f) || Approximate(normal.x, Vector3.left.x, .2f))
@@ -415,7 +423,7 @@ public class CuttableIngredient : MonoBehaviour,InterFace_Cutter
         cuttable.numberOfCuts = numberOfCuts;
         cuttable.CutPlanes = CutPlanes;
         cuttable.ingredientType = ingredientType;
-        cuttable.colliderWidthModifier= colliderWidthModifier;
+        cuttable.colliderWidthModifier = colliderWidthModifier;
         cuttable.ingredientName = ingredientName;
         if (numberOfCuts == 2)
             cuttable.percentageToCut = percentageToCut / 2;
