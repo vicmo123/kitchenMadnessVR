@@ -81,8 +81,9 @@ public class GrabHandPose : MonoBehaviour
             {
                 SetDataValue(handData, leftHand);
             }
-            //SetDataValue(handData, rightHand);
-            StartCoroutine(SetHandDataRoutine(handData, startingHandPosition, startingHandRotation, startingFingerRotation, finalHandPosition, finalHandRotation, finalFingerRotation));
+            SetHandData(handData, finalHandPosition, finalHandRotation, finalFingerRotation);
+
+            //StartCoroutine(SetHandDataRoutine(handData, startingHandPosition, startingHandRotation, startingFingerRotation, finalHandPosition, finalHandRotation, finalFingerRotation));
         }
     }
 
