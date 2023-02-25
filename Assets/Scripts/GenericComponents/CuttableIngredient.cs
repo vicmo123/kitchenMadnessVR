@@ -211,13 +211,11 @@ public class CuttableIngredient : MonoBehaviour, InterFace_Cutter
     {
         switch (ingredient)
         {
-            //case Taco.Ingredients.Meat:
-            //    break;
             case Taco.Ingredients.Onion:
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), leftParent.transform);
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), rightParent.transform);
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), rightParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Onion/1Cut/RightHandOnion1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Onion/1Cut/LeftHandOnion1Cut"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Onion/1Cut/RightHandOnion1Cut"), rightParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Onion/1Cut/LeftHandOnion1Cut"), rightParent.transform);
                 break;
             case Taco.Ingredients.Pineapple:
                 GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
@@ -226,10 +224,10 @@ public class CuttableIngredient : MonoBehaviour, InterFace_Cutter
                 GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), rightParent.transform);
                 break;
             case Taco.Ingredients.Cheese:
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), leftParent.transform);
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), leftParent.transform);
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/RightHandPineapple1Cut"), rightParent.transform);
-                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Pineapple/1 Cut/LeftHandPineapple1Cut"), rightParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Cheese/Full/RightHand"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Cheese/Full/LeftHand"), leftParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Cheese/Full/RightHand"), rightParent.transform);
+                GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PrefabHandPose/Cheese/Full/LeftHand"), rightParent.transform);
                 break;
         }
     }

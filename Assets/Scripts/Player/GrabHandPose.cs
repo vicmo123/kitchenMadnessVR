@@ -81,8 +81,8 @@ public class GrabHandPose : MonoBehaviour
             {
                 SetDataValue(handData, leftHand);
             }
-            //SetDataValue(handData, rightHand);
-            StartCoroutine(SetHandDataRoutine(handData, startingHandPosition, startingHandRotation, startingFingerRotation, finalHandPosition, finalHandRotation, finalFingerRotation));
+            SetHandData(handData, finalHandPosition, finalHandRotation, finalFingerRotation);
+            //StartCoroutine(SetHandDataRoutine(handData, startingHandPosition, startingHandRotation, startingFingerRotation, finalHandPosition, finalHandRotation, finalFingerRotation));
         }
     }
 
@@ -121,22 +121,30 @@ public class GrabHandPose : MonoBehaviour
 
         while (timer < poseTransitionDuration)
         {
-            Vector3 pos = Vector3.Lerp(startingPos, newPos, timer / poseTransitionDuration);
-            Quaternion rotation = Quaternion.Lerp(startingRotation, newRotation, timer / poseTransitionDuration);
-
-            h.hand.localPosition = pos;
-            h.hand.localRotation = rotation;
-
-            for (int i = 0; i < newJointsRotation.Length; i++)
+            if (gameObject.activeSelf)
             {
-                h.fingersJoints[i].localRotation = Quaternion.Lerp(startingJointsRotaion[i], newJointsRotation[i], timer / poseTransitionDuration);
-            }
+                Vector3 pos = Vector3.Lerp(startingPos, newPos, timer / poseTransitionDuration);
+                Quaternion rotation = Quaternion.Lerp(startingRotation, newRotation, timer / poseTransitionDuration);
 
-            timer += Time.deltaTime;
-            yield return null;
+                h.hand.localPosition = pos;
+                h.hand.localRotation = rotation;
+
+                for (int i = 0; i < newJointsRotation.Length; i++)
+                {
+                    h.fingersJoints[i].localRotation = Quaternion.Lerp(startingJointsRotaion[i], newJointsRotation[i], timer / poseTransitionDuration);
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+            else
+            {
+                Debug.Log("DEAD");
+            }
         }
     }
 
+    #region Mirror pose
 #if UNITY_EDITOR
     [MenuItem("Tools/Mirror Selected Right Grab Pose")]
     public static void MirrorRightPose()
@@ -163,4 +171,5 @@ public class GrabHandPose : MonoBehaviour
             poseToMirror.fingersJoints[i].localRotation = poseUsedToMirror.fingersJoints[i].localRotation;
         }
     }
+    #endregion
 }
