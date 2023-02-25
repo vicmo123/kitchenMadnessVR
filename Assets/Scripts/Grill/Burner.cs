@@ -18,6 +18,8 @@ public class Burner : MonoBehaviour
         initialMultiplier = grillingMultiplier;
         minimumMultiplier = .3f;
         nerfMultiplier = .2f;
+
+        SoundManager.Grilling?.Invoke();
     }
 
     private void Update() {
