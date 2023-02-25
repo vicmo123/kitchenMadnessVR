@@ -23,12 +23,12 @@ public class Pickupable : XRGrabInteractable
     //Player Grabs item
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
-        if (args.interactorObject.transform.CompareTag("Left Hand"))
+        if (args.interactorObject.transform.CompareTag("Left Hand") && isGrabbedByRat == false)
         {
             attachTransform = leftHandTransform;
             GrabbedByPlayer();
         }
-        if (args.interactorObject.transform.CompareTag("Right Hand"))
+        if (args.interactorObject.transform.CompareTag("Right Hand") && isGrabbedByRat == false)
         {
             attachTransform = rightHandTransform;
             GrabbedByPlayer();
@@ -36,22 +36,33 @@ public class Pickupable : XRGrabInteractable
 
         base.OnSelectEntered(args);
     }
+
     // Player drops item
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         isGrabbedByPlayer = false;
-        base.OnSelectExited(args);
+
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();
             ratComponent.rb.isKinematic = false;
             ratComponent.IsGrabbed = true;
         }
+        base.OnSelectExited(args);
     }
+
     //Player Related Methodes
     void GrabbedByPlayer()
     {
+
         isGrabbedByPlayer = true;
+
+        if (isGrabbedByRat)
+        {
+            isGrabbedByRat = false;
+            rb.isKinematic = false;
+        }
+        
         if (isCarrier)
         {
             Rat ratComponent = GetComponent<Rat>();

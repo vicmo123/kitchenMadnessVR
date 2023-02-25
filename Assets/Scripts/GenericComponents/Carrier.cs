@@ -31,6 +31,7 @@ public class Carrier : MonoBehaviour
                 }
                 else
                 {
+                    holdingItem = false;
                     P.DropItem();
                 }
                 i++;
